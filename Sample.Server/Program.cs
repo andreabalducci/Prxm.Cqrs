@@ -11,6 +11,7 @@ using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Hosting;
+using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.Handlers;
 using Sample.Infrastructure.Commanding;
@@ -25,6 +26,9 @@ namespace Sample.Server
 
         static void Main(string[] args)
         {
+            PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
+
+
             _container = CreateContainer();
             BootStrapper.GlobalContainer = _container;
             ConfigureMongo();

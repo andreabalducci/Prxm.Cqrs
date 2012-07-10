@@ -7,6 +7,7 @@ using Rhino.ServiceBus;
 using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;
 using Sample.Infrastructure.Commanding;
+using Sample.Infrastructure.Messaging;
 
 namespace Sample.Client
 {

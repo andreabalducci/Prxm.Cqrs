@@ -6,8 +6,9 @@ using Rhino.ServiceBus;
 using Sample.Commands.Inventory;
 using Sample.Domain.Inventory.Domain;
 using Sample.Infrastructure.Commanding;
+using Sample.Infrastructure.Messaging;
 
-namespace Sample.Server
+namespace Sample.Server.Messaging
 {
     public class CommandEnvelopeConsumer : ConsumerOf<CommandEnvelope>
     {
@@ -21,11 +22,13 @@ namespace Sample.Server
         public void Consume(CommandEnvelope message)
         {
             var commandType = message.Command.GetType();
-            var commandHandlerType = typeof(IHandler<>).MakeGenericType(commandType);
+            var commandHandlerType = typeof(ICommandHandler<>).MakeGenericType(commandType);
             var consumer = _kernel.Resolve(commandHandlerType);
 
-            MethodInfo miTypeDef = commandHandlerType.GetMethod("Handle", new[] { commandType });
-            miTypeDef.Invoke(consumer, new object[] { message.Command });
+			// we are assuming sync execution and we object tracking by the container
+			// todo: change the lifestyle to a truly transient one ?
+			MethodInfo mi = commandHandlerType.GetMethod("Handle", new[] { commandType });
+            mi.Invoke(consumer, new object[] { message.Command });
             
             _kernel.ReleaseComponent(consumer);
         }

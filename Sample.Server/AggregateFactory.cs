@@ -8,7 +8,7 @@ namespace Sample.Server
     {
         public IAggregate Build(Type type, Guid id, IMemento snapshot)
         {
-            var a = Activator.CreateInstance(type) as IAggregate;
+			var a = Activator.CreateInstance(type) as IAggregate;
             return a;
         }
     }

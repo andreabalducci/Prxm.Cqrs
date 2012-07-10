@@ -1,24 +1,33 @@
 using System;
+using System.Reflection;
+using Castle.MicroKernel;
 using CommonDomain.Persistence;
 using Rhino.ServiceBus;
 using Sample.Commands.Inventory;
 using Sample.Domain.Inventory.Domain;
+using Sample.Infrastructure.Commanding;
 
 namespace Sample.Server
 {
-    public class NewItemConsumer : ConsumerOf<CreateNewItemCommand>
+    public class CommandEnvelopeConsumer : ConsumerOf<CommandEnvelope>
     {
-        private IRepository _repository;
+        private IKernel _kernel;
 
-        public NewItemConsumer(IRepository repository)
+        public CommandEnvelopeConsumer(IKernel kernel)
         {
-            _repository = repository;
+            _kernel = kernel;
         }
 
-        public void Consume(CreateNewItemCommand message)
+        public void Consume(CommandEnvelope message)
         {
-            _repository.Save(new InventoryItem(message.ItemId,message.ItemCode, message.ItemDescription), Guid.NewGuid());
-            Console.WriteLine("New item " + message.ItemCode);
+            var commandType = message.Command.GetType();
+            var commandHandlerType = typeof(IHandler<>).MakeGenericType(commandType);
+            var consumer = _kernel.Resolve(commandHandlerType);
+
+            MethodInfo miTypeDef = commandHandlerType.GetMethod("Handle", new[] { commandType });
+            miTypeDef.Invoke(consumer, new object[] { message.Command });
+            
+            _kernel.ReleaseComponent(consumer);
         }
     }
 }

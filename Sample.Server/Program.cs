@@ -15,6 +15,7 @@ using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.Handlers;
 using Sample.Infrastructure.Commanding;
 using Sample.Infrastructure.Eventing;
+using Sample.Infrastructure.Support;
 
 namespace Sample.Server
 {
@@ -44,6 +45,7 @@ namespace Sample.Server
                 Classes
                     .FromAssemblyContaining<NewInventoryItemHandler>()
                     .BasedOn(typeof(IHandler<>))
+                    .WithServiceAllInterfaces()
                     .LifestyleTransient()
             );
 
@@ -68,20 +70,33 @@ namespace Sample.Server
                                                                .Build())
                 );
 
+            // env wiring
+            container.Register(
+                Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>()
+            );
+
             return container;
         }
 
 
         private static void ConfigureMongo()
         {
-            var assembly = typeof (InventoryItemCreated).Assembly;
-            var domainEvents = assembly.GetTypes().Where(x => typeof (IDomainEvent).IsAssignableFrom(x));
+            var assembly = typeof(InventoryItemCreated).Assembly;
+            var domainEvents = assembly.GetTypes().Where(x => typeof(IDomainEvent).IsAssignableFrom(x));
 
             // automapping domain events
             foreach (var domainEvent in domainEvents)
             {
                 BsonClassMap.LookupClassMap(domainEvent);
             }
+        }
+    }
+
+    public class ConsoleDebugLogger : IDebugLogger
+    {
+        public void Log(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }

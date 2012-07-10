@@ -6,6 +6,7 @@ using Castle.Windsor;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;
+using Sample.Infrastructure.Commanding;
 
 namespace Sample.Client
 {
@@ -21,13 +22,18 @@ namespace Sample.Client
 
             Console.WriteLine("Client started");
             var onewayBus = container.Resolve<IOnewayBus>();
-            onewayBus.Send(new CreateNewItemCommand
-            {
-                ItemId = Guid.NewGuid(),
-                ItemCode = "I001",
-                ItemDescription = "New Item from client"
-            });
-            Console.WriteLine("new item sent");
+            onewayBus.Send(
+                new CommandEnvelope()
+                {
+                    Command =
+                        new CreateNewItemCommand
+                        {
+                            ItemId = Guid.NewGuid(),
+                            ItemCode = "I001",
+                            ItemDescription = "New Item from client"
+                        }
+                });
+            Console.WriteLine("Issued new Item Command");
 
             Console.ReadLine();
         }

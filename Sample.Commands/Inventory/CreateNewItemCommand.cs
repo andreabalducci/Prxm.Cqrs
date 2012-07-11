@@ -8,8 +8,18 @@ namespace Sample.Commands.Inventory
 {
     public class CreateNewItemCommand : ICommand
     {
+        public Guid Id { get; private set; }
         public Guid ItemId { get; set; }
         public String ItemCode { get; set; }
         public String ItemDescription { get; set; }
+
+        public CreateNewItemCommand(Guid id)
+        {
+            Id = id;
+        }
+
+        protected CreateNewItemCommand()
+        {
+        }
     }
 }

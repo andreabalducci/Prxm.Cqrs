@@ -24,7 +24,10 @@ namespace Sample.Domain.Inventory.Handlers
         public void Handle(CreateNewItemCommand command)
         {
             _logger.Log("Creating item "+ command.ItemCode);
-            _repository.Save(new InventoryItem(command.ItemId, command.ItemCode, command.ItemDescription), Guid.NewGuid());
+            _repository.Save(
+                new InventoryItem(command.ItemId, command.ItemCode, command.ItemDescription),
+                command.Id
+            );
             _logger.Log("Item " + command.ItemCode + " saved");
         }
     }

@@ -7,5 +7,6 @@ namespace Sample.Infrastructure.Commanding
 {
     public interface ICommand
     {
+        Guid Id { get; }
     }
 }

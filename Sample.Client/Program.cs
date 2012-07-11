@@ -22,13 +22,14 @@ namespace Sample.Client
 
             Console.WriteLine("Client started");
             var onewayBus = container.Resolve<IOnewayBus>();
+            var id = Guid.NewGuid();
             onewayBus.Send(
                 new CommandEnvelope()
                 {
                     Command =
-                        new CreateNewItemCommand
+                        new CreateNewItemCommand(id)
                         {
-                            ItemId = Guid.NewGuid(),
+                            ItemId = id,
                             ItemCode = "I001",
                             ItemDescription = "New Item from client"
                         }

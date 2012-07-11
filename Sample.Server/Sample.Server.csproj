@@ -100,6 +100,7 @@
     <Compile Include="AggregateFactory.cs" />
     <Compile Include="Messaging\BootStrapper.cs" />
     <Compile Include="Messaging\CommandEnvelopeConsumer.cs" />
+    <Compile Include="Messaging\CommandRouter.cs" />
     <Compile Include="Messaging\PrepareQueues.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

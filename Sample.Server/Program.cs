@@ -79,7 +79,8 @@ namespace Sample.Server
 
             // env wiring
             container.Register(
-                Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>()
+                Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
+                Component.For<ICommandRouter>().ImplementedBy<CommandRouter>()
             );
 
             return container;

@@ -17,14 +17,21 @@ namespace Sample.Client
     {
         static void Main(string[] args)
         {
+            //
+            // setup
+            //
             var container = new WindsorContainer();
             new OnewayRhinoServiceBusConfiguration()
                 .UseCastleWindsor(container)
                 .Configure();
 
             container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbCommandSender>());
+            
+            Console.WriteLine("Client ready");
 
-
+            //
+            // Create command
+            //
             var id = Guid.NewGuid();
             var command = new CreateInventoryItemCommand(id)
                               {
@@ -33,13 +40,17 @@ namespace Sample.Client
                                   Description = "New Item from client"
                               };
 
-            Console.WriteLine("Client started");
 
+            //
+            // Send command
+            //
             var commandSender = container.Resolve<ICommandSender>();
             commandSender.Send(command);
-            
             Console.WriteLine("Issued new Item Command");
-            
+
+            //
+            // shutdown
+            //
             Console.ReadLine();
             container.Dispose();
         }

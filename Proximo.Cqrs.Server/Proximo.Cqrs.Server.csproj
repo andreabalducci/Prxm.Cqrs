@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\ICommandHandler.cs" />
+    <Compile Include="Commanding\ICommandRouter.cs" />
     <Compile Include="Eventing\IDomainEvent.cs" />
     <Compile Include="Eventing\IDomainEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

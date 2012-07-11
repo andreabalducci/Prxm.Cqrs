@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Tests", "Sample.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Commands", "Sample.Commands\Sample.Commands.csproj", "{BD789CB8-77D7-4410-9FCF-696B921CA5CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Infrastructure", "Sample.Infrastructure\Sample.Infrastructure.csproj", "{A2FAFAC1-5F50-479A-B301-9DB832B307E5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Server", "Sample.Server\Sample.Server.csproj", "{3188084F-A924-4B84-830C-53862CAB63B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Client", "Sample.Client\Sample.Client.csproj", "{14D2316C-462A-4B7D-91CA-14E57D0591F7}"
@@ -70,16 +68,6 @@ Global
 		{BD789CB8-77D7-4410-9FCF-696B921CA5CB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BD789CB8-77D7-4410-9FCF-696B921CA5CB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BD789CB8-77D7-4410-9FCF-696B921CA5CB}.Release|x86.ActiveCfg = Release|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{A2FAFAC1-5F50-479A-B301-9DB832B307E5}.Release|x86.ActiveCfg = Release|Any CPU
 		{3188084F-A924-4B84-830C-53862CAB63B6}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{3188084F-A924-4B84-830C-53862CAB63B6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{3188084F-A924-4B84-830C-53862CAB63B6}.Debug|Mixed Platforms.Build.0 = Debug|x86

@@ -9,7 +9,6 @@ using Proximo.Cqrs.Client.Commanding;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;
-using Sample.Infrastructure.Messaging;
 using Proximo.Cqrs.Core.Commanding;
 using log4net.Config;
 
@@ -19,6 +18,7 @@ namespace Sample.Client
 	{
 		static void Main(string[] args)
 		{
+		    XmlConfigurator.Configure();
 			//
 			// setup
 			//

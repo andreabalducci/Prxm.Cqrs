@@ -11,7 +11,10 @@ using InventoryItem = Sample.QueryModel.Inventory.InventoryItem;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
-    public class InventoryItemDenormalizer : IDomainEventHandler<InventoryItemCreated>
+    public class InventoryItemDenormalizer : 
+        IDomainEventHandler<InventoryItemCreated>,
+        IDomainEventHandler<InventoryItemLoaded>
+
     {
         private IModelWriter<Sample.QueryModel.Inventory.InventoryItem> _itemWriter;
 
@@ -23,6 +26,11 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         public void Handle(InventoryItemCreated @event)
         {
             _itemWriter.Save(new InventoryItem(@event.Id, @event.Sku,@event.ItemDescription));
+        }
+
+        public void Handle(InventoryItemLoaded @event)
+        {
+            
         }
     }
 }

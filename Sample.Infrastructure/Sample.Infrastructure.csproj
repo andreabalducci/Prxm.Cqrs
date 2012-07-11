@@ -44,7 +44,7 @@
     <Compile Include="Messaging\CommandEnvelope.cs" />
     <Compile Include="Commanding\ICommandHandler.cs" />
     <Compile Include="Messaging\DomainEventEnvelope.cs" />
-    <Compile Include="Messaging\IBus.cs" />
+    <Compile Include="Messaging\ICommandBus.cs" />
     <Compile Include="Commanding\ICommand.cs" />
     <Compile Include="Eventing\IDomainEvent.cs" />
     <Compile Include="Messaging\IMessage.cs" />

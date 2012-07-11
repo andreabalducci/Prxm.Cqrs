@@ -17,6 +17,7 @@ using Sample.Domain.Inventory.Handlers;
 using Sample.Infrastructure.Commanding;
 using Sample.Infrastructure.Eventing;
 using Sample.Infrastructure.Support;
+using Sample.Server.Messaging;
 
 namespace Sample.Server
 {

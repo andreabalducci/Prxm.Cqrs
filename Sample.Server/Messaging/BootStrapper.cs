@@ -1,7 +1,7 @@
 using Castle.Windsor;
 using Rhino.ServiceBus.Castle;
 
-namespace Sample.Server
+namespace Sample.Server.Messaging
 {
     public class BootStrapper : CastleBootStrapper
     {

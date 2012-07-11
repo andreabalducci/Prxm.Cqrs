@@ -3,7 +3,7 @@ using System.Messaging;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Msmq;
 
-namespace Sample.Server
+namespace Sample.Server.Messaging
 {
     public static class PrepareQueues
     {

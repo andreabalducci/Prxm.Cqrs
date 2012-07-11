@@ -98,9 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateFactory.cs" />
-    <Compile Include="BootStrapper.cs" />
+    <Compile Include="Messaging\BootStrapper.cs" />
     <Compile Include="Messaging\CommandEnvelopeConsumer.cs" />
-    <Compile Include="PrepareQueues.cs" />
+    <Compile Include="Messaging\PrepareQueues.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

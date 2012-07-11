@@ -25,22 +25,22 @@ namespace Sample.Client
             container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbCommandSender>());
 
 
-            Console.WriteLine("Client started");
-            var commandSender = container.Resolve<ICommandSender>();
             var id = Guid.NewGuid();
-            commandSender.Send(
-                new CreateInventoryItemCommand(id)
-                {
-                    ItemId = id,
-                    Sku = "I001",
-                    Description = "New Item from client"
-                }
-            );
+            var command = new CreateInventoryItemCommand(id)
+                              {
+                                  ItemId = id,
+                                  Sku = "I001",
+                                  Description = "New Item from client"
+                              };
+
+            Console.WriteLine("Client started");
+
+            var commandSender = container.Resolve<ICommandSender>();
+            commandSender.Send(command);
             
             Console.WriteLine("Issued new Item Command");
+            
             Console.ReadLine();
-
-
             container.Dispose();
         }
     }

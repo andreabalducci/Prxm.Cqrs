@@ -23,17 +23,19 @@ namespace Sample.Client
             Console.WriteLine("Client started");
             var onewayBus = container.Resolve<IOnewayBus>();
             var id = Guid.NewGuid();
-            onewayBus.Send(
-                new CommandEnvelope()
-                {
-                    Command =
-                        new CreateNewItemCommand(id)
-                        {
-                            ItemId = id,
-                            ItemCode = "I001",
-                            ItemDescription = "New Item from client"
-                        }
-                });
+            var envelope = new CommandEnvelope()
+                               {
+                                   Command =
+                                       new CreateNewItemCommand(id)
+                                           {
+                                               ItemId = id,
+                                               ItemCode = "I001",
+                                               ItemDescription = "New Item from client"
+                                           }
+                               };
+
+            onewayBus.Send(envelope);
+            // onewayBus.Send(envelope); -> should throw an exception server side
             Console.WriteLine("Issued new Item Command");
 
             Console.ReadLine();

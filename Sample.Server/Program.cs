@@ -7,6 +7,7 @@ using CommonDomain.Core;
 using CommonDomain.Persistence;
 using CommonDomain.Persistence.EventStore;
 using EventStore;
+using EventStore.Dispatcher;
 using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
 using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
@@ -18,6 +19,7 @@ using Rhino.ServiceBus;
 using Rhino.ServiceBus.Hosting;
 using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
+using Sample.Domain.Inventory.EventHandlers;
 using Sample.Domain.Inventory.Handlers;
 using Sample.Server.Messaging;
 using Sample.Server.Support;
@@ -31,7 +33,7 @@ namespace Sample.Server
 
         static void Main(string[] args)
         {
-			XmlConfigurator.Configure();
+            XmlConfigurator.Configure();
 
             PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
 
@@ -60,6 +62,15 @@ namespace Sample.Server
                     .LifestyleTransient()
             );
 
+            // event handlers
+            container.Register(
+                Classes
+                    .FromAssemblyContaining<NewInventoryItemCreatedEventHandler>()
+                    .BasedOn(typeof(IDomainEventHandler<>))
+                    .WithServiceAllInterfaces()
+                    .LifestyleTransient()
+            );
+
             // registers the Rhino.ServiceBus endpoints
             container.Register(
                 Classes
@@ -67,6 +78,20 @@ namespace Sample.Server
                     .BasedOn(typeof(ConsumerOf<>))
                     .WithServiceAllInterfaces()
                     .LifestyleTransient()
+            );
+
+            // env wiring
+            container.Register(
+                Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
+                
+                // commands
+                Component.For<ICommandRouter>().ImplementedBy<CommandRouter>(),
+                Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
+                
+                // events
+                Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
+                Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
+                Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
             );
 
             // CommonDomain & EventStore initialization 
@@ -79,16 +104,9 @@ namespace Sample.Server
                                                                .UsingMongoPersistence("server", new DocumentObjectSerializer())
                                                                .InitializeStorageEngine()
                                                                .UsingSynchronousDispatchScheduler() // enable synchronous dispatching of domainevents
-                                                                    .DispatchTo(new CommitDispatcher()) 
+                                                                    .DispatchTo(container.Resolve<IDispatchCommits>())
                                                                .Build())
                 );
-
-            // env wiring
-            container.Register(
-                Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
-                Component.For<ICommandRouter>().ImplementedBy<CommandRouter>(),
-                Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>()
-            );
 
             return container;
         }

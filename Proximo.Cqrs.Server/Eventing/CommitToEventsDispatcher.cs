@@ -5,10 +5,17 @@ using System.Text;
 using EventStore;
 using EventStore.Dispatcher;
 
-namespace Sample.Server.Support
+namespace Proximo.Cqrs.Server.Eventing
 {
-    public class CommitDispatcher : IDispatchCommits
+    public class CommitToEventsDispatcher : IDispatchCommits
     {
+        private readonly IDomainEventRouter _domainEventRouter;
+
+        public CommitToEventsDispatcher(IDomainEventRouter domainEventRouter)
+        {
+            _domainEventRouter = domainEventRouter;
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
@@ -17,19 +24,14 @@ namespace Sample.Server.Support
 
         protected virtual void Dispose(bool disposing)
         {
-            // no op
         }
 
         public void Dispatch(Commit commit)
         {
-            Console.WriteLine();
-            Console.WriteLine("[commit {0}]", commit.CommitId);
             foreach (var eventMessage in commit.Events)
             {
-                Console.WriteLine("{0} - {1}",  eventMessage.GetType(), eventMessage.Body);
+                _domainEventRouter.Dispatch(eventMessage.Body);
             }
-            Console.WriteLine("[/commit {0}]", commit.CommitId);
-            Console.WriteLine();
         }
     }
 }

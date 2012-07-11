@@ -99,7 +99,7 @@
   <ItemGroup>
     <Compile Include="Support\AggregateFactory.cs" />
     <Compile Include="Support\CastleCommandHandlerFactory.cs" />
-    <Compile Include="Support\CommitDispatcher.cs" />
+    <Compile Include="Support\CastleEventHandlerFactory.cs" />
     <Compile Include="Support\ConsoleDebugLogger.cs" />
     <Compile Include="Messaging\BootStrapper.cs" />
     <Compile Include="Messaging\PrepareQueues.cs" />

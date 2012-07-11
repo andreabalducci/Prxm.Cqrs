@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using Castle.MicroKernel;
 using CommonDomain.Persistence;
+using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
 using Proximo.Cqrs.Server.Commanding;
 using Rhino.ServiceBus;
 using Sample.Commands.Inventory;

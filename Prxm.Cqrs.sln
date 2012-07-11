@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proximo.Cqrs.Server", "Prox
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{6492677F-035B-4775-BAA0-A83B7397F867}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proximo.Cqrs.Bus.RhinoEsb", "Proximo.Cqrs.Bus.RhinoEsb\Proximo.Cqrs.Bus.RhinoEsb.csproj", "{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,16 @@ Global
 		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|x86.ActiveCfg = Release|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,5 +148,6 @@ Global
 		{481C67D3-5901-43CC-84B0-7A10D9B77AA5} = {6492677F-035B-4775-BAA0-A83B7397F867}
 		{A0725B28-FC24-4004-AD2D-CF88ACC2001D} = {6492677F-035B-4775-BAA0-A83B7397F867}
 		{E1927B48-C161-4D71-88DE-82B563D0CB3D} = {6492677F-035B-4775-BAA0-A83B7397F867}
+		{B62E1E69-E13E-463B-9AB9-28AB4D9DE836} = {6492677F-035B-4775-BAA0-A83B7397F867}
 	EndGlobalSection
 EndGlobal

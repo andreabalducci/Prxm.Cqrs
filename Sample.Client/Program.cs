@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
+using Proximo.Cqrs.Client.Commanding;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;
@@ -19,24 +22,26 @@ namespace Sample.Client
                 .UseCastleWindsor(container)
                 .Configure();
 
+            container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbCommandSender>());
+
 
             Console.WriteLine("Client started");
-            var onewayBus = container.Resolve<IOnewayBus>();
+            var commandSender = container.Resolve<ICommandSender>();
             var id = Guid.NewGuid();
-            onewayBus.Send(
-                new CommandEnvelope()
+            commandSender.Send(
+                new CreateInventoryItemCommand(id)
                 {
-                    Command =
-                        new CreateInventoryItemCommand(id)
-                        {
-                            ItemId = id,
-                            Sku = "I001",
-                            Description = "New Item from client"
-                        }
-                });
+                    ItemId = id,
+                    Sku = "I001",
+                    Description = "New Item from client"
+                }
+            );
+            
             Console.WriteLine("Issued new Item Command");
-
             Console.ReadLine();
+
+
+            container.Dispose();
         }
     }
 }

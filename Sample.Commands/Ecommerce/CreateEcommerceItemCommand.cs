@@ -10,7 +10,7 @@ namespace Sample.Commands.Ecommerce
     {
         public Guid Id { get; private set; }
         public Guid ItemId { get; set; }
-        public String ItemCode { get; set; }
+        public String Sku { get; set; }
         public String ItemDescription { get; set; }
 
         public CreateEcommerceItemCommand(Guid id)

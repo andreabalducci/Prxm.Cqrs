@@ -28,11 +28,11 @@ namespace Sample.Client
                 new CommandEnvelope()
                 {
                     Command =
-                        new CreateNewItemCommand(id)
+                        new CreateInventoryItemCommand(id)
                         {
                             ItemId = id,
-                            ItemCode = "I001",
-                            ItemDescription = "New Item from client"
+                            Sku = "I001",
+                            Description = "New Item from client"
                         }
                 });
             Console.WriteLine("Issued new Item Command");

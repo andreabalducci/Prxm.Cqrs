@@ -10,7 +10,7 @@ using Sample.Infrastructure.Support;
 
 namespace Sample.Domain.Inventory.Handlers
 {
-    public class NewInventoryItemHandler : ICommandHandler<CreateNewItemCommand>
+    public class NewInventoryItemHandler : ICommandHandler<CreateInventoryItemCommand>
     {
         private IRepository _repository;
         private IDebugLogger _logger;
@@ -21,14 +21,14 @@ namespace Sample.Domain.Inventory.Handlers
             _logger = logger;
         }
 
-        public void Handle(CreateNewItemCommand command)
+        public void Handle(CreateInventoryItemCommand command)
         {
-            _logger.Log("[inventory] Creating item " + command.ItemCode);
+            _logger.Log("[inventory] Creating item " + command.Sku);
             _repository.Save(
-                new InventoryItem(command.ItemId, command.ItemCode, command.ItemDescription),
+                new InventoryItem(command.ItemId, command.Sku, command.Description),
                 command.Id
             );
-            _logger.Log("[inventory] Item " + command.ItemCode + " saved");
+            _logger.Log("[inventory] Item " + command.Sku + " saved");
         }
     }
 }

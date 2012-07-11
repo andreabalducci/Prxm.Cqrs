@@ -9,7 +9,7 @@ namespace Sample.Domain.Ecommerce.Domain
 {
     public class EcommerceItem : AggregateBase
     {
-        public string ItemId { get; protected set; }
+        public string Sku { get; protected set; }
         public string Description { get; protected set; }
         public decimal UnitPrice { get; protected set; }
 
@@ -17,15 +17,15 @@ namespace Sample.Domain.Ecommerce.Domain
         {
         }
 
-        public EcommerceItem(Guid id, string itemCode, string description)
+        public EcommerceItem(Guid id, string sku, string description)
         {
-            RaiseEvent(new EcommerceItemCreated(id, itemCode, description));
+            RaiseEvent(new EcommerceItemCreated(id, sku, description));
         }
 
         private void Apply(EcommerceItemCreated @event)
         {
             this.Id = @event.Id;
-            this.ItemId = @event.ItemCode;
+            this.Sku = @event.Sku;
             this.Description = @event.Description;
         }
     }

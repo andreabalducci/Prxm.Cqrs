@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ecommerce\CreateEcommerceItemCommand.cs" />
-    <Compile Include="Inventory\CreateNewItemCommand.cs" />
+    <Compile Include="Inventory\CreateInventoryItemCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

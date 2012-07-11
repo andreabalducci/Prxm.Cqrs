@@ -23,12 +23,12 @@ namespace Sample.Domain.Ecommerce.Handlers
 
         public void Handle(CreateEcommerceItemCommand command)
         {
-            _logger.Log("[ecommerce] new item " + command.ItemCode);
+            _logger.Log("[ecommerce] new item " + command.Sku);
             _repository.Save(
-                new EcommerceItem(command.ItemId, command.ItemCode, command.ItemDescription), 
+                new EcommerceItem(command.ItemId, command.Sku, command.ItemDescription), 
                 command.Id
             );
-            _logger.Log("[ecommerce] Item " + command.ItemCode + " saved");
+            _logger.Log("[ecommerce] Item " + command.Sku + " saved");
         }
     }
 }

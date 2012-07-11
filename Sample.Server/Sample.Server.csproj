@@ -43,9 +43,6 @@
     <Reference Include="Castle.Facilities.Logging">
       <HintPath>..\packages\Castle.LoggingFacility.3.0.0.4001\lib\net40\Castle.Facilities.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Services.Logging.Log4netIntegration">
-      <HintPath>..\packages\Castle.Core-log4net.3.0.0.4003\lib\net40\Castle.Services.Logging.Log4netIntegration.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -85,6 +82,7 @@
       <HintPath>..\packages\Rhino.ServiceBus.Host.2.3.3.0\lib\4.0\Rhino.ServiceBus.Host.exe</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
@@ -134,6 +132,10 @@
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj">
       <Project>{0BE628E8-9ED5-43E1-8A23-0B01F8808974}</Project>
       <Name>Sample.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.QueryModel.Builder\Sample.QueryModel.Builder.csproj">
+      <Project>{84EC82FA-564F-4BBD-BC3F-EEB69D1E6DBE}</Project>
+      <Name>Sample.QueryModel.Builder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

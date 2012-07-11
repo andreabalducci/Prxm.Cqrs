@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -10,6 +11,7 @@ using EventStore;
 using EventStore.Dispatcher;
 using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
 using Proximo.Cqrs.Client.Commanding;
 using Proximo.Cqrs.Core.Commanding;
@@ -23,6 +25,8 @@ using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.EventHandlers;
 using Sample.Domain.Inventory.Handlers;
+using Sample.QueryModel.Builder.Denormalizers.Inventory;
+using Sample.QueryModel.Storage.Readers;
 using Sample.Server.Messaging;
 using Sample.Server.Support;
 using log4net.Config;
@@ -42,7 +46,8 @@ namespace Sample.Server
             _container = CreateContainer();
             BootStrapper.GlobalContainer = _container;
             ConfigureCommandSender();
-            ConfigureMongo();
+            AutomapEventsForMongoDB();
+            ConfigureQueryModelBuilder();
 
             var host = new DefaultHost();
             host.Start<BootStrapper>();
@@ -85,11 +90,11 @@ namespace Sample.Server
             // env wiring
             container.Register(
                 Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
-                
+
                 // commands
                 Component.For<ICommandRouter>().ImplementedBy<CommandRouter>(),
                 Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
-                
+
                 // events
                 Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
                 Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
@@ -114,7 +119,7 @@ namespace Sample.Server
         }
 
 
-        private static void ConfigureMongo()
+        private static void AutomapEventsForMongoDB()
         {
             var assembly = typeof(InventoryItemCreated).Assembly;
             var domainEvents = assembly.GetTypes().Where(x => typeof(IDomainEvent).IsAssignableFrom(x));
@@ -124,6 +129,23 @@ namespace Sample.Server
             {
                 BsonClassMap.LookupClassMap(domainEvent);
             }
+        }
+
+        private static void ConfigureQueryModelBuilder()
+        {
+            _container.Register(
+                Classes.FromAssemblyContaining<InventoryItemDenormalizer>()
+                    .BasedOn(typeof(IDomainEventHandler<>))
+                    .WithServiceAllInterfaces()
+                    .LifestyleTransient(),
+                Component.For<MongoDatabase>().UsingFactoryMethod(k =>
+                {
+                    var builder = new MongoConnectionStringBuilder(ConfigurationManager.ConnectionStrings["query"].ToString());
+                    var db = MongoServer.Create(builder).GetDatabase(builder.DatabaseName);
+                    return db;
+                }),
+                Component.For(typeof(IModelWriter<>)).ImplementedBy(typeof(ModelWriter<>)).LifeStyle.Transient
+            );
         }
 
         private static void ConfigureCommandSender()

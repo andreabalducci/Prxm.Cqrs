@@ -9,7 +9,7 @@ namespace Sample.Domain.Inventory.Domain.Events
     public class InventoryItemCreated : IDomainEvent
     {
         public Guid Id { get; set; }
-        public string ItemId { get; set; }
+        public string Sku { get; set; }
         public string ItemDescription { get; set; }
     }
 }

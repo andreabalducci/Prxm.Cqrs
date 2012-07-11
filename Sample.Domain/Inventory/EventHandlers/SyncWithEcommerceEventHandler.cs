@@ -28,7 +28,7 @@ namespace Sample.Domain.Inventory.EventHandlers
             var id = Guid.NewGuid();
             _commandSender.Send(new CreateEcommerceItemCommand(id)
                                     {
-                                        Sku = @event.ItemId,
+                                        Sku = @event.Sku,
                                         ItemDescription = @event.ItemDescription,
                                         ItemId = id
                                     });

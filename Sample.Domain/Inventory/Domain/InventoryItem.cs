@@ -16,7 +16,7 @@ namespace Sample.Domain.Inventory.Domain
 
         public InventoryItem(Guid id, string itemId, string description)
         {
-            RaiseEvent(new InventoryItemCreated(){Id = id, ItemId = itemId,ItemDescription = description});
+            RaiseEvent(new InventoryItemCreated(){Id = id, Sku = itemId,ItemDescription = description});
         }
 
 		public void UpdateDescription(string newDescription)
@@ -27,7 +27,7 @@ namespace Sample.Domain.Inventory.Domain
         private void Apply(InventoryItemCreated @event)
         {
             this.Id = @event.Id;
-            this.ItemId = @event.ItemId;
+            this.ItemId = @event.Sku;
             this.Description = @event.ItemDescription;
         }
 

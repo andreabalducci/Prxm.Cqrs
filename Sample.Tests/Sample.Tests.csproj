@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="CommonDomain, Version=1.4.0.0, Culture=neutral, PublicKeyToken=ec37a15dc44010cd, processorArchitecture=MSIL">
       <HintPath>..\libs\CommonDomain\CommonDomain.dll</HintPath>
     </Reference>
@@ -65,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainTests\InventoryItemsTests.cs" />
+    <Compile Include="InProcessBusTests\InProcessBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +84,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Proximo.Cqrs.Bus.Local\Proximo.Cqrs.Bus.InProcess.csproj">
+      <Project>{CB278906-FD35-46BA-86EB-D035B27E0624}</Project>
+      <Name>Proximo.Cqrs.Bus.InProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proximo.Cqrs.Client\Proximo.Cqrs.Client.csproj">
+      <Project>{E1927B48-C161-4D71-88DE-82B563D0CB3D}</Project>
+      <Name>Proximo.Cqrs.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
+      <Project>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</Project>
+      <Name>Proximo.Cqrs.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Proximo.Cqrs.Server\Proximo.Cqrs.Server.csproj">
       <Project>{481C67D3-5901-43CC-84B0-7A10D9B77AA5}</Project>
       <Name>Proximo.Cqrs.Server</Name>

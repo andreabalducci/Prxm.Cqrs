@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommonDomain.Persistence;
+using Proximo.Cqrs.Core.Support;
 using Proximo.Cqrs.Server.Commanding;
 using Sample.Commands.Ecommerce;
 using Sample.Domain.Ecommerce.Domain;
-using Sample.Infrastructure.Support;
 
 namespace Sample.Domain.Ecommerce.Handlers
 {

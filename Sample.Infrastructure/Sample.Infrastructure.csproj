@@ -42,10 +42,8 @@
   <ItemGroup>
     <Compile Include="Messaging\CommandEnvelope.cs" />
     <Compile Include="Messaging\DomainEventEnvelope.cs" />
-    <Compile Include="Messaging\ICommandBus.cs" />
     <Compile Include="Messaging\IMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Support\IDebugLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
@@ -57,9 +55,7 @@
       <Name>Proximo.Cqrs.Server</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Eventing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

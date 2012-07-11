@@ -77,6 +77,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Proximo.Cqrs.Server\Proximo.Cqrs.Server.csproj">
+      <Project>{481C67D3-5901-43CC-84B0-7A10D9B77AA5}</Project>
+      <Name>Proximo.Cqrs.Server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj">
       <Project>{0BE628E8-9ED5-43E1-8A23-0B01F8808974}</Project>
       <Name>Sample.Domain</Name>

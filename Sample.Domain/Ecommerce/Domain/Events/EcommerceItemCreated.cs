@@ -1,5 +1,5 @@
 using System;
-using Sample.Infrastructure.Eventing;
+using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Domain.Ecommerce.Domain.Events
 {

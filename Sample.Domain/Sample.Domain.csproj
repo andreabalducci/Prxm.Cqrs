@@ -56,6 +56,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
+      <Project>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</Project>
+      <Name>Proximo.Cqrs.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proximo.Cqrs.Server\Proximo.Cqrs.Server.csproj">
+      <Project>{481C67D3-5901-43CC-84B0-7A10D9B77AA5}</Project>
+      <Name>Proximo.Cqrs.Server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sample.Commands\Sample.Commands.csproj">
       <Project>{BD789CB8-77D7-4410-9FCF-696B921CA5CB}</Project>
       <Name>Sample.Commands</Name>

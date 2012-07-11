@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sample.Infrastructure.Commanding;
+using Proximo.Cqrs.Core.Commanding;
 
 namespace Sample.Commands.Ecommerce
 {

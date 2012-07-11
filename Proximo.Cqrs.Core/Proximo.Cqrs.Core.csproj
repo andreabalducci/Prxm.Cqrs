@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A2FAFAC1-5F50-479A-B301-9DB832B307E5}</ProjectGuid>
+    <ProjectGuid>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sample.Infrastructure</RootNamespace>
-    <AssemblyName>Sample.Infrastructure</AssemblyName>
+    <RootNamespace>Proximo.Cqrs.Core</RootNamespace>
+    <AssemblyName>Proximo.Cqrs.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,25 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Messaging\CommandEnvelope.cs" />
-    <Compile Include="Messaging\DomainEventEnvelope.cs" />
-    <Compile Include="Messaging\ICommandBus.cs" />
-    <Compile Include="Messaging\IMessage.cs" />
+    <Compile Include="Commanding\ICommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Support\IDebugLogger.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
-      <Project>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</Project>
-      <Name>Proximo.Cqrs.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proximo.Cqrs.Server\Proximo.Cqrs.Server.csproj">
-      <Project>{481C67D3-5901-43CC-84B0-7A10D9B77AA5}</Project>
-      <Name>Proximo.Cqrs.Server</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Eventing\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

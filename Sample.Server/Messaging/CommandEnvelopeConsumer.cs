@@ -2,10 +2,10 @@ using System;
 using System.Reflection;
 using Castle.MicroKernel;
 using CommonDomain.Persistence;
+using Proximo.Cqrs.Server.Commanding;
 using Rhino.ServiceBus;
 using Sample.Commands.Inventory;
 using Sample.Domain.Inventory.Domain;
-using Sample.Infrastructure.Commanding;
 using Sample.Infrastructure.Messaging;
 
 namespace Sample.Server.Messaging

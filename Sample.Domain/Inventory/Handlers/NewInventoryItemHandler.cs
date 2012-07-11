@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommonDomain.Persistence;
+using Proximo.Cqrs.Server.Commanding;
 using Sample.Commands.Inventory;
 using Sample.Domain.Inventory.Domain;
-using Sample.Infrastructure.Commanding;
 using Sample.Infrastructure.Support;
 
 namespace Sample.Domain.Inventory.Handlers

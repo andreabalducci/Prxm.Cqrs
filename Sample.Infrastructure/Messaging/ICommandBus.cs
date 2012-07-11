@@ -1,4 +1,4 @@
-using Sample.Infrastructure.Commanding;
+using Proximo.Cqrs.Core.Commanding;
 
 namespace Sample.Infrastructure.Messaging
 {

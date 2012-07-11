@@ -20,6 +20,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Server", "Sample.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Client", "Sample.Client\Sample.Client.csproj", "{14D2316C-462A-4B7D-91CA-14E57D0591F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proximo.Cqrs.Client", "Proximo.Cqrs.Client\Proximo.Cqrs.Client.csproj", "{E1927B48-C161-4D71-88DE-82B563D0CB3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proximo.Cqrs.Core", "Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj", "{A0725B28-FC24-4004-AD2D-CF88ACC2001D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proximo.Cqrs.Server", "Proximo.Cqrs.Server\Proximo.Cqrs.Server.csproj", "{481C67D3-5901-43CC-84B0-7A10D9B77AA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{6492677F-035B-4775-BAA0-A83B7397F867}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,8 +98,43 @@ Global
 		{14D2316C-462A-4B7D-91CA-14E57D0591F7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{14D2316C-462A-4B7D-91CA-14E57D0591F7}.Release|x86.ActiveCfg = Release|x86
 		{14D2316C-462A-4B7D-91CA-14E57D0591F7}.Release|x86.Build.0 = Release|x86
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D}.Release|x86.ActiveCfg = Release|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D}.Release|x86.ActiveCfg = Release|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{481C67D3-5901-43CC-84B0-7A10D9B77AA5} = {6492677F-035B-4775-BAA0-A83B7397F867}
+		{A0725B28-FC24-4004-AD2D-CF88ACC2001D} = {6492677F-035B-4775-BAA0-A83B7397F867}
+		{E1927B48-C161-4D71-88DE-82B563D0CB3D} = {6492677F-035B-4775-BAA0-A83B7397F867}
 	EndGlobalSection
 EndGlobal

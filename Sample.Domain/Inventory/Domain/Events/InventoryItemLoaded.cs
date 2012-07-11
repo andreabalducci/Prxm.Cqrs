@@ -1,4 +1,4 @@
-using Sample.Infrastructure.Eventing;
+using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Domain.Inventory.Domain.Events
 {

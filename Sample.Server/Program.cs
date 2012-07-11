@@ -9,13 +9,13 @@ using CommonDomain.Persistence.EventStore;
 using EventStore;
 using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
+using Proximo.Cqrs.Server.Commanding;
+using Proximo.Cqrs.Server.Eventing;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Hosting;
 using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.Handlers;
-using Sample.Infrastructure.Commanding;
-using Sample.Infrastructure.Eventing;
 using Sample.Infrastructure.Support;
 using Sample.Server.Messaging;
 

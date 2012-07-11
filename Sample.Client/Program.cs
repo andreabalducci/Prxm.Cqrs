@@ -7,6 +7,7 @@ using Rhino.ServiceBus;
 using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;
 using Sample.Infrastructure.Commanding;
+using Sample.Infrastructure.Messaging;
 
 namespace Sample.Client
 {
@@ -23,19 +24,17 @@ namespace Sample.Client
             Console.WriteLine("Client started");
             var onewayBus = container.Resolve<IOnewayBus>();
             var id = Guid.NewGuid();
-            var envelope = new CommandEnvelope()
-                               {
-                                   Command =
-                                       new CreateNewItemCommand(id)
-                                           {
-                                               ItemId = id,
-                                               ItemCode = "I001",
-                                               ItemDescription = "New Item from client"
-                                           }
-                               };
-
-            onewayBus.Send(envelope);
-            // onewayBus.Send(envelope); -> should throw an exception server side
+            onewayBus.Send(
+                new CommandEnvelope()
+                {
+                    Command =
+                        new CreateNewItemCommand(id)
+                        {
+                            ItemId = id,
+                            ItemCode = "I001",
+                            ItemDescription = "New Item from client"
+                        }
+                });
             Console.WriteLine("Issued new Item Command");
 
             Console.ReadLine();

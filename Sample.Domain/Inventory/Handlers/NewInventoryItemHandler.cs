@@ -10,7 +10,7 @@ using Sample.Infrastructure.Support;
 
 namespace Sample.Domain.Inventory.Handlers
 {
-    public class NewInventoryItemHandler : IHandler<CreateNewItemCommand>
+    public class NewInventoryItemHandler : ICommandHandler<CreateNewItemCommand>
     {
         private IRepository _repository;
         private IDebugLogger _logger;

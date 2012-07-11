@@ -40,11 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commanding\CommandEnvelope.cs" />
-    <Compile Include="Commanding\IHandler.cs" />
-    <Compile Include="Commanding\IBus.cs" />
+    <Compile Include="Eventing\IDomainEventHandler.cs" />
+    <Compile Include="Messaging\CommandEnvelope.cs" />
+    <Compile Include="Commanding\ICommandHandler.cs" />
+    <Compile Include="Messaging\DomainEventEnvelope.cs" />
+    <Compile Include="Messaging\IBus.cs" />
     <Compile Include="Commanding\ICommand.cs" />
     <Compile Include="Eventing\IDomainEvent.cs" />
+    <Compile Include="Messaging\IMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\IDebugLogger.cs" />
   </ItemGroup>

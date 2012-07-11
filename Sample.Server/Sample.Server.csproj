@@ -43,6 +43,9 @@
     <Reference Include="Castle.Facilities.Logging">
       <HintPath>..\packages\Castle.LoggingFacility.3.0.0.4001\lib\net40\Castle.Facilities.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Services.Logging.Log4netIntegration">
+      <HintPath>..\packages\Castle.Core-log4net.3.0.0.4003\lib\net40\Castle.Services.Logging.Log4netIntegration.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -96,7 +99,7 @@
   <ItemGroup>
     <Compile Include="AggregateFactory.cs" />
     <Compile Include="BootStrapper.cs" />
-    <Compile Include="CommandEnvelopeConsumer.cs" />
+    <Compile Include="Messaging\CommandEnvelopeConsumer.cs" />
     <Compile Include="PrepareQueues.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

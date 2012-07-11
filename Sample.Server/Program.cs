@@ -44,16 +44,16 @@ namespace Sample.Server
         {
             var container = new WindsorContainer();
 
-            // event handlers
+            // command handlers
             container.Register(
                 Classes
                     .FromAssemblyContaining<NewInventoryItemHandler>()
-                    .BasedOn(typeof(IHandler<>))
+                    .BasedOn(typeof(ICommandHandler<>))
                     .WithServiceAllInterfaces()
                     .LifestyleTransient()
             );
 
-            // commands
+            // registers the Rhino.ServiceBus endpoints
             container.Register(
                 Classes
                     .FromThisAssembly()
@@ -62,7 +62,7 @@ namespace Sample.Server
                     .LifestyleTransient()
             );
 
-            // setup 
+            // CommonDomain & EventStore initialization 
             container.Register(
                 Component.For<IConstructAggregates>().ImplementedBy<AggregateFactory>(),
                 Component.For<IDetectConflicts>().ImplementedBy<ConflictDetector>().LifestyleTransient(),
@@ -70,7 +70,9 @@ namespace Sample.Server
                 Component.For<IStoreEvents>()
                     .UsingFactoryMethod<IStoreEvents>(k => Wireup.Init()
                                                                .UsingMongoPersistence("server", new DocumentObjectSerializer())
-                                                               .InitializeStorageEngine()
+															   //.UsingSynchronousDispatchScheduler( ... ) // enable synchronous or asyncrhonous dispatching of domainevents
+															   //.UsingAsynchronousDispatchScheduler( ... ) 
+															   .InitializeStorageEngine()
                                                                .Build())
                 );
 

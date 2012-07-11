@@ -20,13 +20,17 @@ namespace Proximo.Cqrs.Server.Eventing
             var eventType = @event.GetType();
             var eventHandlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);
             
-            var handler = _domainEventHandlerFactory.CreateHandler(eventHandlerType);
-            if (handler != null)
+            var handlers = _domainEventHandlerFactory.CreateHandlers(eventHandlerType);
+            if (handlers != null)
             {
-                MethodInfo mi = eventHandlerType.GetMethod("Handle", new[] { eventType });
-                mi.Invoke(handler, new[] { @event });
+                foreach (var handler in handlers)
+                {
+                    var handlerType = handler.GetType();
+                    MethodInfo mi = handlerType.GetMethod("Handle", new[] { eventType });
+                    mi.Invoke(handler, new[] { @event });
+                }
 
-                _domainEventHandlerFactory.ReleaseHandler(handler);
+                _domainEventHandlerFactory.ReleaseHandlers(handlers);
             }
         }
     }

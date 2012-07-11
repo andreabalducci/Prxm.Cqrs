@@ -54,6 +54,7 @@
     <Compile Include="Inventory\Domain\Events\InventoryItemLoaded.cs" />
     <Compile Include="Inventory\CommandHandlers\NewInventoryItemHandler.cs" />
     <Compile Include="Inventory\EventHandlers\NewInventoryItemCreatedEventHandler.cs" />
+    <Compile Include="Inventory\EventHandlers\SyncWithEcommerceEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

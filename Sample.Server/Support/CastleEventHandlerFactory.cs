@@ -16,16 +16,19 @@ namespace Sample.Server.Support
             _kernel = kernel;
         }
 
-        public object CreateHandler(Type eventHandlerType)
+        public IEnumerable<object> CreateHandlers(Type eventHandlerType)
         {
-            if(_kernel.HasComponent(eventHandlerType))
-                return _kernel.Resolve(eventHandlerType);
-            return null;
+            return _kernel.HasComponent(eventHandlerType) ? 
+                _kernel.ResolveAll(eventHandlerType).Cast<object>().ToList() : 
+                null;
         }
 
-        public void ReleaseHandler(object handler)
+        public void ReleaseHandlers(IEnumerable<object> handlers)
         {
-            _kernel.ReleaseComponent(handler);
+            foreach (var h in handlers)
+            {
+                _kernel.ReleaseComponent(h);
+            }
         }
     }
 }

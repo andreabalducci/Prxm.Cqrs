@@ -7,7 +7,7 @@ namespace Proximo.Cqrs.Server.Eventing
 {
     public interface IDomainEventHandlerFactory
     {
-        object CreateHandler(Type eventHandlerType);
-        void ReleaseHandler(object handler);
+        IEnumerable<object> CreateHandlers(Type eventHandlerType);
+        void ReleaseHandlers(IEnumerable<object> handlers);
     }
 }

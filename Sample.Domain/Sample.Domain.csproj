@@ -45,9 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ecommerce\Domain\EcommerceItem.cs" />
+    <Compile Include="Ecommerce\Domain\Events\EcommerceItemCreated.cs" />
+    <Compile Include="Ecommerce\Handlers\NewEcommerceItemHandler.cs" />
     <Compile Include="Inventory\Domain\Events\InventoryItemCreated.cs" />
     <Compile Include="Inventory\Domain\InventoryItem.cs" />
-    <Compile Include="Inventory\Domain\InventoryItemLoaded.cs" />
+    <Compile Include="Inventory\Domain\Events\InventoryItemLoaded.cs" />
     <Compile Include="Inventory\Handlers\NewInventoryItemHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

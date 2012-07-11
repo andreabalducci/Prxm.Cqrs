@@ -19,7 +19,8 @@ namespace Proximo.Cqrs.Bus.RhinoEsb.Commanding
 
         public void Send<T>(T command) where T : class, ICommand
         {
-            _serviceBus.Send(new object[] {command});
+            var envelope = new CommandEnvelope { Command = command };
+            _serviceBus.Send(envelope);
         }
     }
 }

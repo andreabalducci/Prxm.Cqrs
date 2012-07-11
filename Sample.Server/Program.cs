@@ -18,6 +18,7 @@ using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.Handlers;
 using Sample.Server.Messaging;
+using log4net.Config;
 
 namespace Sample.Server
 {
@@ -27,6 +28,8 @@ namespace Sample.Server
 
         static void Main(string[] args)
         {
+			XmlConfigurator.Configure();
+
             PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
 
 

@@ -10,7 +10,12 @@ using Sample.Domain.Inventory.Domain;
 
 namespace Sample.Domain.Inventory.Handlers
 {
-    public class NewInventoryItemHandler : ICommandHandler<CreateInventoryItemCommand>
+	/// <summary>
+	/// todo: rename this class
+	/// </summary>
+    public class NewInventoryItemHandler :
+		ICommandHandler<CreateInventoryItemCommand>,
+		ICommandHandler<UpdateInventoryItemDescriptionCommand>
     {
         private IRepository _repository;
         private IDebugLogger _logger;
@@ -30,5 +35,14 @@ namespace Sample.Domain.Inventory.Handlers
             );
             _logger.Log("[inventory] Item " + command.Sku + " saved");
         }
+
+		public void Handle(UpdateInventoryItemDescriptionCommand command)
+		{
+			var aggregate = _repository.GetById<InventoryItem>(command.ItemId);
+			_logger.Log(string.Format("[inventory] updating item " + aggregate.ItemId + " description from '" + aggregate.Description + "' to '" + command.Description + "'"));
+			aggregate.UpdateDescription(command.Description);
+			_repository.Save(aggregate, command.Id);
+			_logger.Log("[inventory] Item " + aggregate.ItemId + " saved");
+		}
     }
 }

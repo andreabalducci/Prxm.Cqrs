@@ -19,12 +19,22 @@ namespace Sample.Domain.Inventory.Domain
             RaiseEvent(new InventoryItemCreated(){Id = id, ItemId = itemId,ItemDescription = description});
         }
 
+		public void UpdateDescription(string newDescription)
+		{
+			RaiseEvent(new InventoryItemDescriptionUpdated() { ItemId = this.ItemId, NewDescription = newDescription });
+		}
+
         private void Apply(InventoryItemCreated @event)
         {
             this.Id = @event.Id;
             this.ItemId = @event.ItemId;
             this.Description = @event.ItemDescription;
         }
+
+		private void Apply(InventoryItemDescriptionUpdated @event)
+		{
+			Description = @event.NewDescription;
+		}
 
         public void Load(int i)
         {
@@ -34,9 +44,9 @@ namespace Sample.Domain.Inventory.Domain
                            });
         }
 
-        public void Apply(InventoryItemLoaded command)
+        public void Apply(InventoryItemLoaded @event)
         {
-            Quantity += command.Quantity;
+            Quantity += @event.Quantity;
         }
     }
 }

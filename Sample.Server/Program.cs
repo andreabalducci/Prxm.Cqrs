@@ -77,9 +77,9 @@ namespace Sample.Server
                 Component.For<IStoreEvents>()
                     .UsingFactoryMethod<IStoreEvents>(k => Wireup.Init()
                                                                .UsingMongoPersistence("server", new DocumentObjectSerializer())
-															   //.UsingSynchronousDispatchScheduler( ... ) // enable synchronous or asyncrhonous dispatching of domainevents
-															   //.UsingAsynchronousDispatchScheduler( ... ) 
-															   .InitializeStorageEngine()
+                                                               .InitializeStorageEngine()
+                                                               .UsingSynchronousDispatchScheduler() // enable synchronous dispatching of domainevents
+                                                                    .DispatchTo(new CommitDispatcher()) 
                                                                .Build())
                 );
 

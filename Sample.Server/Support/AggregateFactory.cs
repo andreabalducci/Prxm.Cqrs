@@ -2,7 +2,7 @@ using System;
 using CommonDomain;
 using CommonDomain.Persistence;
 
-namespace Sample.Server
+namespace Sample.Server.Support
 {
     public class AggregateFactory : IConstructAggregates
     {

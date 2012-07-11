@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commanding\CommandEnvelope.cs" />
+    <Compile Include="Commanding\CommandEnvelopeConsumer.cs" />
     <Compile Include="Commanding\RhinoEsbCommandSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

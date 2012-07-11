@@ -9,6 +9,8 @@ using CommonDomain.Persistence.EventStore;
 using EventStore;
 using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
+using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
+using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
 using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Server.Eventing;
@@ -18,6 +20,7 @@ using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.Handlers;
 using Sample.Server.Messaging;
+using Sample.Server.Support;
 
 namespace Sample.Server
 {
@@ -57,7 +60,7 @@ namespace Sample.Server
             // registers the Rhino.ServiceBus endpoints
             container.Register(
                 Classes
-                    .FromThisAssembly()
+                    .FromAssemblyContaining<CommandEnvelopeConsumer>()
                     .BasedOn(typeof(ConsumerOf<>))
                     .WithServiceAllInterfaces()
                     .LifestyleTransient()
@@ -80,7 +83,8 @@ namespace Sample.Server
             // env wiring
             container.Register(
                 Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
-                Component.For<ICommandRouter>().ImplementedBy<CommandRouter>()
+                Component.For<ICommandRouter>().ImplementedBy<CommandRouter>(),
+                Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>()
             );
 
             return container;
@@ -97,14 +101,6 @@ namespace Sample.Server
             {
                 BsonClassMap.LookupClassMap(domainEvent);
             }
-        }
-    }
-
-    public class ConsoleDebugLogger : IDebugLogger
-    {
-        public void Log(string message)
-        {
-            Console.WriteLine(message);
         }
     }
 }

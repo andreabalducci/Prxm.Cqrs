@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commanding\CommandRouter.cs" />
     <Compile Include="Commanding\ICommandHandler.cs" />
-    <Compile Include="Commanding\ICommandRouter.cs" />
+    <Compile Include="Commanding\ICommandHandlerFactory.cs" />
     <Compile Include="Eventing\IDomainEvent.cs" />
     <Compile Include="Eventing\IDomainEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

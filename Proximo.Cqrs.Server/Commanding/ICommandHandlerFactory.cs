@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Proximo.Cqrs.Core.Commanding;
 
 namespace Proximo.Cqrs.Server.Commanding
 {
-    public interface ICommandRouter
+    public interface ICommandHandlerFactory
     {
-        void RouteToHandler(ICommand command);
+        object CreateHandler(Type commandType);
+        void ReleaseHandler(object handler);
     }
 }

@@ -1,31 +1,29 @@
 using System.Reflection;
-using Castle.MicroKernel;
 using Proximo.Cqrs.Core.Commanding;
-using Proximo.Cqrs.Server.Commanding;
 
-namespace Sample.Server.Messaging
+namespace Proximo.Cqrs.Server.Commanding
 {
     public class CommandRouter : ICommandRouter
     {
-        private IKernel _kernel;
+        private ICommandHandlerFactory _handlerFactory;
 
-        public CommandRouter(IKernel kernel)
+        public CommandRouter(ICommandHandlerFactory handlerFactory)
         {
-            _kernel = kernel;
+            _handlerFactory = handlerFactory;
         }
 
         public void RouteToHandler(ICommand command)
         {
             var commandType = command.GetType();
             var commandHandlerType = typeof(ICommandHandler<>).MakeGenericType(commandType);
-            var consumer = _kernel.Resolve(commandHandlerType);
+            var consumer = _handlerFactory.CreateHandler(commandHandlerType);
 
             // we are assuming sync execution and we object tracking by the container
             // todo: change the lifestyle to a truly transient one ?
             MethodInfo mi = commandHandlerType.GetMethod("Handle", new[] { commandType });
             mi.Invoke(consumer, new object[] { command });
 
-            _kernel.ReleaseComponent(consumer);
+            _handlerFactory.ReleaseHandler(consumer);
         }
     }
 }

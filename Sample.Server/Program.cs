@@ -11,12 +11,14 @@ using EventStore.Dispatcher;
 using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
 using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
+using Proximo.Cqrs.Client.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
 using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Server.Eventing;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Hosting;
+using Rhino.ServiceBus.Impl;
 using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.EventHandlers;
@@ -37,9 +39,9 @@ namespace Sample.Server
 
             PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
 
-
             _container = CreateContainer();
             BootStrapper.GlobalContainer = _container;
+            ConfigureCommandSender();
             ConfigureMongo();
 
             var host = new DefaultHost();
@@ -122,6 +124,11 @@ namespace Sample.Server
             {
                 BsonClassMap.LookupClassMap(domainEvent);
             }
+        }
+
+        private static void ConfigureCommandSender()
+        {
+            _container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbCommandSender>());
         }
     }
 }

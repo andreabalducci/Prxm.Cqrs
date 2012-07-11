@@ -2,24 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Proximo.Cqrs.Client.Commanding;
 using Proximo.Cqrs.Core.Support;
 using Proximo.Cqrs.Server.Eventing;
+using Sample.Commands.Ecommerce;
 using Sample.Domain.Inventory.Domain.Events;
 
 namespace Sample.Domain.Inventory.EventHandlers
 {
     public class SyncWithEcommerceEventHandler : IDomainEventHandler<InventoryItemCreated>
     {
-        protected IDebugLogger _logger;
+        protected readonly IDebugLogger _logger;
+        protected readonly ICommandSender _commandSender;
 
-        public SyncWithEcommerceEventHandler(IDebugLogger logger)
+        public SyncWithEcommerceEventHandler(IDebugLogger logger, ICommandSender commandSender)
         {
             _logger = logger;
+            _commandSender = commandSender;
         }
 
         public void Handle(InventoryItemCreated @event)
         {
-            _logger.Log("this will send to Ecommerce bounded context the request for a new item");
+            _logger.Log("Sendig request to ecommerce for a new item");
+
+            var id = Guid.NewGuid();
+            _commandSender.Send(new CreateEcommerceItemCommand(id)
+                                    {
+                                        Sku = @event.ItemId,
+                                        ItemDescription = @event.ItemDescription,
+                                        ItemId = id
+                                    });
+            _logger.Log("Request sent");
         }
     }
 }

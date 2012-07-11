@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CommonDomain.Persistence;
+﻿using CommonDomain.Persistence;
 using Proximo.Cqrs.Core.Support;
 using Proximo.Cqrs.Server.Commanding;
 using Sample.Commands.Ecommerce;
 using Sample.Domain.Ecommerce.Domain;
 
-namespace Sample.Domain.Ecommerce.Handlers
+namespace Sample.Domain.Ecommerce.CommandHandlers
 {
     public class NewEcommerceItemHandler : ICommandHandler<CreateEcommerceItemCommand>
     {
-        private IRepository _repository;
-        private IDebugLogger _logger;
+        private readonly IRepository _repository;
+        private readonly IDebugLogger _logger;
 
         public NewEcommerceItemHandler(IRepository repository, IDebugLogger logger)
         {

@@ -27,7 +27,7 @@ namespace Sample.Client
 				.UseCastleWindsor(container)
 				.Configure();
 
-			container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbCommandSender>());
+			container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbOneWayCommandSender>());
 
 			Console.WriteLine("Client ready");
 

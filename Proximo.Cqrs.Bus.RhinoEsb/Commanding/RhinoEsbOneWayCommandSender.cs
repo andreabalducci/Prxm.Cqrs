@@ -8,18 +8,19 @@ using Rhino.ServiceBus;
 
 namespace Proximo.Cqrs.Bus.RhinoEsb.Commanding
 {
-    public class RhinoEsbCommandSender : ICommandSender
+    public class RhinoEsbOneWayCommandSender : ICommandSender
     {
-        private readonly IServiceBus _serviceBus;
+        private IOnewayBus _bus;
 
-        public RhinoEsbCommandSender(IServiceBus serviceBus)
+        public RhinoEsbOneWayCommandSender(IOnewayBus bus)
         {
-            _serviceBus = serviceBus;
+            _bus = bus;
         }
 
         public void Send<T>(T command) where T : class, ICommand
         {
-            _serviceBus.Send(new object[] {command});
+            var envelope = new CommandEnvelope {Command = command};
+            _bus.Send(envelope);
         }
     }
 }

@@ -2,23 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14D2316C-462A-4B7D-91CA-14E57D0591F7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{17E31A94-84FA-43BD-B2A5-5DC48C0BFE6C}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sample.Client</RootNamespace>
-    <AssemblyName>Sample.Client</AssemblyName>
+    <RootNamespace>Proximo.Cqrs.Bus.RhinoEsb.Castle</RootNamespace>
+    <AssemblyName>Proximo.Cqrs.Bus.RhinoEsb.Castle</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,8 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -46,8 +42,7 @@
     <Reference Include="Esent.Interop">
       <HintPath>..\packages\Rhino.ServiceBus.References.2.3.3.0\lib\Esent.Interop.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.PersistentHashTable">
@@ -74,33 +69,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="OnewayRhinoServiceBusInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RhinoServiceBusInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Proximo.Cqrs.Bus.RhinoEsb.Castle\Proximo.Cqrs.Bus.RhinoEsb.Castle.csproj">
-      <Project>{17E31A94-84FA-43BD-B2A5-5DC48C0BFE6C}</Project>
-      <Name>Proximo.Cqrs.Bus.RhinoEsb.Castle</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proximo.Cqrs.Bus.RhinoEsb\Proximo.Cqrs.Bus.RhinoEsb.csproj">
-      <Project>{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}</Project>
-      <Name>Proximo.Cqrs.Bus.RhinoEsb</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proximo.Cqrs.Client\Proximo.Cqrs.Client.csproj">
-      <Project>{E1927B48-C161-4D71-88DE-82B563D0CB3D}</Project>
-      <Name>Proximo.Cqrs.Client</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
       <Project>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</Project>
       <Name>Proximo.Cqrs.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sample.Commands\Sample.Commands.csproj">
-      <Project>{BD789CB8-77D7-4410-9FCF-696B921CA5CB}</Project>
-      <Name>Sample.Commands</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

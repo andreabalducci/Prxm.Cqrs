@@ -30,6 +30,8 @@ using Sample.QueryModel.Storage.Readers;
 using Sample.Server.Messaging;
 using Sample.Server.Support;
 using log4net.Config;
+using Proximo.Cqrs.Bus.RhinoEsb.Castle;
+using Proximo.Cqrs.Core.Bus;
 
 namespace Sample.Server
 {
@@ -44,13 +46,20 @@ namespace Sample.Server
             PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
 
             _container = CreateContainer();
-            BootStrapper.GlobalContainer = _container;
-            ConfigureCommandSender();
+
+			//Sample.Server.Messaging.BootStrapper.GlobalContainer = _container;
+			          
+			ConfigureCommandSender();
             AutomapEventsForMongoDB();
             ConfigureQueryModelBuilder();
 
-            var host = new DefaultHost();
-            host.Start<BootStrapper>();
+			//var host = new DefaultHost();
+			//host.Start<Sample.Server.Messaging.BootStrapper>();
+
+			_container.Install(
+				new RhinoServiceBusInstaller()
+				);
+			_container.Resolve<IStartableBus>().Start();
 
             Console.WriteLine("Server is running");
             Console.ReadLine();

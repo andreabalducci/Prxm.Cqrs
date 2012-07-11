@@ -11,6 +11,7 @@ using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;
 using Proximo.Cqrs.Core.Commanding;
 using log4net.Config;
+using Proximo.Cqrs.Bus.RhinoEsb.Castle;
 
 namespace Sample.Client
 {
@@ -23,9 +24,10 @@ namespace Sample.Client
 			// setup
 			//
 			var container = new WindsorContainer();
-			new OnewayRhinoServiceBusConfiguration()
-				.UseCastleWindsor(container)
-				.Configure();
+			
+			container.Install(
+				new OnewayRhinoServiceBusInstaller()
+				);
 
 			container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbOneWayCommandSender>());
 

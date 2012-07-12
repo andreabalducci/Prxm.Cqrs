@@ -38,10 +38,7 @@ namespace Sample.Domain.Inventory.Domain
 
         public void IncreaseStock(decimal i)
         {
-            RaiseEvent(new InventoryItemReceived()
-                           {
-                               Quantity = i
-                           });
+            RaiseEvent(new InventoryItemReceived(this.Id, i));
         }
 
         public void Apply(InventoryItemReceived @event)

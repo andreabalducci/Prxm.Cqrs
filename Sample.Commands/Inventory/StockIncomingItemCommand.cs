@@ -15,6 +15,10 @@ namespace Sample.Commands.Inventory
         public decimal Quantity { get; protected set; }
         public string Storage { get; protected set; }
 
+        protected StockIncomingItemCommand()
+        {
+        }
+
         public StockIncomingItemCommand(Guid id, string sku, string description, decimal quantity, string storage)
         {
             Id = id;

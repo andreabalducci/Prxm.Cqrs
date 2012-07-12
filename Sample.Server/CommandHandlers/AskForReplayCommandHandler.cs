@@ -13,6 +13,9 @@ using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Server.CommandHandlers
 {
+	/// <summary>
+	/// this is a first implementation: it has a side effect - if an event handler generates new command they lead to new committs and events being added to the eventstore which is wrong
+	/// </summary>
 	public class AskForReplayCommandHandler : ICommandHandler<AskForReplayCommand>
 	{
 		public AskForReplayCommandHandler(IDebugLogger logger, IStoreEvents eventStore)

@@ -45,9 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateExtensions.cs" />
     <Compile Include="Ecommerce\Domain\EcommerceItem.cs" />
     <Compile Include="Ecommerce\Domain\Events\EcommerceItemCreated.cs" />
     <Compile Include="Ecommerce\CommandHandlers\NewEcommerceItemHandler.cs" />
+    <Compile Include="Inventory\CommandHandlers\StockIncomingItemCommandHandler.cs" />
     <Compile Include="Inventory\Domain\Events\InventoryItemCreated.cs" />
     <Compile Include="Inventory\Domain\Events\InventoryItemDescriptionUpdated.cs" />
     <Compile Include="Inventory\Domain\InventoryItem.cs" />
@@ -56,6 +58,13 @@
     <Compile Include="Inventory\EventHandlers\NewInventoryItemCreatedEventHandler.cs" />
     <Compile Include="Inventory\EventHandlers\SyncWithEcommerceEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Purchases\CommandHandlers\RegisterBillOfLadingCommandHandler.cs" />
+    <Compile Include="Purchases\Domain\BillOfLading.cs" />
+    <Compile Include="Purchases\Domain\Events\BillOfLadingDetailAdded.cs" />
+    <Compile Include="Purchases\Domain\Events\SupplierChanged.cs" />
+    <Compile Include="Purchases\Domain\Events\BillOfLadingConfirmed.cs" />
+    <Compile Include="Purchases\Domain\Events\BillOfLadingCreated.cs" />
+    <Compile Include="Purchases\EventHandlers\ForwardConfirmedBillOfLadingToInventory.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

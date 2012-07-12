@@ -32,6 +32,7 @@ using Sample.Server.Support;
 using log4net.Config;
 using Proximo.Cqrs.Bus.RhinoEsb.Castle;
 using Proximo.Cqrs.Core.Bus;
+using Sample.Server.CommandHandlers;
 
 namespace Sample.Server
 {
@@ -78,6 +79,15 @@ namespace Sample.Server
                     .LifestyleTransient()
             );
 
+			// wire up some system commands
+			container.Register(
+				Classes
+					.FromAssemblyContaining<AskForReplayCommandHandler>()
+					.BasedOn(typeof(ICommandHandler<>))
+					.WithServiceAllInterfaces()
+					.LifestyleTransient()
+			);
+
             // event handlers
             container.Register(
                 Classes
@@ -107,6 +117,7 @@ namespace Sample.Server
                 // events
                 Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
                 Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
+				Component.For<IDomainEventRouterForQueryModelRebuild>().ImplementedBy<DomainEventRouterForQueryModelRebuild>(),
                 Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
             );
 

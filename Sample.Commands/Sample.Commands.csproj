@@ -45,6 +45,7 @@
     <Compile Include="Inventory\StockIncomingItemCommand.cs" />
     <Compile Include="Inventory\UpdateInventoryItemDescriptionCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\AskForReplayCommand.cs" />
     <Compile Include="Purchases\RegisterBillOfLadingCommand.cs" />
   </ItemGroup>
   <ItemGroup>

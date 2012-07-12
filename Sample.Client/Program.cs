@@ -13,6 +13,7 @@ using Proximo.Cqrs.Core.Commanding;
 using Sample.Commands.Purchases;
 using log4net.Config;
 using Proximo.Cqrs.Bus.RhinoEsb.Castle;
+using Sample.Commands.System;
 
 namespace Sample.Client
 {
@@ -63,6 +64,12 @@ namespace Sample.Client
 			};
 			commandSender.Send(command);
 			Console.WriteLine("Issued update Item description Command");
+
+			// ask to replay the events
+			System.Threading.Thread.Sleep(3000);
+
+			commandSender.Send(new AskForReplayCommand(Guid.NewGuid()));
+			Console.WriteLine("Issued Ask For Replay Command");
 */			
 			//
 			// Bill of lading
@@ -78,6 +85,11 @@ namespace Sample.Client
 			commandSender.Send(receiveBoL);
             Console.WriteLine("Received Bill of Lading");
 			
+			// ask to replay the events
+			System.Threading.Thread.Sleep(4000);
+			commandSender.Send(new AskForReplayCommand(Guid.NewGuid()));
+			Console.WriteLine("Issued Ask For Replay Command");
+
 			//
 			// shutdown
 			//

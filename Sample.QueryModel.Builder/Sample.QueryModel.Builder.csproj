@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Denormalizers\Inventory\InventoryItemDenormalizer.cs" />
+    <Compile Include="IDomainEventDenormalizer.cs" />
     <Compile Include="IModelWriter.cs" />
     <Compile Include="ModelWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

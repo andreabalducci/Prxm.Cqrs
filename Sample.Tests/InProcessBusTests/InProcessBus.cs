@@ -5,13 +5,13 @@ using System.Text;
 using NUnit.Framework;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
+using Proximo.Cqrs.Bus.Local.Commanding;
 using Sample.Domain.Inventory.Handlers;
 using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
 using Castle.MicroKernel;
 using Proximo.Cqrs.Client.Commanding;
-using Proximo.Cqrs.Bus.InProcess.Commanding;
 
 namespace Sample.Tests.InProcessBusTests
 {

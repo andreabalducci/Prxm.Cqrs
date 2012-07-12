@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Proximo.Cqrs.Client.Commanding;
+﻿using Proximo.Cqrs.Client.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 
-namespace Proximo.Cqrs.Bus.InProcess.Commanding
+namespace Proximo.Cqrs.Bus.Local.Commanding
 {
 	public class InProcessCommandSender : ICommandSender
 	{

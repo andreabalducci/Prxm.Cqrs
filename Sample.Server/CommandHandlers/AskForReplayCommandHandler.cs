@@ -9,6 +9,7 @@ using EventStore;
 using EventStore.Dispatcher;
 using EventStore.Persistence;
 using EventStore.Serialization;
+using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Server.CommandHandlers
 {
@@ -22,13 +23,21 @@ namespace Sample.Server.CommandHandlers
 		private IDebugLogger _logger;
 		private IStoreEvents _store;
 
+		/// <summary>
+		/// injected by castle windsor, it contains the very same event handles that are configured in the engine
+		/// </summary>
+		public IDomainEventRouter OriginalDomainEventRouter { get; set; }
+
 		public void Handle(AskForReplayCommand command)
 		{
 			// ask the engine to perform a complete event replay
 			_logger.Log("Commits Replay Start");
 
+			// get all the commits and related events
 			var commitList = _store.Advanced.GetFrom(DateTime.MinValue);
 			_logger.Log(string.Format("Processing {0} commits", commitList.Count()));
+
+			// first attempt use our original IDomainEventRouter to send the events to our eventhandlers
 
 			foreach (var commit in commitList)
 			{
@@ -41,6 +50,8 @@ namespace Sample.Server.CommandHandlers
 					
 					if (committedEvent.Headers.Count > 0)
 						_logger.Log(string.Format("Event Header {0}", DumpDictionaryToString(committedEvent.Headers)));
+
+					OriginalDomainEventRouter.Dispatch(committedEvent.Body);
 
 					_logger.Log("Event Replay Completed");
 				}

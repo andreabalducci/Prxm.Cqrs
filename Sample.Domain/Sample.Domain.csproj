@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateExtensions.cs" />
     <Compile Include="Ecommerce\Domain\EcommerceItem.cs" />
     <Compile Include="Ecommerce\Domain\Events\EcommerceItemCreated.cs" />
     <Compile Include="Ecommerce\CommandHandlers\NewEcommerceItemHandler.cs" />

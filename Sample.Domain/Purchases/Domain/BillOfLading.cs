@@ -23,12 +23,14 @@ namespace Sample.Domain.Purchases.Domain
 
         public class Detail
         {
+            public Guid ItemId { get; protected set; }
             public string Sku { get; protected set; }
             public string Description { get; protected set; }
             public decimal Quantity { get; protected set; }
 
-            public Detail(string sku, string description, decimal quantity)
+            public Detail(Guid itemId, string sku, string description, decimal quantity)
             {
+                ItemId = itemId;
                 Sku = sku;
                 Description = description;
                 Quantity = quantity;
@@ -66,14 +68,14 @@ namespace Sample.Domain.Purchases.Domain
             RaiseEvent(new SupplierChanged(companyName, address));
         }
 
-        public void AddDetail(string sku, string description, decimal quantity)
+        public void AddDetail(Guid itemId, string sku, string description, decimal quantity)
         {
-            RaiseEvent(new BillOfLadingDetailAdded(sku, description, quantity));
+            RaiseEvent(new BillOfLadingDetailAdded(itemId, sku, description, quantity));
         }
 
         private void Apply(BillOfLadingDetailAdded detail)
         {
-            this.Details.Add(new Detail(detail.Sku, detail.Description, detail.Quantity));
+            this.Details.Add(new Detail(detail.ItemId, detail.Sku, detail.Description, detail.Quantity));
         }
 
         private void Apply(BillOfLadingCreated @event)

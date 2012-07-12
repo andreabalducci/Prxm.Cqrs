@@ -30,6 +30,7 @@ namespace Sample.Domain.Purchases.EventHandlers
             foreach (var detail in bol.Details)
             {
                 var cmd = new StockIncomingItemCommand(Guid.NewGuid(), 
+                    detail.ItemId,
                     detail.Sku, 
                     detail.Description, 
                     detail.Quantity,

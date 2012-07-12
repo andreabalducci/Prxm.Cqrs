@@ -71,8 +71,8 @@ namespace Sample.Client
 				.From("Lucas Arts", "Somewhere")
 				.IssuedAt(new DateTime(2012, 3, 12))
                 .Numbered("001")
-				    .AddRow("MI", "The Secret of Monkey Island", 1000)
-				    .AddRow("ZAK", "Zak McKracken and the Alien Mindbenders", 1000)
+				    .AddRow(Guid.NewGuid(), "MI", "The Secret of Monkey Island", 1000)
+				    .AddRow(Guid.NewGuid(), "ZAK", "Zak McKracken and the Alien Mindbenders", 1000)
 				.Build();
 
 			commandSender.Send(receiveBoL);

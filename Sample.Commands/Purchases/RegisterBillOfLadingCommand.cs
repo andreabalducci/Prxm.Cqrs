@@ -38,10 +38,10 @@ namespace Sample.Commands.Purchases
             return this;
         }
 
-        public RegisterBillOfLadingCommandBuilder AddRow(string sku, string description, decimal quantity)
+        public RegisterBillOfLadingCommandBuilder AddRow(Guid itemId, string sku, string description, decimal quantity)
         {
             CheckValidState();
-            _rows.Add(new RegisterBillOfLadingCommand.Row(sku, description, quantity));
+            _rows.Add(new RegisterBillOfLadingCommand.Row(itemId, sku, description, quantity));
             return this;
         }
 
@@ -66,6 +66,7 @@ namespace Sample.Commands.Purchases
     {
         public class Row
         {
+            public Guid ItemId { get; protected set; }
             public string Sku { get; protected set; }
             public string Description { get; protected set; }
             public decimal Quantity { get; protected set; }
@@ -74,8 +75,9 @@ namespace Sample.Commands.Purchases
             {
             }
 
-            public Row(string sku, string description, decimal quantity)
+            public Row(Guid itemid, string sku, string description, decimal quantity)
             {
+                ItemId = itemid;
                 Sku = sku;
                 Description = description;
                 Quantity = quantity;

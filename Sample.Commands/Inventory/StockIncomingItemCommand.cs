@@ -10,6 +10,7 @@ namespace Sample.Commands.Inventory
     {
         public Guid Id { get; protected set; }
 
+        public Guid ItemId { get; protected set; }
         public string Sku { get; protected set; }
         public string Description { get; protected set; }
         public decimal Quantity { get; protected set; }
@@ -19,9 +20,10 @@ namespace Sample.Commands.Inventory
         {
         }
 
-        public StockIncomingItemCommand(Guid id, string sku, string description, decimal quantity, string storage)
+        public StockIncomingItemCommand(Guid commandId, Guid itemId, string sku, string description, decimal quantity, string storage)
         {
-            Id = id;
+            Id = commandId;
+            this.ItemId = itemId;
             Sku = sku;
             Description = description;
             Quantity = quantity;

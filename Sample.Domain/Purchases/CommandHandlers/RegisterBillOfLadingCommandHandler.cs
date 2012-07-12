@@ -29,7 +29,7 @@ namespace Sample.Domain.Purchases.CommandHandlers
             bol.SetSupplier(command.SupplierCompanyName, command.SupplierAddress);
             foreach (var row in command.Rows)
             {
-                bol.AddDetail(row.Sku, row.Description, row.Quantity);
+                bol.AddDetail(row.ItemId, row.Sku, row.Description, row.Quantity);
             }
 
             bol.Confirm();

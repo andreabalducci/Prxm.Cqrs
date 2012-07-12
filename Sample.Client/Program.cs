@@ -10,6 +10,7 @@ using Rhino.ServiceBus;
 using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;
 using Proximo.Cqrs.Core.Commanding;
+using Sample.Commands.Purchases;
 using log4net.Config;
 using Proximo.Cqrs.Bus.RhinoEsb.Castle;
 
@@ -19,7 +20,7 @@ namespace Sample.Client
 	{
 		static void Main(string[] args)
 		{
-		    XmlConfigurator.Configure();
+			XmlConfigurator.Configure();
 			//
 			// setup
 			//
@@ -30,9 +31,13 @@ namespace Sample.Client
 				);
 
 			container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbOneWayCommandSender>());
+            //
+            // Send command
+            //
+            var commandSender = container.Resolve<ICommandSender>();
 
 			Console.WriteLine("Client ready");
-
+/*
 			//
 			// Create command
 			//
@@ -45,10 +50,6 @@ namespace Sample.Client
 							  };
 
 
-			//
-			// Send command
-			//
-			var commandSender = container.Resolve<ICommandSender>();
 			commandSender.Send(command);
 			Console.WriteLine("Issued new Item Command");
 
@@ -62,6 +63,21 @@ namespace Sample.Client
 			};
 			commandSender.Send(command);
 			Console.WriteLine("Issued update Item description Command");
+*/			
+			//
+			// Bill of lading
+			//
+			RegisterBillOfLadingCommand receiveBoL = new RegisterBillOfLadingCommandBuilder(Guid.NewGuid())
+				.From("Lucas Arts", "Somewhere")
+				.IssuedAt(new DateTime(2012, 3, 12))
+                .Numbered("001")
+				    .AddRow("MI", "The Secret of Monkey Island", 1000)
+				    .AddRow("ZAK", "Zak McKracken and the Alien Mindbenders", 1000)
+				.Build();
+
+			commandSender.Send(receiveBoL);
+            Console.WriteLine("Received Bill of Lading");
+			
 			//
 			// shutdown
 			//

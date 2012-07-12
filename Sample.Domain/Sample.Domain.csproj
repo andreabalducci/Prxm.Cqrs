@@ -53,7 +53,7 @@
     <Compile Include="Inventory\Domain\Events\InventoryItemCreated.cs" />
     <Compile Include="Inventory\Domain\Events\InventoryItemDescriptionUpdated.cs" />
     <Compile Include="Inventory\Domain\InventoryItem.cs" />
-    <Compile Include="Inventory\Domain\Events\InventoryItemLoaded.cs" />
+    <Compile Include="Inventory\Domain\Events\InventoryItemReceived.cs" />
     <Compile Include="Inventory\CommandHandlers\NewInventoryItemHandler.cs" />
     <Compile Include="Inventory\EventHandlers\NewInventoryItemCreatedEventHandler.cs" />
     <Compile Include="Inventory\EventHandlers\SyncWithEcommerceEventHandler.cs" />

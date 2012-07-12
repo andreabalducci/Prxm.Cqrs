@@ -8,7 +8,7 @@ namespace Sample.Domain.Inventory.Domain
     {
         public string ItemId { get; protected set; }
         public string Description { get; protected set; }
-        public int Quantity { get; protected set; }
+        public decimal Quantity { get; protected set; }
 
         public InventoryItem()
         {
@@ -36,15 +36,15 @@ namespace Sample.Domain.Inventory.Domain
 			Description = @event.NewDescription;
 		}
 
-        public void Load(int i)
+        public void IncreaseStock(decimal i)
         {
-            RaiseEvent(new InventoryItemLoaded()
+            RaiseEvent(new InventoryItemReceived()
                            {
                                Quantity = i
                            });
         }
 
-        public void Apply(InventoryItemLoaded @event)
+        public void Apply(InventoryItemReceived @event)
         {
             Quantity += @event.Quantity;
         }

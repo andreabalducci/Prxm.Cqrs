@@ -19,7 +19,7 @@ namespace Sample.Domain.Inventory.EventHandlers
 
         public void Handle(InventoryItemCreated @event)
         {
-            _logger.Log("this is a denormalizer message");
+            _logger.Log(string.Format("[inventory] item {0} has been created and handled", @event.Sku));
         }
     }
 }

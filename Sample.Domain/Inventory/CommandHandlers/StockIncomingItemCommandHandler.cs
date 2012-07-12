@@ -27,6 +27,9 @@ namespace Sample.Domain.Inventory.CommandHandlers
         {
             Log(string.Format("Received item {0} qty {1}", command.Sku, command.Quantity ));
 
+            //
+            // Create the item if not found (it's just a sample, should not be applied to a real system)
+            // 
             var item = _repository.GetById<InventoryItem>(command.ItemId);
             if (!item.HasValidId())
             {
@@ -37,11 +40,16 @@ namespace Sample.Domain.Inventory.CommandHandlers
                                             ItemId = command.ItemId,
                                             Sku = command.Sku
                                         });                
+            
+                // push back the command (disclaimer: assuming a single thread processor)
+                // maybe we should change che command id? (check event store concurrency)
+                Log("Requeuing incoming stock request");
+                _commandSender.Send(command);
+                return;
             }
-            else
-            {
-                Log(string.Format("Item {0} Sku {1} found.", command.ItemId, command.Sku));
-            }
+            
+            item.IncreaseStock(command.Quantity);
+            Log(string.Format("Item {0} +{1} ", command.Sku, command.Quantity));
         }
 
         private void Log(string message)

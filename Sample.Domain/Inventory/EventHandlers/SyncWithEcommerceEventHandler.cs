@@ -23,7 +23,7 @@ namespace Sample.Domain.Inventory.EventHandlers
 
         public void Handle(InventoryItemCreated @event)
         {
-            _logger.Log("Sendig request to ecommerce for a new item");
+            _logger.Log("[inventory] Telling ecommerce there's a new item in town");
 
             var id = Guid.NewGuid();
             _commandSender.Send(new CreateEcommerceItemCommand(id)
@@ -32,7 +32,6 @@ namespace Sample.Domain.Inventory.EventHandlers
                                         ItemDescription = @event.ItemDescription,
                                         ItemId = id
                                     });
-            _logger.Log("Request sent");
         }
     }
 }

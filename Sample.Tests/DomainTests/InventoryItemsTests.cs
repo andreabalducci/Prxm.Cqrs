@@ -41,7 +41,7 @@ namespace Sample.Tests.DomainTests
         public void Setup()
         {
             BsonClassMap.RegisterClassMap<InventoryItemCreated>();
-            BsonClassMap.RegisterClassMap<InventoryItemLoaded>();
+            BsonClassMap.RegisterClassMap<InventoryItemReceived>();
 
             _store = Wireup.Init()
                 .UsingMongoPersistence("demo", new DocumentObjectSerializer())
@@ -96,12 +96,12 @@ namespace Sample.Tests.DomainTests
         [Test]
         public void receive_items()
         {
-            int currentQty = 0;
+            decimal currentQty = 0;
             using (var r = BuildRepository())
             {
                 var item = r.GetById<InventoryItem>(id);
                 currentQty = item.Quantity;
-                item.Load(100);
+                item.IncreaseStock(100);
                 r.Save(item, Guid.NewGuid());
             }
 

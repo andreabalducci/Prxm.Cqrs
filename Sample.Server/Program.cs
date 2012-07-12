@@ -117,6 +117,7 @@ namespace Sample.Server
                 // events
                 Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
                 Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
+				Component.For<IDomainEventRouterForQueryModelRebuild>().ImplementedBy<DomainEventRouterForQueryModelRebuild>(),
                 Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
             );
 

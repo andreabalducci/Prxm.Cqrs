@@ -28,8 +28,16 @@ namespace Sample.Server.CommandHandlers
 
 		/// <summary>
 		/// injected by castle windsor, it contains the very same event handles that are configured in the engine
+		/// it has a nasty side effect. even event handlers that leads to bussiness logic code are executed
+		/// we just need to route the events only to the QueryModel eventhandlers
 		/// </summary>
 		public IDomainEventRouter OriginalDomainEventRouter { get; set; }
+
+		/// <summary>
+		/// injected by castle, it's a bit ugly and to be refactored at a later time.
+		/// it's just to test if this strategy works
+		/// </summary>
+		public IDomainEventRouterForQueryModelRebuild SpecificDomainEventRouter { get; set; }
 
 		public void Handle(AskForReplayCommand command)
 		{
@@ -54,7 +62,9 @@ namespace Sample.Server.CommandHandlers
 					if (committedEvent.Headers.Count > 0)
 						_logger.Log(string.Format("Event Header {0}", DumpDictionaryToString(committedEvent.Headers)));
 
-					OriginalDomainEventRouter.Dispatch(committedEvent.Body);
+					// it has side effects, like generating new commits on the eventstore
+					//OriginalDomainEventRouter.Dispatch(committedEvent.Body);
+					SpecificDomainEventRouter.Dispatch(committedEvent.Body);
 
 					_logger.Log("Event Replay Completed");
 				}

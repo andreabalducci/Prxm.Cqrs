@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ using Castle.MicroKernel;
 namespace Sample.Tests.InProcessBusTests
 {
 	[TestFixture]
-	public class InProcessBus
+	public class InProcessBus 
 	{
 		private static IWindsorContainer CreateContainer()
 		{
@@ -29,6 +30,8 @@ namespace Sample.Tests.InProcessBusTests
 					.WithServiceAllInterfaces()
 					.LifestyleTransient()
 			);
+
+			container.Register(Component.For<IDebugLogger>().ImplementedBy<DebugLogger>());
 
 			container.Register(Component.For<ICommandQueue>().ImplementedBy<InProcessCommandQueue>());
 
@@ -61,6 +64,15 @@ namespace Sample.Tests.InProcessBusTests
 				});
 
 			commandSender.Enqueue(tc);
+		}
+
+	}
+
+	public class DebugLogger : IDebugLogger
+	{
+		public void Log(string message)
+		{
+			Debug.WriteLine(message);
 		}
 	}
 

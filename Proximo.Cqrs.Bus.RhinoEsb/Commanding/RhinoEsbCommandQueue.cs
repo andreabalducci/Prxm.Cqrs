@@ -7,16 +7,16 @@ using Rhino.ServiceBus;
 
 namespace Proximo.Cqrs.Bus.RhinoEsb.Commanding
 {
-    public class RhinoEsbCommandSender : ICommandSender
+    public class RhinoEsbCommandQueue : ICommandQueue
     {
         private readonly IServiceBus _serviceBus;
 
-        public RhinoEsbCommandSender(IServiceBus serviceBus)
+        public RhinoEsbCommandQueue(IServiceBus serviceBus)
         {
             _serviceBus = serviceBus;
         }
 
-        public void Send<T>(T command) where T : class, ICommand
+        public void Enqueue<T>(T command) where T : class, ICommand
         {
             var envelope = new CommandEnvelope { Command = command };
             _serviceBus.Send(envelope);

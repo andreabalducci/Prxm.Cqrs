@@ -30,7 +30,7 @@ namespace Sample.Tests.InProcessBusTests
 					.LifestyleTransient()
 			);
 
-			container.Register(Component.For<ICommandSender>().ImplementedBy<InProcessCommandSender>());
+			container.Register(Component.For<ICommandQueue>().ImplementedBy<InProcessCommandQueue>());
 
 			// env wiring
 			container.Register(
@@ -51,7 +51,7 @@ namespace Sample.Tests.InProcessBusTests
 		[Test]
 		public void InProcessCallTest()
 		{
-			var commandSender = _container.Resolve<ICommandSender>();
+			var commandSender = _container.Resolve<ICommandQueue>();
 			Assert.IsNotNull(commandSender);
 
 			Guid cId = Guid.NewGuid();
@@ -60,7 +60,7 @@ namespace Sample.Tests.InProcessBusTests
 					Assert.AreEqual(cId, id);
 				});
 
-			commandSender.Send(tc);
+			commandSender.Enqueue(tc);
 		}
 	}
 

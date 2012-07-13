@@ -30,11 +30,11 @@ namespace Sample.Client
 				new OnewayRhinoServiceBusInstaller()
 				);
 
-			container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbOneWayCommandSender>());
+			container.Register(Component.For<ICommandQueue>().ImplementedBy<RhinoEsbOneWayCommandQueue>());
             //
-            // Send command
+            // Enqueue command
             //
-            var commandSender = container.Resolve<ICommandSender>();
+            var commandSender = container.Resolve<ICommandQueue>();
 
 			Console.WriteLine("Client ready");
 
@@ -51,7 +51,7 @@ namespace Sample.Client
 							  };
 
 
-			commandSender.Send(command);
+			commandSender.Enqueue(command);
 			Console.WriteLine("Issued new Item Command");
              
 /*
@@ -63,13 +63,13 @@ namespace Sample.Client
 				ItemId = id,
 				Description = "Updated Item description"
 			};
-			commandSender.Send(command);
+			commandQueue.Enqueue(command);
 			Console.WriteLine("Issued update Item description Command");
 
 			// ask to replay the events
 			System.Threading.Thread.Sleep(3000);
 
-			commandSender.Send(new AskForReplayCommand(Guid.NewGuid()));
+			commandQueue.Enqueue(new AskForReplayCommand(Guid.NewGuid()));
 			Console.WriteLine("Issued Ask For Replay Command");
 */			
             /*
@@ -84,14 +84,14 @@ namespace Sample.Client
 				    .AddRow(Guid.NewGuid(), "ZAK", "Zak McKracken and the Alien Mindbenders", 1000)
 				.Build();
 
-			commandSender.Send(receiveBoL);
+			commandQueue.Enqueue(receiveBoL);
             Console.WriteLine("Received Bill of Lading");
 			*/
             /*
             
 			// ask to replay the events
 			System.Threading.Thread.Sleep(4000);
-			commandSender.Send(new AskForReplayCommand(Guid.NewGuid()));
+			commandQueue.Enqueue(new AskForReplayCommand(Guid.NewGuid()));
 			Console.WriteLine("Issued Ask For Replay Command");
             */
 			//

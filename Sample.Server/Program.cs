@@ -169,7 +169,7 @@ namespace Sample.Server
 
         private static void ConfigureCommandSender()
         {
-            _container.Register(Component.For<ICommandSender>().ImplementedBy<RhinoEsbCommandSender>());
+            _container.Register(Component.For<ICommandQueue>().ImplementedBy<RhinoEsbCommandQueue>());
         }
     }
 }

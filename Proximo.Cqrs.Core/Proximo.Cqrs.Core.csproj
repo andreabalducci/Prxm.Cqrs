@@ -43,7 +43,7 @@
     <Compile Include="Bus\IStartableBus.cs" />
     <Compile Include="Commanding\ICommand.cs" />
     <Compile Include="Commanding\ICommandRouter.cs" />
-    <Compile Include="Commanding\ICommandSender.cs" />
+    <Compile Include="Commanding\ICommandQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\IDebugLogger.cs" />
   </ItemGroup>

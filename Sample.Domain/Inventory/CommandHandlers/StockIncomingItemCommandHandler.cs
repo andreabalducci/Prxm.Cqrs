@@ -15,12 +15,12 @@ namespace Sample.Domain.Inventory.CommandHandlers
     {
         private readonly IDebugLogger _logger;
         private readonly IRepository _repository;
-        private readonly ICommandSender _commandSender;
-        public StockIncomingItemCommandHandler(IDebugLogger logger, IRepository repository, ICommandSender commandSender)
+        private readonly ICommandQueue _commandQueue;
+        public StockIncomingItemCommandHandler(IDebugLogger logger, IRepository repository, ICommandQueue commandQueue)
         {
             _logger = logger;
             _repository = repository;
-            _commandSender = commandSender;
+            _commandQueue = commandQueue;
         }
 
         public void Handle(StockIncomingItemCommand command)
@@ -34,7 +34,7 @@ namespace Sample.Domain.Inventory.CommandHandlers
             if (!item.HasValidId())
             {
                 Log(string.Format("Item {0} Sku {1} is missing.", command.ItemId, command.Sku));
-                _commandSender.Send(new CreateInventoryItemCommand(Guid.NewGuid())
+                _commandQueue.Enqueue(new CreateInventoryItemCommand(Guid.NewGuid())
                                         {
                                             Description = command.Description,
                                             ItemId = command.ItemId,
@@ -44,7 +44,7 @@ namespace Sample.Domain.Inventory.CommandHandlers
                 // push back the command (disclaimer: assuming a single thread processor)
                 // maybe we should change che command id? (check event store concurrency)
                 Log("Requeuing incoming stock request");
-                _commandSender.Send(command);
+                _commandQueue.Enqueue(command);
                 return;
             }
             

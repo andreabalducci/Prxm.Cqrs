@@ -13,13 +13,13 @@ namespace Sample.Domain.Purchases.EventHandlers
 {
     public class ForwardConfirmedBillOfLadingToInventory : IDomainEventHandler<BillOfLadingConfirmed>
     {
-        private readonly ICommandSender _commandSender;
+        private readonly ICommandQueue _commandQueue;
         private readonly IRepository _repository;
         private const string IncomingGoodsStorage = "QC";
 
-        public ForwardConfirmedBillOfLadingToInventory(ICommandSender commandSender, IRepository repository)
+        public ForwardConfirmedBillOfLadingToInventory(ICommandQueue commandQueue, IRepository repository)
         {
-            _commandSender = commandSender;
+            _commandQueue = commandQueue;
             _repository = repository;
         }
 
@@ -37,7 +37,7 @@ namespace Sample.Domain.Purchases.EventHandlers
                     IncomingGoodsStorage
                 );
                 
-                _commandSender.Send(cmd);
+                _commandQueue.Enqueue(cmd);
             }
         }
     }

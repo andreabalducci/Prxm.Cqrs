@@ -110,7 +110,7 @@ namespace Sample.Server
                 Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
 
                 // commands
-                Component.For<ICommandRouter>().ImplementedBy<CommandRouter>(),
+                Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
                 Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
 
                 // events

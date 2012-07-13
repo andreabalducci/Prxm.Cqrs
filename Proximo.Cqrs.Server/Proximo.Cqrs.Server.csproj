@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commanding\CommandRouter.cs" />
+    <Compile Include="Commanding\DefaultCommandRouter.cs" />
     <Compile Include="Commanding\ICommandHandler.cs" />
     <Compile Include="Commanding\ICommandHandlerFactory.cs" />
     <Compile Include="Eventing\CommitToEventsDispatcher.cs" />

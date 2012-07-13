@@ -34,7 +34,7 @@ namespace Sample.Tests.InProcessBusTests
 
 			// env wiring
 			container.Register(
-				Component.For<ICommandRouter>().ImplementedBy<CommandRouter>(),
+				Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
 				Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>()
 			);
 

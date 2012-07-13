@@ -4,12 +4,12 @@ using Proximo.Cqrs.Core.Support;
 
 namespace Proximo.Cqrs.Server.Commanding
 {
-    public class CommandRouter : ICommandRouter
+    public class DefaultCommandRouter : ICommandRouter
     {
         private ICommandHandlerFactory _handlerFactory;
         private IDebugLogger _logger;
 
-        public CommandRouter(ICommandHandlerFactory handlerFactory, IDebugLogger logger)
+        public DefaultCommandRouter(ICommandHandlerFactory handlerFactory, IDebugLogger logger)
         {
             _handlerFactory = handlerFactory;
             _logger = logger;

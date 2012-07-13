@@ -20,7 +20,7 @@ namespace Proximo.Cqrs.Bus.RhinoEsb.Castle
 				.Configure();
 			
 			// castle is not able to resolve references right now, we need another support interface to delay the bust start outside the installer calls
-			//container.Resolve<IStartableServiceBus>().Start();
+			// container.Resolve<IStartableServiceBus>().Start(); -> this will throw an exception.
 			container.Register(Component.For<IStartableBus>().ImplementedBy<Startable>().LifeStyle.Transient);
 		}
 

@@ -12,6 +12,7 @@ using EventStore.Dispatcher;
 using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using Proximo.Cqrs.Bus.RhinoEsb;
 using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
@@ -30,7 +31,6 @@ using Sample.Server.Messaging;
 using Sample.Server.Support;
 using log4net.Config;
 using Proximo.Cqrs.Bus.RhinoEsb.Castle;
-using Proximo.Cqrs.Core.Bus;
 using Sample.Server.CommandHandlers;
 
 namespace Sample.Server

@@ -5,7 +5,6 @@ using System.Text;
 using Castle.MicroKernel.Registration;
 using Rhino.ServiceBus.Impl;
 using Rhino.ServiceBus;
-using Proximo.Cqrs.Core.Bus;
 using Castle.Windsor;
 
 namespace Proximo.Cqrs.Bus.RhinoEsb.Castle

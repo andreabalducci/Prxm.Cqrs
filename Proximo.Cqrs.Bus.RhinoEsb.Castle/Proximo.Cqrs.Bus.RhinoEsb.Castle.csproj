@@ -77,6 +77,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Proximo.Cqrs.Bus.RhinoEsb\Proximo.Cqrs.Bus.RhinoEsb.csproj">
+      <Project>{B62E1E69-E13E-463B-9AB9-28AB4D9DE836}</Project>
+      <Name>Proximo.Cqrs.Bus.RhinoEsb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
       <Project>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</Project>
       <Name>Proximo.Cqrs.Core</Name>

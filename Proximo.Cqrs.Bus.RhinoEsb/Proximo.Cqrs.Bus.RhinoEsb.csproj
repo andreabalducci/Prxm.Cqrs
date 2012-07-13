@@ -55,6 +55,7 @@
     <Compile Include="Commanding\CommandEnvelopeConsumer.cs" />
     <Compile Include="Commanding\RhinoEsbCommandQueue.cs" />
     <Compile Include="Commanding\RhinoEsbOneWayCommandQueue.cs" />
+    <Compile Include="IStartableBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

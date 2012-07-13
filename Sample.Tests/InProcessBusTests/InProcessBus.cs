@@ -15,109 +15,133 @@ using Castle.MicroKernel;
 
 namespace Sample.Tests.InProcessBusTests
 {
-	[TestFixture]
-	public class InProcessBus 
-	{
-		private static IWindsorContainer CreateContainer()
-		{
-			var container = new WindsorContainer();
+    [TestFixture]
+    public class InProcessBus
+    {
+        private static IWindsorContainer CreateContainer()
+        {
+            var container = new WindsorContainer();
 
-			// command handlers
-			container.Register(
-				Classes
-					.FromAssemblyContaining<TestCommandHandler>()
-					.BasedOn(typeof(ICommandHandler<>))
-					.WithServiceAllInterfaces()
-					.LifestyleTransient()
-			);
+            // command handlers
+            container.Register(
+                Classes
+                    .FromAssemblyContaining<TestCommandHandler>()
+                    .BasedOn(typeof(ICommandHandler<>))
+                    .WithServiceAllInterfaces()
+                    .LifestyleTransient()
+            );
 
-			container.Register(Component.For<IDebugLogger>().ImplementedBy<DebugLogger>());
+            container.Register(Component.For<IDebugLogger>().ImplementedBy<DebugLogger>());
 
-			container.Register(Component.For<ICommandQueue>().ImplementedBy<InProcessCommandQueue>());
+            container.Register(Component.For<ICommandQueue>().ImplementedBy<InProcessCommandQueue>());
 
-			// env wiring
-			container.Register(
-				Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
-				Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>()
-			);
+            // env wiring
+            container.Register(
+                Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
+                Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>()
+            );
 
-			return container;
-		}
+            return container;
+        }
 
-		private IWindsorContainer _container;
+        private IWindsorContainer _container;
 
-		public InProcessBus()
-		{
-			_container = CreateContainer();
-		}
+        public InProcessBus()
+        {
+            _container = CreateContainer();
+        }
 
-		[Test]
-		public void InProcessCallTest()
-		{
-			var commandSender = _container.Resolve<ICommandQueue>();
-			Assert.IsNotNull(commandSender);
+        [Test]
+        public void InProcessCallTest()
+        {
+            var commandSender = _container.Resolve<ICommandQueue>();
+            Assert.IsNotNull(commandSender);
 
-			Guid cId = Guid.NewGuid();
-			TestCommand tc = new TestCommand(cId, (id) => 
-				{
-					Assert.AreEqual(cId, id);
-				});
+            Guid cId = Guid.NewGuid();
+            TestCommand tc = new TestCommand(cId, (id) =>
+                {
+                    Assert.AreEqual(cId, id);
+                });
 
-			commandSender.Enqueue(tc);
-		}
+            commandSender.Enqueue(tc);
+        }
 
-	}
+        [Test]
+        public void command_handler_should_be_able_to_enqueue()
+        {
+            var commandSender = _container.Resolve<ICommandQueue>();
+            Assert.IsNotNull(commandSender);
+            Guid cId = Guid.NewGuid();
 
-	public class DebugLogger : IDebugLogger
-	{
-		public void Log(string message)
-		{
-			Debug.WriteLine(message);
-		}
-	}
+            bool secondCommandHasBeenExecuted = false;
+            bool firstCommandHasBeenExecuted = false;
+            var secondCommand = new TestCommand(cId, (id) =>
+                                                         {
+                                                             Assert.IsTrue(firstCommandHasBeenExecuted, "Executing in the context of the first handler and not after");
+                                                             secondCommandHasBeenExecuted = true;
+                                                         });
+            var firstCommand = new TestCommand(cId, (id) =>
+                                                        {
+                                                            commandSender.Enqueue(secondCommand);
+                                                            firstCommandHasBeenExecuted = true;
+                                                        });
 
-	public class TestCommand : ICommand
-	{
-		public Guid Id { get; set; }
+            commandSender.Enqueue(firstCommand);
 
-		public Action<Guid> Callback { get; set; }
+            Assert.IsTrue(secondCommandHasBeenExecuted);
+        }
+    }
 
-		public TestCommand(Guid id, Action<Guid> callback)
-		{
-			Id = id;
-			Callback = callback;
-		}		
-	}
+    public class DebugLogger : IDebugLogger
+    {
+        public void Log(string message)
+        {
+            Debug.WriteLine(message);
+        }
+    }
 
-	/// <summary>
-	/// very ugly test we pass the command id to the callback assigned to the command itself
-	/// on the test we check it's called
-	/// </summary>
-	public class TestCommandHandler : ICommandHandler<TestCommand>
-	{
-		public void Handle(TestCommand command)
-		{
-			command.Callback(command.Id);
-		}
-	}
+    public class TestCommand : ICommand
+    {
+        public Guid Id { get; set; }
 
-	public class CastleCommandHandlerFactory : ICommandHandlerFactory
-	{
-		private IKernel _kernel;
+        public Action<Guid> Callback { get; set; }
 
-		public CastleCommandHandlerFactory(IKernel kernel)
-		{
-			_kernel = kernel;
-		}
+        public TestCommand(Guid id, Action<Guid> callback)
+        {
+            Id = id;
+            Callback = callback;
+        }
+    }
 
-		public object CreateHandler(Type commandType)
-		{
-			return _kernel.Resolve(commandType);
-		}
+    /// <summary>
+    /// very ugly test we pass the command id to the callback assigned to the command itself
+    /// on the test we check it's called
+    /// </summary>
+    public class TestCommandHandler : ICommandHandler<TestCommand>
+    {
+        public void Handle(TestCommand command)
+        {
+            command.Callback(command.Id);
+        }
+    }
 
-		public void ReleaseHandler(object handler)
-		{
-			_kernel.ReleaseComponent(handler);
-		}
-	}
+    public class CastleCommandHandlerFactory : ICommandHandlerFactory
+    {
+        private IKernel _kernel;
+
+        public CastleCommandHandlerFactory(IKernel kernel)
+        {
+            _kernel = kernel;
+        }
+
+        public object CreateHandler(Type commandType)
+        {
+            return _kernel.Resolve(commandType);
+        }
+
+        public void ReleaseHandler(object handler)
+        {
+            _kernel.ReleaseComponent(handler);
+        }
+    }
 }

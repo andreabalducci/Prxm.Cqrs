@@ -38,11 +38,12 @@ namespace Sample.Client
             var commandSender = container.Resolve<ICommandSender>();
 
 			Console.WriteLine("Client ready");
-/*
+
 			//
 			// Create command
 			//
-			var id = Guid.NewGuid();
+			
+            var id = Guid.NewGuid();
 			ICommand command = new CreateInventoryItemCommand(id)
 							  {
 								  ItemId = id,
@@ -53,7 +54,8 @@ namespace Sample.Client
 
 			commandSender.Send(command);
 			Console.WriteLine("Issued new Item Command");
-
+             
+/*
 			// 
 			// create an update command
 			//
@@ -71,6 +73,7 @@ namespace Sample.Client
 			commandSender.Send(new AskForReplayCommand(Guid.NewGuid()));
 			Console.WriteLine("Issued Ask For Replay Command");
 */			
+            /*
 			//
 			// Bill of lading
 			//
@@ -84,12 +87,14 @@ namespace Sample.Client
 
 			commandSender.Send(receiveBoL);
             Console.WriteLine("Received Bill of Lading");
-			
+			*/
+            /*
+            
 			// ask to replay the events
 			System.Threading.Thread.Sleep(4000);
 			commandSender.Send(new AskForReplayCommand(Guid.NewGuid()));
 			Console.WriteLine("Issued Ask For Replay Command");
-
+            */
 			//
 			// shutdown
 			//

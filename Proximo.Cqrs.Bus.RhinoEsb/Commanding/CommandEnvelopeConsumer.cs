@@ -6,7 +6,6 @@ namespace Proximo.Cqrs.Bus.RhinoEsb.Commanding
     public class CommandEnvelopeConsumer : ConsumerOf<CommandEnvelope>
 	{
 		private readonly ICommandRouter _router;
-
 		public CommandEnvelopeConsumer(ICommandRouter router)
 		{
 			_router = router;

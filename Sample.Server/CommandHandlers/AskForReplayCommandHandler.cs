@@ -10,6 +10,8 @@ using EventStore.Dispatcher;
 using EventStore.Persistence;
 using EventStore.Serialization;
 using Proximo.Cqrs.Server.Eventing;
+using MongoDB.Driver;
+using Sample.QueryModel.Storage.Readers;
 
 namespace Sample.Server.CommandHandlers
 {
@@ -18,13 +20,17 @@ namespace Sample.Server.CommandHandlers
 	/// </summary>
 	public class AskForReplayCommandHandler : ICommandHandler<AskForReplayCommand>
 	{
-		public AskForReplayCommandHandler(IDebugLogger logger, IStoreEvents eventStore)
+		public AskForReplayCommandHandler(IDebugLogger logger, IStoreEvents eventStore, MongoDatabase db)
 		{
 			_logger = logger;
 			_store = eventStore;
+		    _db = db;
 		}
 		private IDebugLogger _logger;
 		private IStoreEvents _store;
+
+        // ugly as hell: extend the modelwriter or wrap this
+	    private MongoDatabase _db;
 
 		/// <summary>
 		/// injected by castle windsor, it contains the very same event handles that are configured in the engine
@@ -43,6 +49,9 @@ namespace Sample.Server.CommandHandlers
 		{
 			// ask the engine to perform a complete event replay
 			_logger.Log("Commits Replay Start");
+
+            // ugly: let's drop the query model database for this test command
+            _db.Drop();
 
 			// get all the commits and related events
 			var commitList = _store.Advanced.GetFrom(DateTime.MinValue);

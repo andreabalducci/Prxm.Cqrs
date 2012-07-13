@@ -14,9 +14,9 @@ using InventoryItem = Sample.QueryModel.Inventory.InventoryItem;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
-    public class InventoryItemDenormalizer : 
-        IDomainEventHandler<InventoryItemCreated>,
-        IDomainEventHandler<InventoryItemReceived>
+    public class InventoryItemDenormalizer :
+        IDomainEventDenormalizer<InventoryItemCreated>,
+        IDomainEventDenormalizer<InventoryItemReceived>
 
     {
         private IModelWriter<Sample.QueryModel.Inventory.InventoryItem> _itemWriter;

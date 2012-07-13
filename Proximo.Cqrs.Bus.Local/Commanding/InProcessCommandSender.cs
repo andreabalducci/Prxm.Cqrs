@@ -1,5 +1,4 @@
-﻿using Proximo.Cqrs.Client.Commanding;
-using Proximo.Cqrs.Core.Commanding;
+﻿using Proximo.Cqrs.Core.Commanding;
 
 namespace Proximo.Cqrs.Bus.Local.Commanding
 {

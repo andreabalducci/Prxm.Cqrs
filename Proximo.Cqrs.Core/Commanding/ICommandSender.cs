@@ -1,6 +1,4 @@
-using Proximo.Cqrs.Core.Commanding;
-
-namespace Proximo.Cqrs.Client.Commanding
+namespace Proximo.Cqrs.Core.Commanding
 {
 	/// <summary>
 	/// todo: will be used later to plugin different types of busses, actual implementation uses Rhino.ServiceBus

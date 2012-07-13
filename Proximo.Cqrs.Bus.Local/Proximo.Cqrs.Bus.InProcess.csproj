@@ -44,10 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Proximo.Cqrs.Client\Proximo.Cqrs.Client.csproj">
-      <Project>{E1927B48-C161-4D71-88DE-82B563D0CB3D}</Project>
-      <Name>Proximo.Cqrs.Client</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
       <Project>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</Project>
       <Name>Proximo.Cqrs.Core</Name>

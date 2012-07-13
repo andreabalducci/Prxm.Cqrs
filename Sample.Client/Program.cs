@@ -5,7 +5,6 @@ using System.Text;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
-using Proximo.Cqrs.Client.Commanding;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Impl;
 using Sample.Commands.Inventory;

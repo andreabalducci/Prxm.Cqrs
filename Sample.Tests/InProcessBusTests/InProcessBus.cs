@@ -11,7 +11,6 @@ using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
 using Castle.MicroKernel;
-using Proximo.Cqrs.Client.Commanding;
 
 namespace Sample.Tests.InProcessBusTests
 {

@@ -13,7 +13,6 @@ using EventStore.Serialization;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
-using Proximo.Cqrs.Client.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
 using Proximo.Cqrs.Server.Commanding;

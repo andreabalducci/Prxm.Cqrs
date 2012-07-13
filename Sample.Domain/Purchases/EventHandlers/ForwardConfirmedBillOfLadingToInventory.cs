@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommonDomain.Persistence;
-using Proximo.Cqrs.Client.Commanding;
+using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Server.Eventing;
 using Sample.Commands.Inventory;
 using Sample.Domain.Purchases.Domain;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Proximo.Cqrs.Client.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 using Rhino.ServiceBus;
 

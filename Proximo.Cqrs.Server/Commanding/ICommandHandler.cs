@@ -2,8 +2,15 @@ using Proximo.Cqrs.Core.Commanding;
 
 namespace Proximo.Cqrs.Server.Commanding
 {
-    public interface ICommandHandler<T> where T: class, ICommand
-    {
-        void Handle(T command);
+    /// <summary>
+    /// Marker interface for a generic command handler.
+    /// </summary>
+    public interface ICommandHandler { 
+    
     }
+
+    //public interface ICommandHandler<T> : ICommandHandler where T: class, ICommand
+    //{
+    //    void Handle(T command);
+    //}
 }

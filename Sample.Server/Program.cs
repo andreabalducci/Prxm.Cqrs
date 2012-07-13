@@ -69,23 +69,24 @@ namespace Sample.Server
         {
             var container = new WindsorContainer();
 
-            // command handlers
-            container.Register(
-                Classes
-                    .FromAssemblyContaining<NewInventoryItemHandler>()
-                    .BasedOn(typeof(ICommandHandler<>))
-                    .WithServiceAllInterfaces()
-                    .LifestyleTransient()
-            );
+            //// command handlers
+            //container.Register(
+            //    Classes
+            //        .FromAssemblyContaining<NewInventoryItemHandler>()
+            //        .BasedOn(typeof(ICommandHandler<>))
+            //        .WithServiceAllInterfaces()
+            //        .LifestyleTransient()
+            //);
 
-			// wire up some system commands
-			container.Register(
-				Classes
-					.FromAssemblyContaining<AskForReplayCommandHandler>()
-					.BasedOn(typeof(ICommandHandler<>))
-					.WithServiceAllInterfaces()
-					.LifestyleTransient()
-			);
+            //// No more needed, there is the catalog.
+            //// wire up some system commands
+            //container.Register(
+            //    Classes
+            //        .FromAssemblyContaining<AskForReplayCommandHandler>()
+            //        .BasedOn(typeof(ICommandHandler<>))
+            //        .WithServiceAllInterfaces()
+            //        .LifestyleTransient()
+            //);
 
             // event handlers
             container.Register(
@@ -111,8 +112,8 @@ namespace Sample.Server
 
                 // commands
                 Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
-                Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
-
+                //Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
+                Component.For<ICommandHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
                 // events
                 Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
                 Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),

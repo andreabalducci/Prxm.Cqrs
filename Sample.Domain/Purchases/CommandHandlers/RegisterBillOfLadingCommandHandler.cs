@@ -10,7 +10,7 @@ using Sample.Domain.Purchases.Domain;
 
 namespace Sample.Domain.Purchases.CommandHandlers
 {
-    public class RegisterBillOfLadingCommandHandler : ICommandHandler<RegisterBillOfLadingCommand>
+    public class RegisterBillOfLadingCommandHandler : ICommandHandler
     {
         private readonly IRepository _repository;
         private readonly IDebugLogger _debug;
@@ -21,7 +21,7 @@ namespace Sample.Domain.Purchases.CommandHandlers
             _debug = debug;
         }
 
-        public void Handle(RegisterBillOfLadingCommand command)
+        public void RegisterBillOfLading(RegisterBillOfLadingCommand command)
         {
             _debug.Log("[purchases] Handling registration of new Bill of lading");
             var bol = new BillOfLading(command.Id, command.Number,command.IssueDate,DateTime.Today);

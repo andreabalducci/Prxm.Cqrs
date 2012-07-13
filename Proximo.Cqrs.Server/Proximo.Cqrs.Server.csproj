@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EventStore">
-      <HintPath>..\Sample.Server\bin\Debug\EventStore.dll</HintPath>
+      <HintPath>..\libs\EventStore\bin\EventStore.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Commanding\DefaultCommandRouter.cs" />
     <Compile Include="Commanding\ICommandHandler.cs" />
+    <Compile Include="Commanding\ICommandHandlerCatalog.cs" />
     <Compile Include="Commanding\ICommandHandlerFactory.cs" />
     <Compile Include="Eventing\CommitToEventsDispatcher.cs" />
     <Compile Include="Eventing\DefaultDomainEventRouter.cs" />

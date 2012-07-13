@@ -11,7 +11,7 @@ using Sample.Domain.Inventory.Domain;
 
 namespace Sample.Domain.Inventory.CommandHandlers
 {
-    public class StockIncomingItemCommandHandler : ICommandHandler<StockIncomingItemCommand>
+    public class StockIncomingItemCommandHandler : ICommandHandler
     {
         private readonly IDebugLogger _logger;
         private readonly IRepository _repository;
@@ -23,7 +23,7 @@ namespace Sample.Domain.Inventory.CommandHandlers
             _commandQueue = commandQueue;
         }
 
-        public void Handle(StockIncomingItemCommand command)
+        public void StockIncoming(StockIncomingItemCommand command)
         {
             Log(string.Format("Received item {0} qty {1}", command.Sku, command.Quantity ));
 

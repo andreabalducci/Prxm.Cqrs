@@ -23,14 +23,14 @@ namespace Sample.Tests.InProcessBusTests
 		{
 			var container = new WindsorContainer();
 
-			// command handlers
-			container.Register(
-				Classes
-					.FromAssemblyContaining<TestCommandHandler>()
-					.BasedOn(typeof(ICommandHandler<>))
-					.WithServiceAllInterfaces()
-					.LifestyleTransient()
-			);
+            //// command handlers
+            //container.Register(
+            //    Classes
+            //        .FromAssemblyContaining<TestCommandHandler>()
+            //        .BasedOn(typeof(ICommandHandler<>))
+            //        .WithServiceAllInterfaces()
+            //        .LifestyleTransient()
+            //);
 
 			container.Register(Component.For<IDebugLogger>().ImplementedBy<DebugLogger>());
 
@@ -159,17 +159,17 @@ namespace Sample.Tests.InProcessBusTests
 		}
 	}
 
-	/// <summary>
-	/// very ugly test we pass the command id to the callback assigned to the command itself
-	/// on the test we check it's called
-	/// </summary>
-	public class TestCommandHandler : ICommandHandler<TestCommand>
-	{
-		public void Handle(TestCommand command)
-		{
-			command.Callback(command);
-		}
-	}
+    ///// <summary>
+    ///// very ugly test we pass the command id to the callback assigned to the command itself
+    ///// on the test we check it's called
+    ///// </summary>
+    //public class TestCommandHandler : ICommandHandler<TestCommand>
+    //{
+    //    public void Handle(TestCommand command)
+    //    {
+    //        command.Callback(command);
+    //    }
+    //}
 
 	public class CastleCommandHandlerFactory : ICommandHandlerFactory
 	{

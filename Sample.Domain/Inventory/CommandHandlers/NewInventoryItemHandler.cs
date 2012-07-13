@@ -13,9 +13,7 @@ namespace Sample.Domain.Inventory.Handlers
 	/// <summary>
 	/// todo: rename this class
 	/// </summary>
-    public class NewInventoryItemHandler :
-		ICommandHandler<CreateInventoryItemCommand>,
-		ICommandHandler<UpdateInventoryItemDescriptionCommand>
+    public class NewInventoryItemHandler : ICommandHandler
     {
         private IRepository _repository;
         private IDebugLogger _logger;
@@ -26,7 +24,7 @@ namespace Sample.Domain.Inventory.Handlers
             _logger = logger;
         }
 
-        public void Handle(CreateInventoryItemCommand command)
+        public void CreateInventoryItem(CreateInventoryItemCommand command)
         {
             _logger.Log("[inventory] Creating item " + command.Sku);
             _repository.Save(
@@ -36,7 +34,7 @@ namespace Sample.Domain.Inventory.Handlers
             _logger.Log("[inventory] Item " + command.Sku + " saved");
         }
 
-		public void Handle(UpdateInventoryItemDescriptionCommand command)
+		public void UpdateInventoryItemDescription(UpdateInventoryItemDescriptionCommand command)
 		{
 			var aggregate = _repository.GetById<InventoryItem>(command.ItemId);
 			_logger.Log(string.Format("[inventory] updating item " + aggregate.ItemId + " description from '" + aggregate.Description + "' to '" + command.Description + "'"));

@@ -56,6 +56,9 @@
     <Reference Include="EventStore.Persistence.MongoPersistence">
       <HintPath>..\libs\EventStore\plugins\persistence\mongo\EventStore.Persistence.MongoPersistence.dll</HintPath>
     </Reference>
+    <Reference Include="Fasterflect">
+      <HintPath>..\packages\fasterflect.2.1.0\lib\net40\Fasterflect.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -100,6 +103,7 @@
     <Compile Include="Support\AggregateFactory.cs" />
     <Compile Include="Support\CastleCommandHandlerFactory.cs" />
     <Compile Include="Support\CastleEventHandlerFactory.cs" />
+    <Compile Include="Support\CastleFastReflectHandlerCatalog.cs" />
     <Compile Include="Support\ConsoleDebugLogger.cs" />
     <Compile Include="Messaging\PrepareQueues.cs" />
     <Compile Include="Program.cs" />

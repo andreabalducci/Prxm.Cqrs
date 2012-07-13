@@ -6,7 +6,7 @@ using Sample.Domain.Ecommerce.Domain;
 
 namespace Sample.Domain.Ecommerce.CommandHandlers
 {
-    public class NewEcommerceItemHandler : ICommandHandler<CreateEcommerceItemCommand>
+    public class NewEcommerceItemHandler : ICommandHandler
     {
         private readonly IRepository _repository;
         private readonly IDebugLogger _logger;
@@ -17,7 +17,7 @@ namespace Sample.Domain.Ecommerce.CommandHandlers
             _logger = logger;
         }
 
-        public void Handle(CreateEcommerceItemCommand command)
+        public void CreateECommerce(CreateEcommerceItemCommand command)
         {
             _logger.Log("[ecommerce] new item " + command.Sku);
             _repository.Save(
@@ -26,5 +26,6 @@ namespace Sample.Domain.Ecommerce.CommandHandlers
             );
             _logger.Log("[ecommerce] Item " + command.Sku + " saved");
         }
+
     }
 }

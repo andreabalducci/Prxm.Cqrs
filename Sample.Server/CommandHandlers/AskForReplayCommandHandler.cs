@@ -18,7 +18,7 @@ namespace Sample.Server.CommandHandlers
 	/// <summary>
 	/// this is a first implementation: it has a side effect - if an event handler generates new command they lead to new committs and events being added to the eventstore which is wrong
 	/// </summary>
-	public class AskForReplayCommandHandler : ICommandHandler<AskForReplayCommand>
+	public class AskForReplayCommandHandler : ICommandHandler
 	{
 		public AskForReplayCommandHandler(IDebugLogger logger, IStoreEvents eventStore, MongoDatabase db)
 		{
@@ -45,7 +45,7 @@ namespace Sample.Server.CommandHandlers
 		/// </summary>
 		public IDomainEventRouterForQueryModelRebuild SpecificDomainEventRouter { get; set; }
 
-		public void Handle(AskForReplayCommand command)
+		public void AskForReplay(AskForReplayCommand command)
 		{
 			// ask the engine to perform a complete event replay
 			_logger.Log("Commits Replay Start");

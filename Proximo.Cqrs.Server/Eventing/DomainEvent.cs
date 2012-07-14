@@ -11,8 +11,6 @@ namespace Proximo.Cqrs.Server.Eventing
         IVersionedDomainEvent, 
         IPleaseVersionThisDomainEventAfterInternalStateChange
     {
-        public AggregateVersion Source { get; protected set; }
-
         protected DomainEvent()
         {
         }

@@ -16,6 +16,7 @@ using Proximo.Cqrs.Bus.RhinoEsb;
 using Proximo.Cqrs.Bus.RhinoEsb.Commanding;
 using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
+using Proximo.Cqrs.Server.Aggregates;
 using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Server.Eventing;
 using Proximo.Cqrs.Server.Impl;
@@ -143,6 +144,14 @@ namespace Sample.Server
         {
             var assembly = typeof(InventoryItemCreated).Assembly;
             var domainEvents = assembly.GetTypes().Where(x => typeof(IDomainEvent).IsAssignableFrom(x));
+
+            BsonClassMap.RegisterClassMap<AggregateVersion>(
+                map => {
+                    map.MapIdProperty(x => x.Id).SetElementName("a");
+                    map.MapProperty(x => x.Version).SetElementName("v"); 
+                }
+            );
+
 
             // automapping domain events
             foreach (var domainEvent in domainEvents)

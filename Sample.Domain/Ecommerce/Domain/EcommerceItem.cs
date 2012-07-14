@@ -25,7 +25,7 @@ namespace Sample.Domain.Ecommerce.Domain
 
         private void Apply(EcommerceItemCreated @event)
         {
-            this.Id = @event.Source.Id;
+            this.Id = @event.Id;
             this.Sku = @event.Sku;
             this.Description = @event.Description;
         }

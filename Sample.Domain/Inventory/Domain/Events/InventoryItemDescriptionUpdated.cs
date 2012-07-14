@@ -6,7 +6,7 @@ using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Domain.Inventory.Domain.Events
 {
-	public class InventoryItemDescriptionUpdated : IDomainEvent
+    public class InventoryItemDescriptionUpdated : DomainEvent
 	{
 		public string ItemId { get; set; }
 		public string NewDescription { get; set; }

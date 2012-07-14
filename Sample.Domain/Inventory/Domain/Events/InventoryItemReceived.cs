@@ -3,7 +3,7 @@ using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Domain.Inventory.Domain.Events
 {
-    public class InventoryItemReceived : IDomainEvent
+    public class InventoryItemReceived : DomainEvent
     {
         public Guid AggregateId { get; protected set; }
         public decimal Quantity { get; protected set; }

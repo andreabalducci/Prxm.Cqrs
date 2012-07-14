@@ -3,7 +3,7 @@ using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Domain.Ecommerce.Domain.Events
 {
-    public class EcommerceItemCreated : IDomainEvent
+    public class EcommerceItemCreated : DomainEvent
     {
         public Guid Id { get; protected set; }
         public string Sku { get; protected set; }

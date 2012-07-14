@@ -43,12 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aggregates\VersionedAggregateId.cs" />
     <Compile Include="Commanding\DefaultCommandRouter.cs" />
     <Compile Include="Commanding\ICommandHandler.cs" />
     <Compile Include="Commanding\ICommandHandlerCatalog.cs" />
     <Compile Include="Commanding\ICommandHandlerFactory.cs" />
     <Compile Include="Eventing\CommitToEventsDispatcher.cs" />
     <Compile Include="Eventing\DefaultDomainEventRouter.cs" />
+    <Compile Include="Eventing\DomainEvent.cs" />
     <Compile Include="Eventing\IDomainEvent.cs" />
     <Compile Include="Eventing\IDomainEventHandler.cs" />
     <Compile Include="Eventing\IDomainEventHandlerCatalog.cs" />

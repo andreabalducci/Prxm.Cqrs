@@ -162,9 +162,9 @@ namespace Sample.Tests.Server.Support
 
     #region Domain Handler helper classes
 
-    public class MyDomainEvent : IDomainEvent { public Int32 CallCount { get; set; } }
+    public class MyDomainEvent : DomainEvent { public Int32 CallCount { get; set; } }
 
-    public class MyBaseDomainEvent : IDomainEvent { public Int32 CallCount { get; set; } }
+    public class MyBaseDomainEvent : DomainEvent { public Int32 CallCount { get; set; } }
 
     public class MyDerivedDomainEvent : MyBaseDomainEvent, IDomainEvent { public Int32 CallCountSpecific { get; set; } }
 

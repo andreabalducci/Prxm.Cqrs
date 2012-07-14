@@ -9,7 +9,7 @@ namespace Sample.Domain.Purchases.Domain.Events
     /// <summary>
     /// Todo: dispatch a readonly state
     /// </summary>
-    public class BillOfLadingConfirmed : IDomainEvent
+    public class BillOfLadingConfirmed : DomainEvent
     {
         public Guid BillOfLadingId { get; protected set; }
 

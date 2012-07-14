@@ -6,7 +6,7 @@ using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Domain.Purchases.Domain.Events
 {
-    public class BillOfLadingCreated : IDomainEvent
+    public class BillOfLadingCreated : DomainEvent
     {
         public Guid Id { get; protected set; }
         public DateTime IssuedAt { get; protected set; }

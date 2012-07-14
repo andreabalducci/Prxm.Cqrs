@@ -13,11 +13,6 @@ namespace Proximo.Cqrs.Server.Eventing
     {
         public AggregateVersion Source { get; protected set; }
 
-        protected DomainEvent(IAggregate aggregate)
-        {
-            this.Source = new AggregateVersion(aggregate.Id,aggregate.Version);
-        }
-
         protected DomainEvent()
         {
         }

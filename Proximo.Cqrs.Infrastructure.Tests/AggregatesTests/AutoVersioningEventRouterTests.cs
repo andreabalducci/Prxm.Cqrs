@@ -25,8 +25,25 @@ namespace Proximo.Cqrs.Infrastructure.Tests.AggregatesTests
         {
         }
 
+        protected class Created : DomainEvent
+        {
+            public Guid Id { get; private set; }
+
+            public Created(Guid id)
+            {
+                Id = id;
+            }
+        }
+
         public SampleAggregate()
         {
+        }
+
+        public SampleAggregate(Guid id, Action<DomainEvent> inspector )
+        {
+            var evt = new Created(id);
+            RaiseEvent(evt);
+            inspector(evt);
         }
 
         public void ChangeState(
@@ -47,7 +64,7 @@ namespace Proximo.Cqrs.Infrastructure.Tests.AggregatesTests
             RaiseEvent(evt);
             inspector(evt);
         }
-        
+
         protected void Apply(SomeEvent evt)
         {
             evt.Inspector(evt);
@@ -55,6 +72,11 @@ namespace Proximo.Cqrs.Infrastructure.Tests.AggregatesTests
 
         protected void Apply(AnotherEvent evt)
         {
+        }
+
+        protected void Apply(Created evt)
+        {
+            Id = evt.Id;
         }
     }
 
@@ -78,7 +100,7 @@ namespace Proximo.Cqrs.Infrastructure.Tests.AggregatesTests
         }
 
         [Test]
-        public void eventversion_should_be_incremented()
+        public void eventversion_shouldbe_incremented()
         {
             var aggregate = new SampleAggregate();
             AggregateVersion before = null;
@@ -94,6 +116,17 @@ namespace Proximo.Cqrs.Infrastructure.Tests.AggregatesTests
 
             Assert.AreEqual(0, before.Version);
             Assert.AreEqual(1, after.Version);
+        }
+
+        [Test]
+        public void aggregateId_shouldbe_assigned()
+        {
+            AggregateVersion version = null;
+            var id = Guid.NewGuid();
+            new SampleAggregate(id, evt => version = evt.Originator);
+
+
+            Assert.AreEqual(id, version.Id);
         }
     }
 }

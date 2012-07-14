@@ -74,28 +74,27 @@ namespace Sample.Server.Support
                             //register this type as transient
                             _kernel.Register(Component.For(executorType).ImplementedBy(executorType).LifeStyle.Transient);
 
-                            foreach (var minfo in executorType.GetMethods(BindingFlags.Instance | BindingFlags.Public))
+                            ParameterInfo[] parameters = null;
+                            foreach (var minfo in executorType
+                                .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                                .Where(mi => mi.ReturnType == typeof(void) &&
+                                                (parameters = mi.GetParameters()).Length == 1 &&
+                                                typeof(ICommand).IsAssignableFrom(parameters[0].ParameterType)))
                             {
-                                if (minfo.ReturnType == typeof(void))
-                                {
-                                    var parameters = minfo.GetParameters();
-                                    if (parameters.Length == 1 && typeof(ICommand).IsAssignableFrom(parameters[0].ParameterType))
-                                    {
-                                        var commandType = parameters[0].ParameterType;
-                                        if (cachedExecutors.ContainsKey(commandType))
-                                        {
-                                            var alreadyRegisteredInvoker = cachedExecutors[commandType];
-                                            String exceptionText = String.Format("Multiple handler for command {0} found: {1}.{2} and {3}. {4}",
-                                                commandType.Name, alreadyRegisteredInvoker._executorType.FullName, alreadyRegisteredInvoker.MethodName,
-                                                executorType.FullName, minfo.Name);
-                                            throw new ApplicationException(exceptionText);
-                                        }
-                                        //I've found a method returning void accepting a command, for me is a command executor
-                                        MethodInvoker fastReflectInvoker = minfo.DelegateForCallMethod();
 
-                                        cachedExecutors.Add(commandType, new HandlerInfo(fastReflectInvoker, executorType, _kernel, minfo.Name));
-                                    }
+                                var commandType = parameters[0].ParameterType;
+                                if (cachedExecutors.ContainsKey(commandType))
+                                {
+                                    var alreadyRegisteredInvoker = cachedExecutors[commandType];
+                                    String exceptionText = String.Format("Multiple handler for command {0} found: {1}.{2} and {3}. {4}",
+                                        commandType.Name, alreadyRegisteredInvoker._executorType.FullName, alreadyRegisteredInvoker.MethodName,
+                                        executorType.FullName, minfo.Name);
+                                    throw new ApplicationException(exceptionText);
                                 }
+                                //I've found a method returning void accepting a command, for me is a command executor
+                                MethodInvoker fastReflectInvoker = minfo.DelegateForCallMethod();
+
+                                cachedExecutors.Add(commandType, new HandlerInfo(fastReflectInvoker, executorType, _kernel, minfo.Name));
                             }
                         }
 

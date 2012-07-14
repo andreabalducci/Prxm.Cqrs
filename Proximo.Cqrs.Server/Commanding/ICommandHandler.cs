@@ -9,8 +9,12 @@ namespace Proximo.Cqrs.Server.Commanding
     
     }
 
-    //public interface ICommandHandler<T> : ICommandHandler where T: class, ICommand
-    //{
-    //    void Handle(T command);
-    //}
+    /// <summary>
+    /// Typed command handler interface
+    /// </summary>
+    /// <typeparam name="T">Command type</typeparam>
+    public interface ICommandHandler<T> : ICommandHandler where T : class, ICommand
+    {
+        void Handle(T command);
+    }
 }

@@ -18,6 +18,7 @@ using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
 using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Server.Eventing;
+using Proximo.Cqrs.Server.Impl;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Hosting;
 using Rhino.ServiceBus.Impl;

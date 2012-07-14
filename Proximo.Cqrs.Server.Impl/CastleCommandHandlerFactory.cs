@@ -1,8 +1,4 @@
-using System;
-using Castle.MicroKernel;
-using Proximo.Cqrs.Server.Commanding;
-
-namespace Sample.Server.Support
+namespace Proximo.Cqrs.Server.Impl
 {
     //public class CastleCommandHandlerFactory : ICommandHandlerFactory
     //{

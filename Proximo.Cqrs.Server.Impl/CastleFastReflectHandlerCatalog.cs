@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Proximo.Cqrs.Server.Commanding;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using Proximo.Cqrs.Core.Commanding;
+using System.Text;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Fasterflect;
+using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Core.Support;
+using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Server.Eventing;
 
-namespace Sample.Server.Support
+namespace Proximo.Cqrs.Server.Impl
 {
     /// <summary>
     /// This catalog implement this strategy, it scans all types of the assembly

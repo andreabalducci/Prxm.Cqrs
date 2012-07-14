@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Proximo.Cqrs.Bus.Local.Commanding;
+using Proximo.Cqrs.Server.Impl;
 using Sample.Domain.Inventory.Handlers;
 using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Core.Commanding;
@@ -33,8 +34,8 @@ namespace Sample.Tests.InProcessBusTests
             //);
 
 			container.Register(Component.For<IDebugLogger>().ImplementedBy<DebugLogger>());
-
-			container.Register(Component.For<ICommandQueue>().ImplementedBy<InProcessCommandQueue>());
+            container.Register(Component.For<ICommandQueue>().ImplementedBy<InProcessCommandQueue>());
+            container.Register(Component.For<ICommandHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>());
 
 			// env wiring
 			container.Register(
@@ -164,17 +165,17 @@ namespace Sample.Tests.InProcessBusTests
 		}
 	}
 
-    ///// <summary>
-    ///// very ugly test we pass the command id to the callback assigned to the command itself
-    ///// on the test we check it's called
-    ///// </summary>
-    //public class TestCommandHandler : ICommandHandler<TestCommand>
-    //{
-    //    public void Handle(TestCommand command)
-    //    {
-    //        command.Callback(command);
-    //    }
-    //}
+    /// <summary>
+    /// very ugly test we pass the command id to the callback assigned to the command itself
+    /// on the test we check it's called
+    /// </summary>
+    public class TestCommandHandler : ICommandHandler<TestCommand>
+    {
+        public void Handle(TestCommand command)
+        {
+            command.Callback(command);
+        }
+    }
 
     //public class CastleCommandHandlerFactory : ICommandHandlerFactory
     //{

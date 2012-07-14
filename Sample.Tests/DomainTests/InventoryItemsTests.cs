@@ -61,7 +61,7 @@ namespace Sample.Tests.DomainTests
             Assert.NotNull(item.ItemId);
         }
 
-        [Test]
+        [Test,Explicit]
         public void save_to_storage()
         {
             var item = new InventoryItem(
@@ -81,7 +81,7 @@ namespace Sample.Tests.DomainTests
             return new EventStoreRepository(_store, new InnerBuilder(), new ConflictDetector());
         }
 
-        [Test]
+        [Test,Explicit]
         public void load_from_storage()
         {
             using (var r = BuildRepository())
@@ -93,7 +93,7 @@ namespace Sample.Tests.DomainTests
             }
         }
 
-        [Test]
+        [Test,Explicit]
         public void receive_items()
         {
             decimal currentQty = 0;
@@ -112,7 +112,7 @@ namespace Sample.Tests.DomainTests
             }
         }
 
-        [Test]
+        [Test,Explicit]
         public void massive_save_to_storage()
         {
             var s = new Stopwatch();

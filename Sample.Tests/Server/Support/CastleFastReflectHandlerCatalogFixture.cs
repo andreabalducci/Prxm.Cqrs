@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Proximo.Cqrs.Core.Commanding;
 using Proximo.Cqrs.Server.Commanding;
+using Proximo.Cqrs.Server.Impl;
 using Sample.Tests.TestInfrastructure;
-using Castle.Windsor;
-using Castle.MicroKernel.Registration;
-using Proximo.Cqrs.Core.Support;
-using Sample.Tests.InProcessBusTests;
-using Sample.Server.Support;
 using Sample.Tests.TestInfrastructure.TestDoubles.AutoMock;
 using Castle.MicroKernel;
 using Rhino.Mocks;

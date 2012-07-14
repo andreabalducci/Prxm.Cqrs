@@ -4,6 +4,15 @@ namespace Proximo.Cqrs.Server.Eventing
 {
     public interface IDomainEvent
     {
-        VersionedAggregateId Source { get; }
+    }
+
+    public interface IVersionedDomainEvent : IDomainEvent
+    {
+        AggregateVersion Originator { get; }
+    }
+
+    public interface IPleaseVersionThisDomainEventAfterInternalStateChange
+    {
+        void TakeThis(AggregateVersion version);
     }
 }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommonDomain.Core;
+using Proximo.Cqrs.Server.Impl.Aggregates;
 using Sample.Domain.Ecommerce.Domain.Events;
 
 namespace Sample.Domain.Ecommerce.Domain
 {
-    public class EcommerceItem : AggregateBase
+    public class EcommerceItem : AggregateRoot
     {
         public string Sku { get; protected set; }
         public string Description { get; protected set; }
@@ -24,7 +25,7 @@ namespace Sample.Domain.Ecommerce.Domain
 
         private void Apply(EcommerceItemCreated @event)
         {
-            this.Id = @event.Id;
+            this.Id = @event.Source.Id;
             this.Sku = @event.Sku;
             this.Description = @event.Description;
         }

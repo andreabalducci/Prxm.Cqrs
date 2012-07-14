@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommonDomain.Core;
+using Proximo.Cqrs.Server.Impl.Aggregates;
 using Sample.Domain.Purchases.Domain.Events;
 
 namespace Sample.Domain.Purchases.Domain
 {
-    public class BillOfLading : AggregateBase
+    public class BillOfLading : AggregateRoot
     {
         public class Supplier
         {

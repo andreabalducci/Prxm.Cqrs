@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonDomain">
+      <HintPath>..\libs\CommonDomain\CommonDomain.dll</HintPath>
+    </Reference>
     <Reference Include="EventStore">
       <HintPath>..\libs\EventStore\bin\EventStore.dll</HintPath>
     </Reference>
@@ -43,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aggregates\VersionedAggregateId.cs" />
+    <Compile Include="Aggregates\AggregateVersion.cs" />
     <Compile Include="Commanding\DefaultCommandRouter.cs" />
     <Compile Include="Commanding\ICommandHandler.cs" />
     <Compile Include="Commanding\ICommandHandlerCatalog.cs" />

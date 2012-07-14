@@ -1,10 +1,11 @@
 ﻿using System;
 using CommonDomain.Core;
+using Proximo.Cqrs.Server.Impl.Aggregates;
 using Sample.Domain.Inventory.Domain.Events;
 
 namespace Sample.Domain.Inventory.Domain
 {
-    public class InventoryItem : AggregateBase
+    public class InventoryItem : AggregateRoot
     {
         public string ItemId { get; protected set; }
         public string Description { get; protected set; }

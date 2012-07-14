@@ -20,13 +20,8 @@ using Proximo.Cqrs.Server.Commanding;
 using Proximo.Cqrs.Server.Eventing;
 using Proximo.Cqrs.Server.Impl;
 using Rhino.ServiceBus;
-using Rhino.ServiceBus.Hosting;
-using Rhino.ServiceBus.Impl;
 using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
-using Sample.Domain.Inventory.EventHandlers;
-using Sample.Domain.Inventory.Handlers;
-using Sample.QueryModel.Builder.Denormalizers.Inventory;
 using Sample.QueryModel.Storage.Readers;
 using Sample.Server.Messaging;
 using Sample.Server.Support;
@@ -61,6 +56,8 @@ namespace Sample.Server
 				new RhinoServiceBusInstaller()
 				);
 			_container.Resolve<IStartableBus>().Start();
+
+            IStoreEvents store = _container.Resolve<IStoreEvents>();
 
             Console.WriteLine("Server is running");
             Console.ReadLine();
@@ -132,7 +129,8 @@ namespace Sample.Server
                     .UsingFactoryMethod<IStoreEvents>(k => Wireup.Init()
                                                                .UsingMongoPersistence("server", new DocumentObjectSerializer())
                                                                .InitializeStorageEngine()
-                                                               .UsingSynchronousDispatchScheduler() // enable synchronous dispatching of domainevents
+                                                               .UsingAsynchronousDispatchScheduler()
+                                                               //.UsingSynchronousDispatchScheduler() // enable synchronous dispatching of domainevents
                                                                     .DispatchTo(container.Resolve<IDispatchCommits>())
                                                                .Build())
                 );

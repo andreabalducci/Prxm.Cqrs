@@ -42,6 +42,9 @@
     <Reference Include="CommonDomain, Version=1.4.0.0, Culture=neutral, PublicKeyToken=ec37a15dc44010cd, processorArchitecture=MSIL">
       <HintPath>..\libs\CommonDomain\CommonDomain.dll</HintPath>
     </Reference>
+    <Reference Include="Esent.Interop, Version=1.6.0.0, Culture=neutral, PublicKeyToken=8dd49bbdae3f61af, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rhino.ServiceBus.References.2.3.3.0\lib\Esent.Interop.dll</HintPath>
+    </Reference>
     <Reference Include="EventStore, Version=3.1.0.0, Culture=neutral, PublicKeyToken=7735eb81c0bd9948, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\EventStore\bin\EventStore.dll</HintPath>
@@ -49,6 +52,9 @@
     <Reference Include="EventStore.Persistence.MongoPersistence, Version=3.1.0.0, Culture=neutral, PublicKeyToken=7735eb81c0bd9948, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\EventStore\plugins\persistence\mongo\EventStore.Persistence.MongoPersistence.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=1.5.0.4566, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -61,6 +67,24 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.PersistentHashTable, Version=1.7.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rhino.PersistentHashTable.1.7.0.0\lib\4.0\Rhino.PersistentHashTable.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Queues">
+      <HintPath>..\packages\Rhino.Queues.1.4.2.0\lib\4.0\Rhino.Queues.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.ServiceBus, Version=2.3.3.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rhino.ServiceBus.2.3.3.0\lib\4.0\Rhino.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTestsEx">
+      <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTestsEx.Mvc">
+      <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,11 +92,25 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Wintellect.Threading, Version=5.0.3948.23182, Culture=neutral, PublicKeyToken=167f00fdf109b063, processorArchitecture=MSIL">
+      <HintPath>..\packages\PowerThreading.20101026.0\lib\net20\Wintellect.Threading.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainTests\InventoryItemsTests.cs" />
     <Compile Include="InProcessBusTests\InProcessBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Support\CastleFastReflectHandlerCatalogFixture.cs" />
+    <Compile Include="TestInfrastructure\BaseTestFixture.cs" />
+    <Compile Include="TestInfrastructure\BaseTestFixtureWithHelpers.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\AutoMockingContainer.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\AutoMockingDependencyResolver.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\AutoMockingFacility.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\IAutoMockingRepository.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\IMockingStrategy.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\MockCreatedEventArgs.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\StrategyKey.cs" />
+    <Compile Include="TestInfrastructure\TestDoubles\AutoMock\UseAutoMockingContainerAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\EventStore.license.txt" />
@@ -100,6 +138,13 @@
       <Project>{0BE628E8-9ED5-43E1-8A23-0B01F8808974}</Project>
       <Name>Sample.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sample.Server\Sample.Server.csproj">
+      <Project>{3188084F-A924-4B84-830C-53862CAB63B6}</Project>
+      <Name>Sample.Server</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestInfrastructure\Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

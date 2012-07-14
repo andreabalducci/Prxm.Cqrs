@@ -7,6 +7,12 @@ namespace Proximo.Cqrs.Server.Eventing
 {
     public interface IDomainEventHandlerCatalog
     {
-        Action<IDomainEvent> GetExecutorFor(Type domainEventType);
+        /// <summary>
+        /// Gets the list of invoker that are associated to all executors
+        /// that are able to intercept that domain event.
+        /// </summary>
+        /// <param name="domainEventType"></param>
+        /// <returns></returns>
+        IEnumerable<Action<IDomainEvent>> GetAllHandlerFor(Type domainEventType);
     }
 }

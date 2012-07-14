@@ -113,10 +113,10 @@ namespace Sample.Server
                 // commands
                 Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
                 //Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
-                Component.For<ICommandHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
+                Component.For<ICommandHandlerCatalog, IDomainEventHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
                 // events
                 //Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
-                 Component.For<IDomainEventHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
+               
                 Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
 				Component.For<IDomainEventRouterForQueryModelRebuild>().ImplementedBy<DomainEventRouterForQueryModelRebuild>(),
                 Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()

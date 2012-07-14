@@ -18,8 +18,11 @@ namespace Proximo.Cqrs.Server.Eventing
         public void Dispatch(Object @event)
         {
             var eventType = @event.GetType();
-            var executorFunction = _domainEventHandlerCatalog.GetExecutorFor(eventType);
-            executorFunction(@event as IDomainEvent);
+            var handlerInvokerList = _domainEventHandlerCatalog.GetAllHandlerFor(eventType);
+            foreach (var invoker in handlerInvokerList)
+            {
+                invoker(@event as IDomainEvent);
+            }
 
             //var eventHandlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);
             

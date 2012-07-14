@@ -29,8 +29,11 @@ namespace Sample.Server.CommandHandlers
 		public void Dispatch(object @event)
 		{
             var eventType = @event.GetType();
-            var executorFunction = _domainEventHandlerCatalog.GetExecutorFor(eventType);
-            executorFunction(@event as IDomainEvent);
+            var handlerList = _domainEventHandlerCatalog.GetAllHandlerFor(eventType);
+            foreach (var invoker in handlerList)
+            {
+                invoker(@event as IDomainEvent);
+            }
             //var eventType = @event.GetType();
             //var eventHandlerType = typeof(IDomainEventDenormalizer<>).MakeGenericType(eventType);
 

@@ -11,7 +11,7 @@ using Sample.Domain.Purchases.Domain.Events;
 
 namespace Sample.Domain.Purchases.EventHandlers
 {
-    public class ForwardConfirmedBillOfLadingToInventory : IDomainEventHandler<BillOfLadingConfirmed>
+    public class ForwardConfirmedBillOfLadingToInventory : IDomainEventHandler
     {
         private readonly ICommandQueue _commandQueue;
         private readonly IRepository _repository;

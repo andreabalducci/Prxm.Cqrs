@@ -10,6 +10,7 @@ using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Fasterflect;
 using Proximo.Cqrs.Core.Support;
+using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Server.Support
 {
@@ -17,7 +18,7 @@ namespace Sample.Server.Support
     /// This catalog implement this strategy, it scans all types of the assembly
     /// finding all 
     /// </summary>
-    public class CastleFastReflectHandlerCatalog : ICommandHandlerCatalog
+    public class CastleFastReflectHandlerCatalog : ICommandHandlerCatalog, IDomainEventHandlerCatalog
     {
         private IKernel _kernel;
 
@@ -94,7 +95,7 @@ namespace Sample.Server.Support
                                 //I've found a method returning void accepting a command, for me is a command executor
                                 MethodInvoker fastReflectInvoker = minfo.DelegateForCallMethod();
 
-                                cachedExecutors.Add(commandType, new HandlerInfo(fastReflectInvoker, executorType, _kernel, minfo.Name));
+                                cachedExecutors.Add(commandType, new CommandExecutorInfo(fastReflectInvoker, executorType, _kernel, minfo.Name));
                             }
                         }
 
@@ -110,7 +111,7 @@ namespace Sample.Server.Support
 
         }
 
-        private class HandlerInfo
+        private class CommandExecutorInfo
         {
             public MethodInvoker _invoker;
 
@@ -120,7 +121,7 @@ namespace Sample.Server.Support
 
             public String MethodName { get; private set; }
 
-            public HandlerInfo(MethodInvoker invoker, Type executorType, IKernel kernel, String methodName)
+            public CommandExecutorInfo(MethodInvoker invoker, Type executorType, IKernel kernel, String methodName)
             {
                 _invoker = invoker;
                 _executorType = executorType;
@@ -146,7 +147,7 @@ namespace Sample.Server.Support
 
         }
 
-        private Dictionary<Type, HandlerInfo> cachedExecutors = new Dictionary<Type, HandlerInfo>();
+        private Dictionary<Type, CommandExecutorInfo> cachedExecutors = new Dictionary<Type, CommandExecutorInfo>();
 
         public Action<ICommand> GetExecutorFor(Type commandType)
         {
@@ -155,6 +156,52 @@ namespace Sample.Server.Support
                 throw new NotSupportedException("No command handler for " + commandType);
             }
             return cachedExecutors[commandType].Execute;
+        }
+
+        /// <summary>
+        /// value holder for the command handler info.
+        /// </summary>
+        private class CommandHandlerInfo
+        {
+            public MethodInvoker _invoker;
+
+            public Type _executorType;
+
+            private IKernel _kernel;
+
+            public String MethodName { get; private set; }
+
+            public CommandHandlerInfo(MethodInvoker invoker, Type executorType, IKernel kernel, String methodName)
+            {
+                _invoker = invoker;
+                _executorType = executorType;
+                _kernel = kernel;
+                MethodName = methodName;
+            }
+
+            public void Execute(IDomainEvent @event)
+            {
+
+                Object executor = null;
+                try
+                {
+                    executor = _kernel.Resolve(_executorType);
+                    _invoker.Invoke(executor, new Object[] { @event });
+                }
+                finally
+                {
+                    _kernel.ReleaseComponent(executor);
+                }
+            }
+
+
+        }
+
+        private Dictionary<Type, CommandExecutorInfo> cachedHandlers = new Dictionary<Type, CommandExecutorInfo>();
+
+        Action<IDomainEvent> IDomainEventHandlerCatalog.GetExecutorFor(Type domainEventType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -19,30 +19,33 @@ namespace Sample.Server.CommandHandlers
 
 	public class DomainEventRouterForQueryModelRebuild : IDomainEventRouterForQueryModelRebuild
 	{
-		private readonly IDomainEventHandlerFactory _domainEventHandlerFactory;
+        private readonly IDomainEventHandlerCatalog _domainEventHandlerCatalog;
 
-		public DomainEventRouterForQueryModelRebuild(IDomainEventHandlerFactory domainEventHandlerFactory)
-		{
-			_domainEventHandlerFactory = domainEventHandlerFactory;
-		}
+        public DomainEventRouterForQueryModelRebuild(IDomainEventHandlerCatalog domainEventHandlerCatalog)
+        {
+            _domainEventHandlerCatalog = domainEventHandlerCatalog;
+        }
 
 		public void Dispatch(object @event)
 		{
-			var eventType = @event.GetType();
-			var eventHandlerType = typeof(IDomainEventDenormalizer<>).MakeGenericType(eventType);
+            var eventType = @event.GetType();
+            var executorFunction = _domainEventHandlerCatalog.GetExecutorFor(eventType);
+            executorFunction(@event as IDomainEvent);
+            //var eventType = @event.GetType();
+            //var eventHandlerType = typeof(IDomainEventDenormalizer<>).MakeGenericType(eventType);
 
-			var handlers = _domainEventHandlerFactory.CreateHandlers(eventHandlerType);
-			if (handlers != null)
-			{
-				foreach (var handler in handlers)
-				{
-					var handlerType = handler.GetType();
-					MethodInfo mi = handlerType.GetMethod("Handle", new[] { eventType });
-					mi.Invoke(handler, new[] { @event });
-				}
+            //var handlers = _domainEventHandlerFactory.CreateHandlers(eventHandlerType);
+            //if (handlers != null)
+            //{
+            //    foreach (var handler in handlers)
+            //    {
+            //        var handlerType = handler.GetType();
+            //        MethodInfo mi = handlerType.GetMethod("Handle", new[] { eventType });
+            //        mi.Invoke(handler, new[] { @event });
+            //    }
 
-				_domainEventHandlerFactory.ReleaseHandlers(handlers);
-			}
+            //    _domainEventHandlerFactory.ReleaseHandlers(handlers);
+            //}
 		}
 	}
 }

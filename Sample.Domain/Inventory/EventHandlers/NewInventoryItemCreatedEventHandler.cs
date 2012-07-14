@@ -8,7 +8,7 @@ using Sample.Domain.Inventory.Domain.Events;
 
 namespace Sample.Domain.Inventory.EventHandlers
 {
-    public class NewInventoryItemCreatedEventHandler : IDomainEventHandler<InventoryItemCreated>
+    public class NewInventoryItemCreatedEventHandler : IDomainEventHandler
     {
         protected IDebugLogger _logger;
 
@@ -17,7 +17,7 @@ namespace Sample.Domain.Inventory.EventHandlers
             _logger = logger;
         }
 
-        public void Handle(InventoryItemCreated @event)
+        public void ReactToInventoryItemCreated(InventoryItemCreated @event)
         {
             _logger.Log(string.Format("[inventory] item {0} has been created and handled", @event.Sku));
         }

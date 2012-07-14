@@ -88,14 +88,14 @@ namespace Sample.Server
             //        .LifestyleTransient()
             //);
 
-            // event handlers
-            container.Register(
-                Classes
-                    .FromAssemblyContaining<NewInventoryItemCreatedEventHandler>()
-                    .BasedOn(typeof(IDomainEventHandler<>))
-                    .WithServiceAllInterfaces()
-                    .LifestyleTransient()
-            );
+            //// event handlers
+            //container.Register(
+            //    Classes
+            //        .FromAssemblyContaining<NewInventoryItemCreatedEventHandler>()
+            //        .BasedOn(typeof(IDomainEventHandler<>))
+            //        .WithServiceAllInterfaces()
+            //        .LifestyleTransient()
+            //);
 
             // registers the Rhino.ServiceBus endpoints
             container.Register(
@@ -115,7 +115,8 @@ namespace Sample.Server
                 //Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
                 Component.For<ICommandHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
                 // events
-                Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
+                //Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
+                 Component.For<IDomainEventHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
                 Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
 				Component.For<IDomainEventRouterForQueryModelRebuild>().ImplementedBy<DomainEventRouterForQueryModelRebuild>(),
                 Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
@@ -154,10 +155,10 @@ namespace Sample.Server
         private static void ConfigureQueryModelBuilder()
         {
             _container.Register(
-                Classes.FromAssemblyContaining<InventoryItemDenormalizer>()
-                    .BasedOn(typeof(IDomainEventHandler<>))
-                    .WithServiceAllInterfaces()
-                    .LifestyleTransient(),
+                //Classes.FromAssemblyContaining<InventoryItemDenormalizer>()
+                //    .BasedOn(typeof(IDomainEventHandler<>))
+                //    .WithServiceAllInterfaces()
+                //    .LifestyleTransient(),
                 Component.For<MongoDatabase>().UsingFactoryMethod(k =>
                 {
                     var builder = new MongoConnectionStringBuilder(ConfigurationManager.ConnectionStrings["query"].ToString());

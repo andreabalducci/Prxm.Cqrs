@@ -51,6 +51,7 @@
     <Compile Include="Eventing\DefaultDomainEventRouter.cs" />
     <Compile Include="Eventing\IDomainEvent.cs" />
     <Compile Include="Eventing\IDomainEventHandler.cs" />
+    <Compile Include="Eventing\IDomainEventHandlerCatalog.cs" />
     <Compile Include="Eventing\IDomainEventHandlerFactory.cs" />
     <Compile Include="Eventing\IDomainEventRouter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

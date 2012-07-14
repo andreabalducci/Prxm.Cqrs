@@ -11,7 +11,7 @@ namespace Sample.QueryModel.Builder
 	/// todo: maybe we can refactor this decorate the denormalizers with an empty interface or an attribute
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public interface IDomainEventDenormalizer<T> : IDomainEventHandler<T> where T:class
+	public interface IDomainEventDenormalizer<T> : IDomainEventHandler 
 	{
 	}
 }

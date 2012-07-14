@@ -10,7 +10,7 @@ using Sample.Domain.Inventory.Domain.Events;
 
 namespace Sample.Domain.Inventory.EventHandlers
 {
-    public class SyncWithEcommerceEventHandler : IDomainEventHandler<InventoryItemCreated>
+    public class SyncWithEcommerceEventHandler : IDomainEventHandler
     {
         protected readonly IDebugLogger _logger;
         protected readonly ICommandQueue _commandQueue;

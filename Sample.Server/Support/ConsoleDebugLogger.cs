@@ -9,5 +9,13 @@ namespace Sample.Server.Support
         {
             Console.WriteLine(message);
         }
+
+
+        public void Error(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Log(message);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }

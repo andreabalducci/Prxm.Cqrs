@@ -38,8 +38,8 @@ namespace Sample.Tests.InProcessBusTests
 
 			// env wiring
 			container.Register(
-				Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
-				Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>()
+				Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>()
+				//Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>()
 			);
 
 			return container;
@@ -137,6 +137,11 @@ namespace Sample.Tests.InProcessBusTests
 		{
 			Debug.WriteLine(message);
 		}
+
+        public void Error(string message)
+        {
+            Log(message);
+        }
 	}
 
 	public class TestCommand : ICommand
@@ -171,23 +176,23 @@ namespace Sample.Tests.InProcessBusTests
     //    }
     //}
 
-	public class CastleCommandHandlerFactory : ICommandHandlerFactory
-	{
-		private IKernel _kernel;
+    //public class CastleCommandHandlerFactory : ICommandHandlerFactory
+    //{
+    //    private IKernel _kernel;
 
-		public CastleCommandHandlerFactory(IKernel kernel)
-		{
-			_kernel = kernel;
-		}
+    //    public CastleCommandHandlerFactory(IKernel kernel)
+    //    {
+    //        _kernel = kernel;
+    //    }
 
-		public object CreateHandler(Type commandType)
-		{
-			return _kernel.Resolve(commandType);
-		}
+    //    public object CreateHandler(Type commandType)
+    //    {
+    //        return _kernel.Resolve(commandType);
+    //    }
 
-		public void ReleaseHandler(object handler)
-		{
-			_kernel.ReleaseComponent(handler);
-		}
-	}
+    //    public void ReleaseHandler(object handler)
+    //    {
+    //        _kernel.ReleaseComponent(handler);
+    //    }
+    //}
 }

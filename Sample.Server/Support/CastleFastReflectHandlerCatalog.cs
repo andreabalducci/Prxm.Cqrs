@@ -9,6 +9,7 @@ using Proximo.Cqrs.Core.Commanding;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Fasterflect;
+using Proximo.Cqrs.Core.Support;
 
 namespace Sample.Server.Support
 {
@@ -20,12 +21,15 @@ namespace Sample.Server.Support
     {
         private IKernel _kernel;
 
+        private IDebugLogger _logger;
+
         /// <summary>
         /// Scans all the assemblies to find all the candidate command executors.
         /// </summary>
-        public CastleFastReflectHandlerCatalog(IKernel kernel)
+        public CastleFastReflectHandlerCatalog(IKernel kernel, IDebugLogger logger)
         {
             _kernel = kernel;
+            _logger = logger;
             ScanAllAssembliesInDirectory(AppDomain.CurrentDomain.BaseDirectory);
         }
 
@@ -40,11 +44,27 @@ namespace Sample.Server.Support
                     try
                     {
                         var asmName = AssemblyName.GetAssemblyName(fileName);
-                        Assembly dynamicAsm = Assembly.Load(asmName);
 
-                        var executors = dynamicAsm.GetTypes()
-                            .Where(t => t.IsClass && !t.IsAbstract && typeof(ICommandHandler).IsAssignableFrom(t))
-                            .ToList();
+                        List<Type> executors = null;
+                        Assembly dynamicAsm = Assembly.Load(asmName);
+                        try
+                        {
+                            executors = dynamicAsm.GetTypes()
+                                           .Where(t => t.IsClass && !t.IsAbstract && typeof(ICommandHandler).IsAssignableFrom(t))
+                                           .ToList();
+                        }
+                        catch (ReflectionTypeLoadException rtl)
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var singleLoadException in rtl.LoaderExceptions)
+                            {
+                                sb.AppendLine(singleLoadException.Message);
+                            }
+                            _logger.Error("Unable to scan asssembly " + asmName.Name + " reason:\n" + sb.ToString());
+                            continue;
+                            //throw new ApplicationException("CastleFastReflectHandlerCatalog is unable to scan type of assembly " + asmName + "\n" + sb.ToString());
+                        }
+
 
                         //now each of this class could contains a method that accepts a specific ICommandType, whatever
                         //method accepts a single object that implements ICommand and returns void is a command executor.
@@ -62,7 +82,7 @@ namespace Sample.Server.Support
                                     if (parameters.Length == 1 && typeof(ICommand).IsAssignableFrom(parameters[0].ParameterType))
                                     {
                                         var commandType = parameters[0].ParameterType;
-                                        if (cachedExecutors.ContainsKey(commandType)) 
+                                        if (cachedExecutors.ContainsKey(commandType))
                                         {
                                             var alreadyRegisteredInvoker = cachedExecutors[commandType];
                                             String exceptionText = String.Format("Multiple handler for command {0} found: {1}.{2} and {3}. {4}",
@@ -91,7 +111,7 @@ namespace Sample.Server.Support
 
         }
 
-        private class HandlerInfo 
+        private class HandlerInfo
         {
             public MethodInvoker _invoker;
 
@@ -109,13 +129,13 @@ namespace Sample.Server.Support
                 MethodName = methodName;
             }
 
-            public void Execute(ICommand command) 
+            public void Execute(ICommand command)
             {
 
                 Object executor = null;
                 try
                 {
-                     executor = _kernel.Resolve(_executorType);
+                    executor = _kernel.Resolve(_executorType);
                     _invoker.Invoke(executor, new Object[] { command });
                 }
                 finally

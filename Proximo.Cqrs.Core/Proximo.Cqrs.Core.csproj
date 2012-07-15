@@ -45,6 +45,7 @@
     <Compile Include="Commanding\ICommandQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\IDebugLogger.cs" />
+    <Compile Include="Support\NullDebugLogger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

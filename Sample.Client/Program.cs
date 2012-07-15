@@ -38,6 +38,9 @@ namespace Sample.Client
 
 			Console.WriteLine("Client ready");
 
+            commandSender.Enqueue(new PoisoningCommand(Guid.NewGuid()));
+
+
 			//
 			// Create command
 			//

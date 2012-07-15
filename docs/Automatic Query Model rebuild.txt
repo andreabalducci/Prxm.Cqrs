@@ -1,0 +1,17 @@
+Automatic Query Model rebuilder
+
+why you want to rebuild your query model?
+1- because the dto are changed (types, structures, methods, etc)
+2- because the denormalizer are changed (types, structures, methods, etc)
+3- the structure of dto and denormalizer is the same (same members, same signature,etc...) what is changed is the logic of how the data are generated
+
+nice to have:
+the ability to rebuild only a small portion of the domain, not the whole picture. usefull in upgrading scenaries
+
+Possible solutions to these problems
+1 & 2- make an hashtag of the classes using for example Mono.Cecil
+3- place a version number on the denormalizers (up to the dev remind to update it). using a version number remove the need for 1 & 2
+
+nice to have:
+we need a way to know which dto are emitted by each denormalizer (you don't know this in advance). a possible solution is provide them
+with an attribute that explicitly tells which dto are emotted by which assembly.

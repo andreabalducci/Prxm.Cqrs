@@ -10,7 +10,8 @@ the ability to rebuild only a small portion of the domain, not the whole picture
 
 Possible solutions to these problems
 1 & 2- make an hashtag of the classes using for example Mono.Cecil
-3- place a version number on the denormalizers (up to the dev remind to update it). using a version number remove the need for 1 & 2
+3- place a version number on the denormalizers (up to the dev remind to update it) or use Mono.cecil to capture the whole denormalizer functions body.
+using this method removes the need for 1 & 2.
 
 nice to have:
 we need a way to know which dto are emitted by each denormalizer (you don't know this in advance). a possible solution is provide them

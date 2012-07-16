@@ -17,6 +17,7 @@ using Proximo.Cqrs.Core.Commanding;
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
     [CurrentDenormalizerVersion(4)]
+    [EventHandlerDescription(IsSingleton=true)]
     public class NhInventoryItemDenormalizer : BaseDenormalizer
     {
         private ILogger _logger;

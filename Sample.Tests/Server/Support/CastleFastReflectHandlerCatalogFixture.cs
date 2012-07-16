@@ -28,7 +28,11 @@ namespace Sample.Tests.Server.Support
                 .Expect(k => k.Resolve(null))
                 .IgnoreArguments()
                 .Repeat.Any()
-                .WhenCalled(action => action.ReturnValue = Activator.CreateInstance(action.Arguments[0] as Type));
+                .WhenCalled(action =>
+                {
+                    //action.Arguments[0]
+                    action.ReturnValue = Activator.CreateInstance(action.Arguments[0] as Type);
+                });
         }
 
 
@@ -112,6 +116,59 @@ namespace Sample.Tests.Server.Support
             }
             evtderived.CallCountSpecific.Should().Be.EqualTo(1);
         }
+
+        [Test]
+        public void Verify_that_default_handler_is_transient()
+        {
+            //get handler and call event
+            var listOfHandlers = sut.GetAllHandlerFor(typeof(AnotherEvent));
+            foreach (var handler in listOfHandlers)
+            {
+                handler(new AnotherEvent());
+            }
+            Int32 actualCount = EventHandlerDefault.ConstructorCallCount;
+            //call again
+            foreach (var handler in listOfHandlers)
+            {
+                handler(new AnotherEvent());
+            }
+            EventHandlerDefault.ConstructorCallCount.Should().Be.EqualTo(actualCount + 1);
+        }
+
+        [Test]
+        public void Verify_singleton_handlers()
+        {
+            var listOfHandlers = sut.GetAllHandlerFor(typeof(AnotherEvent));
+            foreach (var handler in listOfHandlers)
+            {
+                handler(new AnotherEvent());
+                handler(new AnotherEvent());
+                handler(new AnotherEvent());
+                handler(new AnotherEvent());
+            }
+
+            EventHandlerSingleton.ConstructorCallCount.Should().Be.EqualTo(1);
+        }
+
+        [Test]
+        public void Verify_singleton_handlers_when_multiple_handlers()
+        {
+            var listOfHandlers1 = sut.GetAllHandlerFor(typeof(AnotherEvent));
+            var listOfHandlers2 = sut.GetAllHandlerFor(typeof(AnotherEvent2));
+            foreach (var handler in listOfHandlers1)
+            {
+                handler(new AnotherEvent());
+                handler(new AnotherEvent());
+            }
+          
+            //call again
+            foreach (var handler in listOfHandlers2)
+            {
+                handler(new AnotherEvent2());
+                handler(new AnotherEvent2());
+            }
+            EventHandlerSingletonMultiple.ConstructorCallCount.Should().Be.EqualTo(1);
+        }
     }
 
 
@@ -193,6 +250,63 @@ namespace Sample.Tests.Server.Support
 
     }
 
+    public class AnotherEvent : DomainEvent { public Int32 CallCount { get; set; } }
+    public class AnotherEvent2 : DomainEvent { public Int32 CallCount { get; set; } }
+
+    [EventHandlerDescription(IsSingleton = true)]
+    public class EventHandlerSingleton : IDomainEventHandler {
+
+        public static Int32 ConstructorCallCount;
+
+        public EventHandlerSingleton()
+        {
+            ConstructorCallCount++;
+        }
+
+        public void Handle(AnotherEvent evt) {
+        
+
+        }
+    }
+
+    [EventHandlerDescription(IsSingleton = true)]
+    public class EventHandlerSingletonMultiple : IDomainEventHandler
+    {
+
+        public static Int32 ConstructorCallCount;
+
+        public EventHandlerSingletonMultiple()
+        {
+            ConstructorCallCount++;
+        }
+
+        public void Handle(AnotherEvent evt)
+        {
+
+
+        }
+
+         public void Handle(AnotherEvent2 evt)
+        {
+
+
+        }
+    }
+
+    public class EventHandlerDefault : IDomainEventHandler
+    {
+         public static Int32 ConstructorCallCount;
+
+         public EventHandlerDefault()
+        {
+            ConstructorCallCount++;
+        }
+
+         public void Handle(AnotherEvent evt) {
+        
+
+        }
+    }
     #endregion
 
 

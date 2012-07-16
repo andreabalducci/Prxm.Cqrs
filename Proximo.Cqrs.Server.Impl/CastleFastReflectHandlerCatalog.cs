@@ -74,7 +74,27 @@ namespace Proximo.Cqrs.Server.Impl
                         _domainEventHandlers = ScanForDomainEventHandler(allAssemblyTypes).ToArray();
                         foreach (var type in _commandExecutorTypes.Union(_domainEventHandlers))
                         {
-                            _kernel.Register(Component.For(type).ImplementedBy(type).LifeStyle.Transient);
+                            EventHandlerDescriptionAttribute ehda;
+                            if (type.IsDefined(typeof(EventHandlerDescriptionAttribute), false))
+                            {
+                                ehda = (EventHandlerDescriptionAttribute)type.GetCustomAttributes(
+                                    typeof(EventHandlerDescriptionAttribute), false)
+                                    .OfType<EventHandlerDescriptionAttribute>()
+                                    .Single();
+                            }
+                            else
+                            {
+                                ehda = new EventHandlerDescriptionAttribute(); //Default values
+                            }
+                            if (ehda.IsSingleton)
+                            {
+                                _kernel.Register(Component.For(type).ImplementedBy(type).LifeStyle.Singleton);
+                            }
+                            else
+                            {
+                                _kernel.Register(Component.For(type).ImplementedBy(type).LifeStyle.Transient);
+                            }
+                            
                         }
                     }
                     catch (TypeLoadException ex)
@@ -198,6 +218,7 @@ namespace Proximo.Cqrs.Server.Impl
             return cachedExecutors[commandType].Execute;
         }
 
+
         /// <summary>
         /// value holder for the command handler info.
         /// </summary>
@@ -228,8 +249,8 @@ namespace Proximo.Cqrs.Server.Impl
             }
 
             public void Execute(IDomainEvent @event)
-            {
-
+            
+{
                 Object executor = null;
                 try
                 {

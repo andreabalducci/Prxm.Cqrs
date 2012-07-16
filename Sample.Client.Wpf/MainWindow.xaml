@@ -5,17 +5,21 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
             <RowDefinition Height="*" />
             <RowDefinition Height="26" />
         </Grid.RowDefinitions>
         <DockPanel >
             <TextBlock DockPanel.Dock="Left" Height="23" HorizontalAlignment="Left" Text="Sku" VerticalAlignment="Center" />
-            <TextBox x:Name="txtNewSkuName" DockPanel.Dock="Left" Width="50"/>
+            <TextBox x:Name="txtNewItemSku" DockPanel.Dock="Left" Width="50"/>
             <TextBlock DockPanel.Dock="Left" HorizontalAlignment="Left" Text="Description" VerticalAlignment="Center" />
             <Button DockPanel.Dock="Right" Content="Create" Click="CreateNewItem" />
-            <TextBox  x:Name="txtNewSkuDescription"  />
+            <TextBox  x:Name="txtNewItemDescription"  />
         </DockPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding InventoryTotalItemView}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedInventoryTotalItemView}">
+        <DockPanel Grid.Row="1">
+            <Button Content="Reload" Click="Reload" />
+        </DockPanel>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding InventoryTotalItemView}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedInventoryTotalItemView}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sku" Binding="{Binding Sku}" />
                 <DataGridTextColumn Header="Quantity" Binding="{Binding TotalAvailabilityInAllStorages}" />
@@ -28,7 +32,7 @@
                 </DataGridTemplateColumn>-->
             </DataGrid.Columns>
         </DataGrid>
-        <DockPanel Grid.Row="2" >
+        <DockPanel Grid.Row="3" >
             <TextBlock Text="{Binding SelectedInventoryTotalItemView.Sku, StringFormat=Selected {0}}" ></TextBlock>
             <TextBlock Text="Quantity to Add" />
             <Button DockPanel.Dock="Right" Content="Add Quantity" Click="AddQuantityToSelectedItem" />

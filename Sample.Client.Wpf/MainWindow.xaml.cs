@@ -38,12 +38,13 @@ namespace Sample.Client.Wpf
             var command = new CreateInventoryItemCommand(id)
             {
                 ItemId = id,
-                Sku = txtNewSkuDescription.Text,
-                Description = txtNewSkuDescription.Text,
+                Sku = txtNewItemSku.Text,
+                Description = txtNewItemDescription.Text,
             };
 
 
             Infrastructure.Instance.SendCommand(command);
+            PrimitiveAndUglyViewModel vm = (PrimitiveAndUglyViewModel)DataContext;
         }
 
         /// <summary>
@@ -54,6 +55,11 @@ namespace Sample.Client.Wpf
         private void AddQuantityToSelectedItem(object sender, RoutedEventArgs e)
         {
             PrimitiveAndUglyViewModel vm = (PrimitiveAndUglyViewModel)DataContext;
+            if (vm.SelectedInventoryTotalItemView == null) {
+
+                MessageBox.Show("Select an item before updating quantity");
+                return;
+            }
             Guid id = vm.SelectedInventoryTotalItemView.Id;
             String sku = vm.SelectedInventoryTotalItemView.Sku;
 
@@ -67,6 +73,11 @@ namespace Sample.Client.Wpf
 
             Infrastructure.Instance.SendCommand(command);
         }
+
+        private void Reload(object sender, RoutedEventArgs e)
+        {
+            ((PrimitiveAndUglyViewModel)DataContext).Reload();
+        }
     }
 
     public class PrimitiveAndUglyViewModel : BaseViewModel
@@ -77,13 +88,7 @@ namespace Sample.Client.Wpf
         public PrimitiveAndUglyViewModel()
         {
             InventoryTotalItemView = new ObservableCollection<InventoryItemTotalQuantity>();
-            using (ISession session = NHibernateHelper.OpenSession())
-            {
-                foreach (var item in session.Query<InventoryItemTotalQuantity>().ToList())
-                {
-                    InventoryTotalItemView.Add(item);
-                }
-            }
+            Reload();
         }
 
         public InventoryItemTotalQuantity SelectedInventoryTotalItemView
@@ -101,5 +106,17 @@ namespace Sample.Client.Wpf
         }
 
         private Decimal _QuantityToAddToSelectedItem;
+
+        internal void Reload()
+        {
+            InventoryTotalItemView.Clear();
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                foreach (var item in session.Query<InventoryItemTotalQuantity>().ToList())
+                {
+                    InventoryTotalItemView.Add(item);
+                }
+            }
+        }
     }
 }

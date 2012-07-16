@@ -1,9 +1,41 @@
+using System;
 namespace Proximo.Cqrs.Core.Support
 {
-    public interface IDebugLogger
+    /// <summary>
+    /// This is the interface for a generic logger.
+    /// </summary>
+    public interface ILogger
     {
-        void Log(string message);
+      
+        bool IsDebugEnabled { get; }
+
+        bool IsErrorEnabled { get; }
+
+        bool IsFatalEnabled { get; }
+
+        bool IsInfoEnabled { get; }
+
+        bool IsWarnEnabled { get; }
+
+        void Debug(string message);
+
+        void Debug(string message, Exception exception);
 
         void Error(string message);
+
+        void Error(string message, Exception exception);
+
+        void Fatal(string message);
+
+        void Fatal(string message, Exception exception);
+
+        void Info(string message);
+
+        void Info(string message, Exception exception);
+
+        void Warn(string message);
+
+        void Warn(string message, Exception exception);
+
     }
 }

@@ -20,13 +20,13 @@ namespace Sample.Server.CommandHandlers
 	/// </summary>
 	public class AskForReplayCommandHandler : ICommandHandler
 	{
-		public AskForReplayCommandHandler(IDebugLogger logger, IStoreEvents eventStore, MongoDatabase db)
+		public AskForReplayCommandHandler(ILogger logger, IStoreEvents eventStore, MongoDatabase db)
 		{
 			_logger = logger;
 			_store = eventStore;
 		    _db = db;
 		}
-		private IDebugLogger _logger;
+		private ILogger _logger;
 		private IStoreEvents _store;
 
         // ugly as hell: extend the modelwriter or wrap this
@@ -48,38 +48,38 @@ namespace Sample.Server.CommandHandlers
 		public void AskForReplay(AskForReplayCommand command)
 		{
 			// ask the engine to perform a complete event replay
-			_logger.Log("Commits Replay Start");
+            _logger.Debug("Commits Replay Start");
 
             // ugly: let's drop the query model database for this test command
             _db.Drop();
 
 			// get all the commits and related events
 			var commitList = _store.Advanced.GetFrom(DateTime.MinValue);
-			_logger.Log(string.Format("Processing {0} commits", commitList.Count()));
+            _logger.Debug(string.Format("Processing {0} commits", commitList.Count()));
 
 			// first attempt use our original IDomainEventRouter to send the events to our eventhandlers
 
 			foreach (var commit in commitList)
 			{
 				if (commit.Headers.Count > 0)
-					_logger.Log(string.Format("Commit Header {0}", DumpDictionaryToString(commit.Headers)));
+                    _logger.Debug(string.Format("Commit Header {0}", DumpDictionaryToString(commit.Headers)));
 
 				foreach (var committedEvent in commit.Events)
 				{
-					_logger.Log(string.Format("Replaying event: {0}", committedEvent.Body.ToString()));
+                    _logger.Debug(string.Format("Replaying event: {0}", committedEvent.Body.ToString()));
 					
 					if (committedEvent.Headers.Count > 0)
-						_logger.Log(string.Format("Event Header {0}", DumpDictionaryToString(committedEvent.Headers)));
+                        _logger.Debug(string.Format("Event Header {0}", DumpDictionaryToString(committedEvent.Headers)));
 
 					// it has side effects, like generating new commits on the eventstore
 					//OriginalDomainEventRouter.Dispatch(committedEvent.Body);
 					SpecificDomainEventRouter.Dispatch(committedEvent.Body);
 
-					_logger.Log("Event Replay Completed");
+                    _logger.Debug("Event Replay Completed");
 				}
 			}
 
-			_logger.Log("Commits Replay Completed");
+            _logger.Debug("Commits Replay Completed");
 		}
 
 		private string DumpDictionaryToString(IDictionary<string, object> data)

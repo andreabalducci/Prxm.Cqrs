@@ -12,9 +12,9 @@ namespace Proximo.Cqrs.Server.Commanding
     {
         private ICommandHandlerCatalog _commandHandlerCatalog;
         
-        private IDebugLogger _logger;
+        private ILogger _logger;
 
-        public DefaultCommandRouter(ICommandHandlerCatalog commandHandlerCatalog, IDebugLogger logger)
+        public DefaultCommandRouter(ICommandHandlerCatalog commandHandlerCatalog, ILogger logger)
         {
             _commandHandlerCatalog = commandHandlerCatalog;
             _logger = logger;
@@ -22,7 +22,7 @@ namespace Proximo.Cqrs.Server.Commanding
 
         public void RouteToHandler(ICommand command)
         {
-            _logger.Log("[queue] processing command " + command.ToString());
+            _logger.Info("[queue] processing command " + command.ToString());
 
             var commandType = command.GetType();
             
@@ -39,8 +39,7 @@ namespace Proximo.Cqrs.Server.Commanding
             //MethodInfo mi = commandHandlerType.GetMethod("Handle", new[] { commandType });
             //mi.Invoke(consumer, new object[] { command });
 
-            _logger.Log("[queue] command handled " + command.ToString());
-            _logger.Log("");
+            _logger.Info("[queue] command handled " + command.ToString());
         }
     }
 }

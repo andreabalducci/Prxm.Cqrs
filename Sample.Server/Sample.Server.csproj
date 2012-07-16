@@ -102,7 +102,6 @@
     <Compile Include="CommandHandlers\DomainEventRouterForQueryModelRebuild.cs" />
     <Compile Include="Support\AggregateFactory.cs" />
     <Compile Include="Support\CastleEventHandlerFactory.cs" />
-    <Compile Include="Support\ConsoleDebugLogger.cs" />
     <Compile Include="Messaging\PrepareQueues.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

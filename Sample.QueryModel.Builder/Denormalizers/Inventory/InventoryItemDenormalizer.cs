@@ -21,9 +21,9 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
     {
         private IModelWriter<Sample.QueryModel.Inventory.InventoryItem> _itemWriter;
         private IModelWriter<Sample.QueryModel.Inventory.LastReceivedGoods> _lastReceivedGoodsWriter;
-        private IDebugLogger _logger;
+        private ILogger _logger;
         private IRepository _repository;
-        public InventoryItemDenormalizer(IModelWriter<InventoryItem> itemWriter, IDebugLogger logger, IRepository repository)
+        public InventoryItemDenormalizer(IModelWriter<InventoryItem> itemWriter, ILogger logger, IRepository repository)
         {
             _itemWriter = itemWriter;
             _logger = logger;
@@ -44,7 +44,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 
         private void Log(string message)
         {
-            _logger.Log("[vm-builder] "+message);
+            _logger.Debug("[vm-builder] " + message);
         }
     }
 }

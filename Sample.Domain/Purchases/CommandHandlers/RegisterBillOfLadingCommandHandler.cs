@@ -13,9 +13,9 @@ namespace Sample.Domain.Purchases.CommandHandlers
     public class RegisterBillOfLadingCommandHandler : ICommandHandler
     {
         private readonly IRepository _repository;
-        private readonly IDebugLogger _debug;
+        private readonly ILogger _debug;
 
-        public RegisterBillOfLadingCommandHandler(IRepository repository, IDebugLogger debug)
+        public RegisterBillOfLadingCommandHandler(IRepository repository, ILogger debug)
         {
             _repository = repository;
             _debug = debug;
@@ -23,7 +23,7 @@ namespace Sample.Domain.Purchases.CommandHandlers
 
         public void RegisterBillOfLading(RegisterBillOfLadingCommand command)
         {
-            _debug.Log("[purchases] Handling registration of new Bill of lading");
+            _debug.Debug("[purchases] Handling registration of new Bill of lading");
             var bol = new BillOfLading(command.Id, command.Number,command.IssueDate,DateTime.Today);
             
             bol.SetSupplier(command.SupplierCompanyName, command.SupplierAddress);
@@ -35,7 +35,7 @@ namespace Sample.Domain.Purchases.CommandHandlers
             bol.Confirm();
             
             _repository.Save(bol,command.Id);
-            _debug.Log("[purchases] Bill of lading confirmed");
+            _debug.Debug("[purchases] Bill of lading confirmed");
         }
     }
 }

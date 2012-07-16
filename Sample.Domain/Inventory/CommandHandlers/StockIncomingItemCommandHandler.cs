@@ -13,10 +13,10 @@ namespace Sample.Domain.Inventory.CommandHandlers
 {
     public class StockIncomingItemCommandHandler : ICommandHandler
     {
-        private readonly IDebugLogger _logger;
+        private readonly ILogger _logger;
         private readonly IRepository _repository;
         private readonly ICommandQueue _commandQueue;
-        public StockIncomingItemCommandHandler(IDebugLogger logger, IRepository repository, ICommandQueue commandQueue)
+        public StockIncomingItemCommandHandler(ILogger logger, IRepository repository, ICommandQueue commandQueue)
         {
             _logger = logger;
             _repository = repository;
@@ -54,7 +54,7 @@ namespace Sample.Domain.Inventory.CommandHandlers
 
         private void Log(string message)
         {
-            _logger.Log("[inventory] " + message);
+            _logger.Debug("[inventory] " + message);
         }
     }
 }

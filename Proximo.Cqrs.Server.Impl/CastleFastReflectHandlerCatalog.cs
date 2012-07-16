@@ -22,12 +22,12 @@ namespace Proximo.Cqrs.Server.Impl
     {
         private IKernel _kernel;
 
-        private IDebugLogger _logger;
+        private ILogger _logger;
 
         /// <summary>
         /// Scans all the assemblies to find all the candidate command executors.
         /// </summary>
-        public CastleFastReflectHandlerCatalog(IKernel kernel, IDebugLogger logger)
+        public CastleFastReflectHandlerCatalog(IKernel kernel, ILogger logger)
         {
             _kernel = kernel;
             _logger = logger;

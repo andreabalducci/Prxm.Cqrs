@@ -96,6 +96,9 @@ namespace Sample.Server
             //        .LifestyleTransient()
             //);
 
+            //register the custom logging facility
+            container.AddFacility<LoggingFacility>();
+
             // registers the Rhino.ServiceBus endpoints
             container.Register(
                 Classes
@@ -107,7 +110,7 @@ namespace Sample.Server
 
             // env wiring
             container.Register(
-                Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
+                Component.For<ILogger>().ImplementedBy<Log4netLogger>(),
 
                 // commands
                 Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),

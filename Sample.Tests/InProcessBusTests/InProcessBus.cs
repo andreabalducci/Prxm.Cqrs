@@ -33,7 +33,7 @@ namespace Sample.Tests.InProcessBusTests
             //        .LifestyleTransient()
             //);
 
-			container.Register(Component.For<IDebugLogger>().ImplementedBy<DebugLogger>());
+			container.Register(Component.For<ILogger>().ImplementedBy<Log4netLogger>());
             container.Register(Component.For<ICommandQueue>().ImplementedBy<InProcessCommandQueue>());
             container.Register(Component.For<ICommandHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>());
 
@@ -130,19 +130,6 @@ namespace Sample.Tests.InProcessBusTests
 
 			Assert.AreEqual(maxlimit, _counter);
 		}
-	}
-
-	public class DebugLogger : IDebugLogger
-	{
-		public void Log(string message)
-		{
-			Debug.WriteLine(message);
-		}
-
-        public void Error(string message)
-        {
-            Log(message);
-        }
 	}
 
 	public class TestCommand : ICommand

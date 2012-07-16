@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proximo.Cqrs.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.QueryModel.NHibernate", "Sample.QueryModel.NHibernate\Sample.QueryModel.NHibernate.csproj", "{14207B62-8B62-4EBE-B211-DE9F3E6064D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Client.Wpf", "Sample.Client.Wpf\Sample.Client.Wpf.csproj", "{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -202,6 +204,16 @@ Global
 		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|x86.ActiveCfg = Release|Any CPU
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Debug|x86.ActiveCfg = Debug|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Debug|x86.Build.0 = Debug|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Release|Any CPU.ActiveCfg = Release|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Release|Mixed Platforms.Build.0 = Release|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Release|x86.ActiveCfg = Release|x86
+		{51D8871A-02F6-4CFA-8F86-52DBE0A5C874}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

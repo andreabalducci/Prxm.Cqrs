@@ -36,6 +36,7 @@ namespace Sample.QueryModel.NHibernate
                 cfg.AddDeserializedMapping(mapping, "AutoModel");
                 _sessionFactory = cfg.BuildSessionFactory();
                 //To be sure that the database is always aligned to the very same version
+                //Todo: be sure this is not called by the client code
                 UpdateDatabase();
             }
             catch (Exception ex)
@@ -67,5 +68,6 @@ namespace Sample.QueryModel.NHibernate
         {
             return _sessionFactory.OpenStatelessSession();
         }
+
     }
 }

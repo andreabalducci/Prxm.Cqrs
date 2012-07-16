@@ -9,6 +9,8 @@ namespace Sample.QueryModel.Inventory
     {
         public Guid Id { get; protected set; }
 
+        public String Sku { get; set; }
+
         public Decimal TotalAvailabilityInAllStorages { get; set; }
 
         private InventoryItemTotalQuantity() { }

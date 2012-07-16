@@ -29,6 +29,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         {
             Log(string.Format("adding {0} to item list", @event.Sku));
             var qm = new InventoryItemTotalQuantity(@event.Id);
+            qm.Sku = @event.Sku;
             SaveOrUpdate(qm);
         }
 

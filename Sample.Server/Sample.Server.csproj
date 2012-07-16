@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\AskForReplayCommandHandler.cs" />
+    <Compile Include="CommandHandlers\AskForReplayHandlerReplayCommandHandler.cs" />
     <Compile Include="CommandHandlers\DomainEventRouterForQueryModelRebuild.cs" />
     <Compile Include="Support\AggregateFactory.cs" />
     <Compile Include="Support\CastleEventHandlerFactory.cs" />

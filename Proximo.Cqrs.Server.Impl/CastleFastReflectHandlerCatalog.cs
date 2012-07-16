@@ -40,7 +40,7 @@ namespace Proximo.Cqrs.Server.Impl
             foreach (var fileName in files)
             {
                 //provare a caricare dinamicamente un assembly
-                if (Path.GetExtension(fileName).EndsWith("dll"))
+                if (Path.GetExtension(fileName).EndsWith("dll") || Path.GetExtension(fileName).EndsWith("exe"))
                 {
                     try
                     {
@@ -107,7 +107,7 @@ namespace Proximo.Cqrs.Server.Impl
                     {
                         var alreadyRegisteredInvoker = cachedExecutors[commandType];
                         String exceptionText = String.Format("Multiple handler for command {0} found: {1}.{2} and {3}. {4}",
-                            commandType.Name, alreadyRegisteredInvoker._executorType.FullName, alreadyRegisteredInvoker.MethodName,
+                            commandType.Name, alreadyRegisteredInvoker.ExecutorType.FullName, alreadyRegisteredInvoker.MethodName,
                             executorType.FullName, minfo.Name);
                         throw new ApplicationException(exceptionText);
                     }
@@ -151,9 +151,9 @@ namespace Proximo.Cqrs.Server.Impl
 
         private class CommandExecutorInfo
         {
-            public MethodInvoker _invoker;
+            private MethodInvoker _invoker;
 
-            public Type _executorType;
+            public Type ExecutorType { get; private set; }
 
             private IKernel _kernel;
 
@@ -162,8 +162,8 @@ namespace Proximo.Cqrs.Server.Impl
             public CommandExecutorInfo(MethodInvoker invoker, Type executorType, IKernel kernel, String methodName)
             {
                 _invoker = invoker;
-                _executorType = executorType;
                 _kernel = kernel;
+                ExecutorType = executorType;
                 MethodName = methodName;
             }
 
@@ -173,7 +173,7 @@ namespace Proximo.Cqrs.Server.Impl
                 Object executor = null;
                 try
                 {
-                    executor = _kernel.Resolve(_executorType);
+                    executor = _kernel.Resolve(ExecutorType);
                     _invoker.Invoke(executor, new Object[] { command });
                 }
                 finally
@@ -203,26 +203,26 @@ namespace Proximo.Cqrs.Server.Impl
         {
             public MethodInvoker _invoker;
 
-            public Type _executorType;
+            public Type ExecutorType { get; private set; }
 
             private IKernel _kernel;
 
-            private Type _eventType;
+            public Type EventType { get; private set; }
 
             public String MethodName { get; private set; }
 
             public DomainEventHandlerInfo(MethodInvoker invoker, Type executorType, Type eventType, IKernel kernel, String methodName)
             {
                 _invoker = invoker;
-                _executorType = executorType;
-                _eventType = eventType;
+                ExecutorType = executorType;
+                EventType = eventType;
                 _kernel = kernel;
                 MethodName = methodName;
             }
 
             public Boolean CanHandleEvent(Type domainEventType)
             {
-                return _eventType.IsAssignableFrom(domainEventType);
+                return EventType.IsAssignableFrom(domainEventType);
             }
 
             public void Execute(IDomainEvent @event)
@@ -231,7 +231,7 @@ namespace Proximo.Cqrs.Server.Impl
                 Object executor = null;
                 try
                 {
-                    executor = _kernel.Resolve(_executorType);
+                    executor = _kernel.Resolve(ExecutorType);
                     _invoker.Invoke(executor, new Object[] { @event });
                 }
                 finally
@@ -253,6 +253,17 @@ namespace Proximo.Cqrs.Server.Impl
                 .Where(h => h.CanHandleEvent(domainEventType))
                 .Select<DomainEventHandlerInfo, Action<IDomainEvent>>(h => h.Execute);
           
+        }
+
+        public IDictionary<Type, Action<IDomainEvent>> GetAllHandlerForSpecificHandlertype(Type handlerType)
+        {
+            Dictionary<Type, Action<IDomainEvent>> retValue = new Dictionary<Type, Action<IDomainEvent>>();
+            foreach (var item in cachedHandlers
+                .Where(h => h.ExecutorType == handlerType))
+            {
+                retValue.Add(item.EventType, item.Execute);
+            }
+            return retValue;
         }
     }
 }

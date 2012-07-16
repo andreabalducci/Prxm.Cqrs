@@ -12,14 +12,17 @@ using Sample.QueryModel.Inventory;
 using InventoryItem = Sample.QueryModel.Inventory.InventoryItem;
 using NHibernate;
 using Sample.QueryModel.NHibernate;
+using Proximo.Cqrs.Core.Commanding;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
+    [CurrentDenormalizerVersion(1)]
     public class NhInventoryItemDenormalizer : BaseDenormalizer
     {
         private ILogger _logger;
         private IRepository _repository;
-        public NhInventoryItemDenormalizer(ILogger logger, IRepository repository)
+
+        public NhInventoryItemDenormalizer(ILogger logger, IRepository repository, ICommandQueue commandQueue) : base (commandQueue)
         {
             _logger = logger;
             _repository = repository;

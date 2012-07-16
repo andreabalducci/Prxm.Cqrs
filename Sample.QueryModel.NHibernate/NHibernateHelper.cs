@@ -24,24 +24,22 @@ namespace Sample.QueryModel.NHibernate
                 cfg.Configure("NHibernateQueryModelConfiguration.xml");
 
                 var mapper = new ConventionModelMapper();
-                mapper.IsEntity((t, declared) => t.Namespace.StartsWith("Sample.QueryModel"));
+                //mapper.IsEntity((t, declared) => t.Namespace.StartsWith("Sample.QueryModel") || );
 
                 mapper.AfterMapClass += (inspector, type, classCustomizer) =>
                 {
                     classCustomizer.Lazy(false);
                 };
                 var mapping = mapper.CompileMappingFor(
-                    Assembly.Load("Sample.QueryModel").GetExportedTypes());
+                    Assembly.Load("Sample.QueryModel").GetExportedTypes()
+                    .Union(new Type[] {typeof(Version)}));
 
                 cfg.AddDeserializedMapping(mapping, "AutoModel");
                 _sessionFactory = cfg.BuildSessionFactory();
-                //To be sure that the database is always aligned to the very same version
-                //Todo: be sure this is not called by the client code
-                UpdateDatabase();
+ 
             }
             catch (Exception ex)
             {
-                
                 throw ex;
             }
          

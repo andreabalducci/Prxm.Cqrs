@@ -21,18 +21,18 @@ namespace Sample.Tests.Server.Support
         protected override void OnSetUp()
         {
             base.OnSetUp();
-
+            
             sut = this.ResolveWithAutomock<CastleFastReflectHandlerCatalog>();
             //each object it want to resolve, I create with activator createinstance.
-            this.GetMock<IKernel>()
-                .Expect(k => k.Resolve(null))
-                .IgnoreArguments()
-                .Repeat.Any()
-                .WhenCalled(action =>
-                {
-                    //action.Arguments[0]
-                    action.ReturnValue = Activator.CreateInstance(action.Arguments[0] as Type);
-                });
+            //this.GetMock<IKernel>()
+            //    .Expect(k => k.Resolve(null))
+            //    .IgnoreArguments()
+            //    .Repeat.Any()
+            //    .WhenCalled(action =>
+            //    {
+            //        //action.Arguments[0]
+            //        action.ReturnValue = Activator.CreateInstance(action.Arguments[0] as Type);
+            //    });
         }
 
 
@@ -138,6 +138,7 @@ namespace Sample.Tests.Server.Support
         [Test]
         public void Verify_singleton_handlers()
         {
+            var actualCount = EventHandlerSingleton.ConstructorCallCount;
             var listOfHandlers = sut.GetAllHandlerFor(typeof(AnotherEvent));
             foreach (var handler in listOfHandlers)
             {
@@ -147,12 +148,13 @@ namespace Sample.Tests.Server.Support
                 handler(new AnotherEvent());
             }
 
-            EventHandlerSingleton.ConstructorCallCount.Should().Be.EqualTo(1);
+            EventHandlerSingleton.ConstructorCallCount.Should().Be.EqualTo(actualCount + 1);
         }
 
         [Test]
         public void Verify_singleton_handlers_when_multiple_handlers()
         {
+           var actual = EventHandlerSingletonMultiple.ConstructorCallCount;
             var listOfHandlers1 = sut.GetAllHandlerFor(typeof(AnotherEvent));
             var listOfHandlers2 = sut.GetAllHandlerFor(typeof(AnotherEvent2));
             foreach (var handler in listOfHandlers1)
@@ -167,7 +169,7 @@ namespace Sample.Tests.Server.Support
                 handler(new AnotherEvent2());
                 handler(new AnotherEvent2());
             }
-            EventHandlerSingletonMultiple.ConstructorCallCount.Should().Be.EqualTo(1);
+            EventHandlerSingletonMultiple.ConstructorCallCount.Should().Be.EqualTo(actual + 1);
         }
     }
 

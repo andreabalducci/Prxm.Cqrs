@@ -27,6 +27,7 @@ namespace Sample.Tests.TestInfrastructure.TestDoubles.AutoMock
 			 ComponentModel model,
 			 DependencyModel dependency)
 		{
+            if (dependency.TargetType == typeof(IKernel)) return false;
 		    bool shouldResolveDependencyKey = 
 		        _relatedRepository.CanSatisfyDependencyKey(dependency.DependencyKey);
 

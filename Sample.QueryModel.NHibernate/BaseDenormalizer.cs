@@ -8,6 +8,7 @@ using System.Reflection;
 using NHibernate.Linq;
 using Sample.Commands.System;
 using Proximo.Cqrs.Core.Commanding;
+using Sample.Commands.Inventory;
 
 namespace Sample.QueryModel.NHibernate
 {
@@ -16,6 +17,7 @@ namespace Sample.QueryModel.NHibernate
     /// </summary>
     public abstract class BaseDenormalizer : IDomainEventHandler
     {
+
         private static Boolean isInited;
         private static Object _sSyncroot = new object();
 
@@ -24,12 +26,13 @@ namespace Sample.QueryModel.NHibernate
         /// </summary>
         protected BaseDenormalizer(ICommandQueue commandQueue)
         {
-            if (isInited) return;
-
+           if (isInited) return;
             lock (_sSyncroot)
             {
                 if (!isInited)
                 {
+                    HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+                    isInited = true;
                     IList<Version> allVersions;
 
                     List<Type> allModifiedDenormalizer = new List<Type>();
@@ -51,19 +54,20 @@ namespace Sample.QueryModel.NHibernate
                         if (versionAttribute == null)
                         {
                             versionAttribute = new CurrentDenormalizerVersionAttribute(0);
+                            
                         }
                         Version version = allVersions.SingleOrDefault(v => v.Id == denType.FullName);
                         if (version == null)
                         {
                             version = new Version();
                             version.Id = denType.FullName;
+                            allVersions.Add(version);
                         }
                         if (version.CurrentVersion != versionAttribute.CurrentValue)
                         {
                             allModifiedDenormalizer.Add(denType);
                             version.CurrentVersion = versionAttribute.CurrentValue;
                         }
-
                     }
                     using (ISession session = NHibernateHelper.OpenSession())
                     using (session.BeginTransaction())
@@ -87,7 +91,7 @@ namespace Sample.QueryModel.NHibernate
                         }
                     }
                 }
-            }
+            } 
            
         }
 
@@ -95,12 +99,12 @@ namespace Sample.QueryModel.NHibernate
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                using (session.BeginTransaction())
+                using (var tx = session.BeginTransaction())
                 {
 
                     //TODO: logging, exceptionhandling.
                     act(session);
-                    session.Transaction.Commit();
+                    tx.Commit();
                 }
             }
         }
@@ -113,10 +117,16 @@ namespace Sample.QueryModel.NHibernate
         /// <returns></returns>
         protected T GetById<T>(Object id)
         {
+            T retValue;
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                return session.Get<T>(id);
+                using (var tx = session.BeginTransaction())
+                {
+                   retValue = session.Get<T>(id);
+                   tx.Commit();
+                }
             }
+            return retValue;
         }
 
         /// <summary>
@@ -129,12 +139,12 @@ namespace Sample.QueryModel.NHibernate
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                using (session.BeginTransaction())
+                using (var tx = session.BeginTransaction())
                 {
                     session.SaveOrUpdate(obj);
-                    session.Transaction.Commit();
+                    tx.Commit();
                 }
             }
         }
-    }
+     }
 }

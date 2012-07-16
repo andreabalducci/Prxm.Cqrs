@@ -13,6 +13,8 @@ namespace Sample.QueryModel.Inventory
 
         public Decimal TotalAvailabilityInAllStorages { get; set; }
 
+        public String Description { get; set; }
+
         private InventoryItemTotalQuantity() { }
 
         public InventoryItemTotalQuantity(Guid id) {

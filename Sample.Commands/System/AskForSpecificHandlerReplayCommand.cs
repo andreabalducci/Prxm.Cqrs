@@ -11,6 +11,8 @@ namespace Sample.Commands.System
     /// </summary>
     public class AskForSpecificHandlerReplayCommand : ICommand
     {
+        protected AskForSpecificHandlerReplayCommand() { }
+
         public String Handlertype { get; set; }
 
         public Guid Id

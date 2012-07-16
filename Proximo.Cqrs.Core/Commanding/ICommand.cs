@@ -13,6 +13,6 @@ namespace Proximo.Cqrs.Core.Commanding
     /// </summary>
     public abstract class CommandBase : ICommand 
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; protected set; }
     }
 }

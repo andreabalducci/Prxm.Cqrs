@@ -24,6 +24,10 @@ namespace Proximo.Cqrs.Server.Impl
 
         private ILogger _logger;
 
+        private Type[] _domainEventHandlers;
+
+        private Type[] _commandExecutorTypes;
+
         /// <summary>
         /// Scans all the assemblies to find all the candidate command executors.
         /// </summary>
@@ -65,10 +69,10 @@ namespace Proximo.Cqrs.Server.Impl
                             //throw new ApplicationException("CastleFastReflectHandlerCatalog is unable to scan type of assembly " + asmName + "\n" + sb.ToString());
                         }
 
-
-                        var executors = ScanForCommandExecutors(allAssemblyTypes);
-                        var handlers = ScanForDomainEventHandler(allAssemblyTypes);
-                        foreach (var type in executors.Union(handlers))
+                        //convert to array to avoid risk of using list and outer modification.
+                        _commandExecutorTypes = ScanForCommandExecutors(allAssemblyTypes).ToArray();
+                        _domainEventHandlers = ScanForDomainEventHandler(allAssemblyTypes).ToArray();
+                        foreach (var type in _commandExecutorTypes.Union(_domainEventHandlers))
                         {
                             _kernel.Register(Component.For(type).ImplementedBy(type).LifeStyle.Transient);
                         }
@@ -113,7 +117,6 @@ namespace Proximo.Cqrs.Server.Impl
                     }
                     //I've found a method returning void accepting a command, for me is a command executor
                     MethodInvoker fastReflectInvoker = minfo.DelegateForCallMethod();
-
                     cachedExecutors.Add(commandType, new CommandExecutorInfo(fastReflectInvoker, executorType, _kernel, minfo.Name));
                 }
             }
@@ -138,10 +141,9 @@ namespace Proximo.Cqrs.Server.Impl
                                     (parameters = mi.GetParameters()).Length == 1 &&
                                     typeof(IDomainEvent).IsAssignableFrom(parameters[0].ParameterType)))
                 {
-
                     var eventType = parameters[0].ParameterType;
 
-                    //I've found a method returning void accepting a command, for me is a command executor
+                    //I've found a method returning void accepting a Domain Event it is an handler
                     MethodInvoker fastReflectInvoker = minfo.DelegateForCallMethod();
                     cachedHandlers.Add(new DomainEventHandlerInfo(fastReflectInvoker, eventHandlerType, eventType, _kernel, minfo.Name));
                 }
@@ -248,11 +250,9 @@ namespace Proximo.Cqrs.Server.Impl
         public IEnumerable<Action<IDomainEvent>> GetAllHandlerFor(Type domainEventType)
         {
             //TODO: Cache this
-
             return cachedHandlers
                 .Where(h => h.CanHandleEvent(domainEventType))
                 .Select<DomainEventHandlerInfo, Action<IDomainEvent>>(h => h.Execute);
-          
         }
 
         public IDictionary<Type, Action<IDomainEvent>> GetAllHandlerForSpecificHandlertype(Type handlerType)
@@ -265,5 +265,8 @@ namespace Proximo.Cqrs.Server.Impl
             }
             return retValue;
         }
+
+
+
     }
 }

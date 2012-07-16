@@ -16,6 +16,7 @@ namespace Proximo.Cqrs.Server.Eventing
         {
             _domainEventHandlerCatalog = domainEventHandlerCatalog;
             _logger = logger;
+
         }
 
         public void Dispatch(Object @event)

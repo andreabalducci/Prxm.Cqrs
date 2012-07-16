@@ -24,5 +24,6 @@ namespace Proximo.Cqrs.Server.Eventing
         /// <returns>A dictionary where the key contains the type of domain event handled and the value
         /// is the Action that actually handles the event</returns>
         IDictionary<Type, Action<IDomainEvent>> GetAllHandlerForSpecificHandlertype(Type handlerType);
+
     }
 }

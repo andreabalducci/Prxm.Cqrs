@@ -63,7 +63,7 @@ namespace Sample.Server.CommandHandlers
                     DomainEvent evt = committedEvent.Body as DomainEvent;
                     if (allHandlers.ContainsKey(evt.GetType())) {
 
-                        allHandlers[committedEvent.GetType()](evt);
+                        allHandlers[evt.GetType()](evt);
                     }
                 }
             }

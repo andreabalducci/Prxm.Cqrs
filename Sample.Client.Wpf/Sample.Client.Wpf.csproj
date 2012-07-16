@@ -79,6 +79,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure.cs" />
+    <Compile Include="KissMvvm\BaseViewModel.cs" />
+    <Compile Include="KissMvvm\ExpressionExtensions.cs" />
+    <Compile Include="KissMvvm\Extensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

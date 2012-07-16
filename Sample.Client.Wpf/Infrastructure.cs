@@ -15,6 +15,11 @@ namespace Sample.Client.Wpf
         private static Infrastructure _instance;
         public static Infrastructure Instance { get { return _instance; } }
 
+        static Infrastructure()
+        {
+            _instance = new Infrastructure();
+        }
+
         ICommandQueue commandSender;
         public Infrastructure()
         {

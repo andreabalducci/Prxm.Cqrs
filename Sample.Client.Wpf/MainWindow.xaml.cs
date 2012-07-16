@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using Sample.QueryModel.NHibernate;
 using NHibernate.Linq;
 using NHibernate;
+using Sample.Client.Wpf.KissMvvm;
 
 namespace Sample.Client.Wpf
 {
@@ -44,9 +45,31 @@ namespace Sample.Client.Wpf
 
             Infrastructure.Instance.SendCommand(command);
         }
+
+        /// <summary>
+        /// TODO: Implement MVVM commanding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddQuantityToSelectedItem(object sender, RoutedEventArgs e)
+        {
+            PrimitiveAndUglyViewModel vm = (PrimitiveAndUglyViewModel)DataContext;
+            Guid id = vm.SelectedInventoryTotalItemView.Id;
+            String sku = vm.SelectedInventoryTotalItemView.Sku;
+
+            StockIncomingItemCommand command = new StockIncomingItemCommand(
+                Guid.NewGuid(),
+                id,
+                sku,
+                "",
+                vm.QuantityToAddToSelectedItem,
+                "ASTORAGE");
+
+            Infrastructure.Instance.SendCommand(command);
+        }
     }
 
-    public class PrimitiveAndUglyViewModel
+    public class PrimitiveAndUglyViewModel : BaseViewModel
     {
 
         public ObservableCollection<InventoryItemTotalQuantity> InventoryTotalItemView { get; set; }
@@ -62,5 +85,21 @@ namespace Sample.Client.Wpf
                 }
             }
         }
+
+        public InventoryItemTotalQuantity SelectedInventoryTotalItemView
+        {
+            get { return _SelectedInventoryTotalItemView; }
+            set { this.Set(p => p.SelectedInventoryTotalItemView, value, ref _SelectedInventoryTotalItemView); }
+        }
+
+        private InventoryItemTotalQuantity _SelectedInventoryTotalItemView;
+
+        public Decimal QuantityToAddToSelectedItem
+        {
+            get { return _QuantityToAddToSelectedItem; }
+            set { this.Set(p => p.QuantityToAddToSelectedItem, value, ref _QuantityToAddToSelectedItem); }
+        }
+
+        private Decimal _QuantityToAddToSelectedItem;
     }
 }

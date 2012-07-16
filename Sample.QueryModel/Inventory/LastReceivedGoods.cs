@@ -14,6 +14,11 @@ namespace Sample.QueryModel.Inventory
         public decimal ReceivedQuantity { get; protected set; }
         public string Supplier { get; protected set; }
 
+        /// <summary>
+        /// private default constructor is needed by nhibernate
+        /// </summary>
+        private LastReceivedGoods() {    }
+
         public LastReceivedGoods(DateTime receivedAt, Guid itemId, string sku, string description, decimal receivedQuantity, string supplier)
         {
             ReceivedAt = receivedAt;

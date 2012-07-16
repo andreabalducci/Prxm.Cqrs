@@ -9,20 +9,18 @@ using Sample.Domain.Inventory.Domain;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.EventHandlers;
 using Sample.QueryModel.Inventory;
-
 using InventoryItem = Sample.QueryModel.Inventory.InventoryItem;
+using NHibernate;
+using Sample.QueryModel.NHibernate;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
-    public class InventoryItemDenormalizer : IDomainEventDenormalizer
+    public class NhInventoryItemDenormalizer : BaseDenormalizer
     {
-        private IModelWriter<Sample.QueryModel.Inventory.InventoryItem> _itemWriter;
-        private IModelWriter<Sample.QueryModel.Inventory.LastReceivedGoods> _lastReceivedGoodsWriter;
         private ILogger _logger;
         private IRepository _repository;
-        public InventoryItemDenormalizer(IModelWriter<InventoryItem> itemWriter, ILogger logger, IRepository repository)
+        public NhInventoryItemDenormalizer(ILogger logger, IRepository repository)
         {
-            _itemWriter = itemWriter;
             _logger = logger;
             _repository = repository;
         }
@@ -30,18 +28,22 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         public void CreateItemOnDenormalizedView(InventoryItemCreated @event)
         {
             Log(string.Format("adding {0} to item list", @event.Sku));
-            _itemWriter.Save(new InventoryItem(@event.Id, @event.Sku,@event.ItemDescription));
+            var qm = new InventoryItemTotalQuantity(@event.Id);
+            SaveOrUpdate(qm);
         }
 
         public void UpdateQuantityOnReceived(InventoryItemReceived @event)
         {
             Log(string.Format("updating inventory summary of item {0} ", @event.AggregateId));
-
+            //var aggregate = _repository.GetById<Sample.Domain.Inventory.Domain.InventoryItem>(@event.AggregateId);
+            var qm = GetById<InventoryItemTotalQuantity>(@event.AggregateId);
+            qm.TotalAvailabilityInAllStorages += @event.Quantity;
+            SaveOrUpdate(qm);
         }
 
         private void Log(string message)
         {
-            _logger.Debug("[vm-builder] " + message);
+            _logger.Debug("[nh-qm-builder] " + message);
         }
     }
 }

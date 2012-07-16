@@ -23,12 +23,12 @@ using Proximo.Cqrs.Server.Impl;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
-using Sample.QueryModel.Storage.Readers;
 using Sample.Server.Messaging;
 using Sample.Server.Support;
 using log4net.Config;
 using Proximo.Cqrs.Bus.RhinoEsb.Castle;
 using Sample.Server.CommandHandlers;
+using Sample.QueryModel.Builder;
 
 namespace Sample.Server
 {

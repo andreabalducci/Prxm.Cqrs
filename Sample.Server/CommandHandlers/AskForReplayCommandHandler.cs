@@ -11,7 +11,6 @@ using EventStore.Persistence;
 using EventStore.Serialization;
 using Proximo.Cqrs.Server.Eventing;
 using MongoDB.Driver;
-using Sample.QueryModel.Storage.Readers;
 
 namespace Sample.Server.CommandHandlers
 {

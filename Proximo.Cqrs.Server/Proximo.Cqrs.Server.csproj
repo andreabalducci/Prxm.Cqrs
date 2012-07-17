@@ -54,6 +54,7 @@
     <Compile Include="Eventing\CommitToEventsDispatcher.cs" />
     <Compile Include="Eventing\DefaultDomainEventRouter.cs" />
     <Compile Include="Eventing\DomainEvent.cs" />
+    <Compile Include="Eventing\DomainEventInvoker.cs" />
     <Compile Include="Eventing\IDomainEvent.cs" />
     <Compile Include="Eventing\IDomainEventHandler.cs" />
     <Compile Include="Eventing\IDomainEventHandlerCatalog.cs" />

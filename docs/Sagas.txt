@@ -1,0 +1,39 @@
+What does a saga do ?
+
+- it should handle 'complex' business logic in which it need to orchestrate the action between different aggregate roots
+
+How does it do this thing?
+
+- it listens for 'activation' events (special events that trigger the saga).
+- it changes its internal state.
+- it issues commands that cause change of states in aggregates.
+
+[is this true?!?!] Everything that happens inside a saga is considered to be a business transaction. 
+
+
+Example: 
+Fund transfer between 2 bank-accounts in 2 different banks.
+
+the key question here is: where is the money ? we should be able to answer to this question in every step of the process.
+
+Actors:
+bank1 (and its money pool)
+bankaccount1
+bank2 (and its money pool)
+bankaccount2
+
+the goal is:
+Move 10$ from bankaccount1 to bankaccount2.
+
+we have 2 distinct bounded contextes here, that need to change with a not well defined but yet guaranteed protocol
+(bank1 and bank2 talk to each other with ack/nack logic in order to guarantee the message delivery, we give it for granted here).
+
+the process:
+
+bankaccount1 tells bank1 he want to transfer 10$ to bankaccount2.
+bank1 withdraws 10$ from bankaccount1 and place them in its private deposit.
+bank1 exchange data with bank2 (all the informations are carried over in order to let bank2 deposit the 10$).
+bank1 now waits for bank2 to deliver the money we have 2 possible results here.
+- bank2 confirms the operation (means the 10$ are correctly delivered to bankaccount2) and bank1 close the operation.
+- bank2 refuse or is unable to complete the transfer > bank1 has to deposit the 10$ back to banckaccount1.
+

@@ -29,157 +29,172 @@ using Sample.Server.Support;
 using log4net.Config;
 using Proximo.Cqrs.Bus.RhinoEsb.Castle;
 using Sample.Server.CommandHandlers;
+using Sample.QueryModel.Rebuilder;
 
 namespace Sample.Server
 {
-    class Program
-    {
-        private static IWindsorContainer _container;
+	class Program
+	{
+		private static IWindsorContainer _container;
 
-        static void Main(string[] args)
-        {
-            XmlConfigurator.Configure();
+		static void Main(string[] args)
+		{
+			XmlConfigurator.Configure();
 
-            PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
+			PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
 
-            _container = CreateContainer();
+			_container = CreateContainer();
 
-			//Sample.Server.Messaging.BootStrapper.GlobalContainer = _container;
-			          
 			ConfigureCommandSender();
-            AutomapEventsForMongoDB();
-            ConfigureQueryModelBuilder();
+			AutomapEventsForMongoDB();
+			ConfigureQueryModelBuilder();
+			ConfigureQueryModelRebuilder();
 
-			//var host = new DefaultHost();
-			//host.Start<Sample.Server.Messaging.BootStrapper>();
+			IStoreEvents store = _container.Resolve<IStoreEvents>();
+
+			// rebuild the views if needed (it must be done before the bus starts)
+			// todo: add some tracing
+			DenormalizerRebuilder rebuilder = _container.Resolve<DenormalizerRebuilder>();
+			rebuilder.Rebuild();
+			_container.Release(rebuilder);
 
 			_container.Install(
 				new RhinoServiceBusInstaller()
 				);
 			_container.Resolve<IStartableBus>().Start();
 
-            IStoreEvents store = _container.Resolve<IStoreEvents>();
+			Console.WriteLine("Server is running");
+			Console.ReadLine();
+		}
 
-            Console.WriteLine("Server is running");
-            Console.ReadLine();
-        }
+		private static IWindsorContainer CreateContainer()
+		{
+			var container = new WindsorContainer();
 
-        private static IWindsorContainer CreateContainer()
-        {
-            var container = new WindsorContainer();
+			//// command handlers
+			//container.Register(
+			//    Classes
+			//        .FromAssemblyContaining<NewInventoryItemHandler>()
+			//        .BasedOn(typeof(ICommandHandler<>))
+			//        .WithServiceAllInterfaces()
+			//        .LifestyleTransient()
+			//);
 
-            //// command handlers
-            //container.Register(
-            //    Classes
-            //        .FromAssemblyContaining<NewInventoryItemHandler>()
-            //        .BasedOn(typeof(ICommandHandler<>))
-            //        .WithServiceAllInterfaces()
-            //        .LifestyleTransient()
-            //);
+			//// No more needed, there is the catalog.
+			//// wire up some system commands
+			//container.Register(
+			//    Classes
+			//        .FromAssemblyContaining<AskForReplayCommandHandler>()
+			//        .BasedOn(typeof(ICommandHandler<>))
+			//        .WithServiceAllInterfaces()
+			//        .LifestyleTransient()
+			//);
 
-            //// No more needed, there is the catalog.
-            //// wire up some system commands
-            //container.Register(
-            //    Classes
-            //        .FromAssemblyContaining<AskForReplayCommandHandler>()
-            //        .BasedOn(typeof(ICommandHandler<>))
-            //        .WithServiceAllInterfaces()
-            //        .LifestyleTransient()
-            //);
+			//// event handlers
+			//container.Register(
+			//    Classes
+			//        .FromAssemblyContaining<NewInventoryItemCreatedEventHandler>()
+			//        .BasedOn(typeof(IDomainEventHandler<>))
+			//        .WithServiceAllInterfaces()
+			//        .LifestyleTransient()
+			//);
 
-            //// event handlers
-            //container.Register(
-            //    Classes
-            //        .FromAssemblyContaining<NewInventoryItemCreatedEventHandler>()
-            //        .BasedOn(typeof(IDomainEventHandler<>))
-            //        .WithServiceAllInterfaces()
-            //        .LifestyleTransient()
-            //);
+			// registers the Rhino.ServiceBus endpoints
+			container.Register(
+				Classes
+					.FromAssemblyContaining<CommandEnvelopeConsumer>()
+					.BasedOn(typeof(ConsumerOf<>))
+					.WithServiceAllInterfaces()
+					.LifestyleTransient()
+			);
 
-            // registers the Rhino.ServiceBus endpoints
-            container.Register(
-                Classes
-                    .FromAssemblyContaining<CommandEnvelopeConsumer>()
-                    .BasedOn(typeof(ConsumerOf<>))
-                    .WithServiceAllInterfaces()
-                    .LifestyleTransient()
-            );
+			// env wiring
+			container.Register(
+				Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
 
-            // env wiring
-            container.Register(
-                Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
+				// commands
+				Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
+				//Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
+				Component.For<ICommandHandlerCatalog, IDomainEventHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
+				// events
+				//Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
 
-                // commands
-                Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
-                //Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
-                Component.For<ICommandHandlerCatalog, IDomainEventHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
-                // events
-                //Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
-               
-                Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
+				Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
 				Component.For<IDomainEventRouterForQueryModelRebuild>().ImplementedBy<DomainEventRouterForQueryModelRebuild>(),
-                Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
-            );
+				Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
+			);
 
-            // CommonDomain & EventStore initialization 
-            container.Register(
-                Component.For<IConstructAggregates>().ImplementedBy<AggregateFactory>(),
-                Component.For<IDetectConflicts>().ImplementedBy<ConflictDetector>().LifestyleTransient(),
-                Component.For<IRepository>().ImplementedBy<EventStoreRepository>().LifestyleTransient(),
-                Component.For<IStoreEvents>()
-                    .UsingFactoryMethod<IStoreEvents>(k => Wireup.Init()
-                                                               .UsingMongoPersistence("server", new DocumentObjectSerializer())
-                                                               .InitializeStorageEngine()
-                                                               .UsingAsynchronousDispatchScheduler()
-                                                               //.UsingSynchronousDispatchScheduler() // enable synchronous dispatching of domainevents
-                                                                    .DispatchTo(container.Resolve<IDispatchCommits>())
-                                                               .Build())
-                );
+			// CommonDomain & EventStore initialization 
+			container.Register(
+				Component.For<IConstructAggregates>().ImplementedBy<AggregateFactory>(),
+				Component.For<IDetectConflicts>().ImplementedBy<ConflictDetector>().LifestyleTransient(),
+				Component.For<IRepository>().ImplementedBy<EventStoreRepository>().LifestyleTransient(),
+				Component.For<IStoreEvents>()
+					.UsingFactoryMethod<IStoreEvents>(k => Wireup.Init()
+															   .UsingMongoPersistence("server", new DocumentObjectSerializer())
+															   .InitializeStorageEngine()
+															   .UsingAsynchronousDispatchScheduler()
+						//.UsingSynchronousDispatchScheduler() // enable synchronous dispatching of domainevents
+																	.DispatchTo(container.Resolve<IDispatchCommits>())
+															   .Build())
+				);
 
-            return container;
-        }
-
-
-        private static void AutomapEventsForMongoDB()
-        {
-            var assembly = typeof(InventoryItemCreated).Assembly;
-            var domainEvents = assembly.GetTypes().Where(x => typeof(IDomainEvent).IsAssignableFrom(x));
-
-            BsonClassMap.RegisterClassMap<AggregateVersion>(
-                map => {
-                    map.MapIdProperty(x => x.Id).SetElementName("a");
-                    map.MapProperty(x => x.Version).SetElementName("v"); 
-                }
-            );
+			return container;
+		}
 
 
-            // automapping domain events
-            foreach (var domainEvent in domainEvents)
-            {
-                BsonClassMap.LookupClassMap(domainEvent);
-            }
-        }
+		private static void AutomapEventsForMongoDB()
+		{
+			var assembly = typeof(InventoryItemCreated).Assembly;
+			var domainEvents = assembly.GetTypes().Where(x => typeof(IDomainEvent).IsAssignableFrom(x));
 
-        private static void ConfigureQueryModelBuilder()
-        {
-            _container.Register(
-                //Classes.FromAssemblyContaining<InventoryItemDenormalizer>()
-                //    .BasedOn(typeof(IDomainEventHandler<>))
-                //    .WithServiceAllInterfaces()
-                //    .LifestyleTransient(),
-                Component.For<MongoDatabase>().UsingFactoryMethod(k =>
-                {
-                    var builder = new MongoConnectionStringBuilder(ConfigurationManager.ConnectionStrings["query"].ToString());
-                    var db = MongoServer.Create(builder).GetDatabase(builder.DatabaseName);
-                    return db;
-                }),
-                Component.For(typeof(IModelWriter<>)).ImplementedBy(typeof(ModelWriter<>)).LifeStyle.Transient
-            );
-        }
+			BsonClassMap.RegisterClassMap<AggregateVersion>(
+				map =>
+				{
+					map.MapIdProperty(x => x.Id).SetElementName("a");
+					map.MapProperty(x => x.Version).SetElementName("v");
+				}
+			);
 
-        private static void ConfigureCommandSender()
-        {
-            _container.Register(Component.For<ICommandQueue>().ImplementedBy<RhinoEsbCommandQueue>());
-        }
-    }
+
+			// automapping domain events
+			foreach (var domainEvent in domainEvents)
+			{
+				BsonClassMap.LookupClassMap(domainEvent);
+			}
+		}
+
+		private static void ConfigureQueryModelBuilder()
+		{
+			_container.Register(
+				//Classes.FromAssemblyContaining<InventoryItemDenormalizer>()
+				//    .BasedOn(typeof(IDomainEventHandler<>))
+				//    .WithServiceAllInterfaces()
+				//    .LifestyleTransient(),
+				Component.For<MongoDatabase>().UsingFactoryMethod(k =>
+				{
+					var builder = new MongoConnectionStringBuilder(ConfigurationManager.ConnectionStrings["query"].ToString());
+					var db = MongoServer.Create(builder).GetDatabase(builder.DatabaseName);
+					return db;
+				}),
+				Component.For(typeof(IModelWriter<>)).ImplementedBy(typeof(ModelWriter<>)).LifeStyle.Transient
+			);
+		}
+
+		private static void ConfigureQueryModelRebuilder()
+		{
+			_container.Register(
+				// Component.For<IDenormalizerCatalog>().ImplementedBy<
+			   Component.For<IHashcodeGenerator>().ImplementedBy<HashcodeGenerator>(),
+			   Component.For<IDenormalizerCatalog>().ImplementedBy<DenormalizersDemoCatalog>(),
+			   Component.For<IDenormalizersHashesStore>().ImplementedBy<MongoDbDenormalizersHashesStore>(),
+			   Component.For<DenormalizerRebuilder>()
+			 );
+		}
+
+		private static void ConfigureCommandSender()
+		{
+			_container.Register(Component.For<ICommandQueue>().ImplementedBy<RhinoEsbCommandQueue>());
+		}
+	}
 }

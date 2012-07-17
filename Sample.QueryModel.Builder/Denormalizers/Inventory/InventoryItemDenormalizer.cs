@@ -14,10 +14,14 @@ using InventoryItem = Sample.QueryModel.Inventory.InventoryItem;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
+	/// <summary>
+	/// Projects the data in a way that is convenient for the interface
+	/// 
+	/// if we use these very same denormalizers to also allow for rebuilding they need to provide the logic to update the items too
+	/// (even if you are handling creation events).
+	/// </summary>
     public class InventoryItemDenormalizer :
-        IDomainEventDenormalizer<InventoryItemCreated>,
-        IDomainEventDenormalizer<InventoryItemReceived>
-
+        IDomainEventDenormalizer
     {
         private IModelWriter<Sample.QueryModel.Inventory.InventoryItem> _itemWriter;
         private IModelWriter<Sample.QueryModel.Inventory.LastReceivedGoods> _lastReceivedGoodsWriter;
@@ -33,7 +37,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         public void Handle(InventoryItemCreated @event)
         {
             Log(string.Format("adding {0} to item list", @event.Sku));
-            _itemWriter.Save(new InventoryItem(@event.Id, @event.Sku,@event.ItemDescription));
+            _itemWriter.Save(new InventoryItem(@event.Id, @event.Sku,@event.ItemDescription + " modified"));
         }
 
         public void Handle(InventoryItemReceived @event)

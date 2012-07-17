@@ -36,6 +36,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
@@ -106,6 +125,8 @@
     <Compile Include="Messaging\PrepareQueues.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\DenormalizersDemoCatalog.cs" />
+    <Compile Include="Support\MongoDbDenormalizersHashesStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -143,6 +164,10 @@
     <ProjectReference Include="..\Sample.QueryModel.Builder\Sample.QueryModel.Builder.csproj">
       <Project>{84EC82FA-564F-4BBD-BC3F-EEB69D1E6DBE}</Project>
       <Name>Sample.QueryModel.Builder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.QueryModel.Rebuilder\Sample.QueryModel.Rebuilder.csproj">
+      <Project>{420906E8-A239-4EE4-803B-C285C06F645D}</Project>
+      <Name>Sample.QueryModel.Rebuilder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

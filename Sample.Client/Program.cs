@@ -36,9 +36,9 @@ namespace Sample.Client
             //
             var commandSender = container.Resolve<ICommandQueue>();
 
-			Console.WriteLine("Client ready");
+			//Console.WriteLine("Client ready");
 
-            commandSender.Enqueue(new PoisoningCommand(Guid.NewGuid()));
+            //commandSender.Enqueue(new PoisoningCommand(Guid.NewGuid()));
 
 
 			//

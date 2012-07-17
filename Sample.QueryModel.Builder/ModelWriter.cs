@@ -27,6 +27,5 @@ namespace Sample.QueryModel.Storage.Readers
         {
             Collecton.Save(model);
         }
-    }
-        
+    }        
 }

@@ -32,7 +32,10 @@ namespace Sample.Server.CommandHandlers
             var handlerList = _domainEventHandlerCatalog.GetAllHandlerFor(eventType);
             foreach (var invoker in handlerList)
             {
-                invoker(@event as IDomainEvent);
+                if (invoker.DefiningType is IDomainEventDenormalizer)
+                {
+                    invoker.Invoke(@event as IDomainEvent);
+                }
             }
             //var eventType = @event.GetType();
             //var eventHandlerType = typeof(IDomainEventDenormalizer<>).MakeGenericType(eventType);

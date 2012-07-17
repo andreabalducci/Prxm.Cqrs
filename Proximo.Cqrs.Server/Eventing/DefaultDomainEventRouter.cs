@@ -21,7 +21,7 @@ namespace Proximo.Cqrs.Server.Eventing
             var handlerInvokerList = _domainEventHandlerCatalog.GetAllHandlerFor(eventType);
             foreach (var invoker in handlerInvokerList)
             {
-                invoker(@event as IDomainEvent);
+                invoker.Invoke(@event as IDomainEvent);
             }
 
             //var eventHandlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);

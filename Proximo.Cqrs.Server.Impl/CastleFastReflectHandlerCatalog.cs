@@ -245,13 +245,13 @@ namespace Proximo.Cqrs.Server.Impl
 
         private List<DomainEventHandlerInfo> cachedHandlers = new List<DomainEventHandlerInfo>();
 
-        public IEnumerable<Action<IDomainEvent>> GetAllHandlerFor(Type domainEventType)
+        public IEnumerable<DomainEventInvoker> GetAllHandlerFor(Type domainEventType)
         {
             //TODO: Cache this
 
             return cachedHandlers
                 .Where(h => h.CanHandleEvent(domainEventType))
-                .Select<DomainEventHandlerInfo, Action<IDomainEvent>>(h => h.Execute);
+                .Select<DomainEventHandlerInfo, DomainEventInvoker>(h => new DomainEventInvoker(h.Execute, h._executorType));
           
         }
     }

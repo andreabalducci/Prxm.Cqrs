@@ -77,7 +77,7 @@ namespace Sample.Tests.Server.Support
             MyDomainEvent evt = new MyDomainEvent();
             foreach (var handler in listOfHandlers)
             {
-                handler(evt);
+                handler.Invoke(evt);
             }
             evt.CallCount.Should().Be.EqualTo(1);
         }
@@ -89,14 +89,14 @@ namespace Sample.Tests.Server.Support
             MyBaseDomainEvent evtbase = new MyBaseDomainEvent();
             foreach (var handler in listOfHandlers)
             {
-                handler(evtbase);
+                handler.Invoke(evtbase);
             }
             evtbase.CallCount.Should().Be.EqualTo(1);
 
             MyDerivedDomainEvent evtderived = new MyDerivedDomainEvent();
             foreach (var handler in listOfHandlers)
             {
-                handler(evtderived);
+                handler.Invoke(evtderived);
             }
             evtderived.CallCount.Should().Be.EqualTo(1);
         }
@@ -108,7 +108,7 @@ namespace Sample.Tests.Server.Support
             MyDerivedDomainEvent evtderived = new MyDerivedDomainEvent();
             foreach (var handler in listOfHandlers)
             {
-                handler(evtderived);
+                handler.Invoke(evtderived);
             }
             evtderived.CallCountSpecific.Should().Be.EqualTo(1);
         }

@@ -1,4 +1,4 @@
-namespace Sample.QueryModel.Storage.Readers
+namespace Sample.QueryModel.Builder
 {
     public interface IModelWriter<T>
     {

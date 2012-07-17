@@ -6,9 +6,8 @@ using Proximo.Cqrs.Core.Commanding;
 
 namespace Sample.Commands.Inventory
 {
-    public class CreateInventoryItemCommand : ICommand
+    public class CreateInventoryItemCommand : CommandBase
     {
-        public Guid Id { get; private set; }
         
         // data
         public Guid ItemId { get; set; }

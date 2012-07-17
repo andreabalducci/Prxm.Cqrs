@@ -10,16 +10,16 @@ namespace Sample.Domain.Inventory.EventHandlers
 {
     public class NewInventoryItemCreatedEventHandler : IDomainEventHandler
     {
-        protected IDebugLogger _logger;
+        protected ILogger _logger;
 
-        public NewInventoryItemCreatedEventHandler(IDebugLogger logger)
+        public NewInventoryItemCreatedEventHandler(ILogger logger)
         {
             _logger = logger;
         }
 
         public void ReactToInventoryItemCreated(InventoryItemCreated @event)
         {
-            _logger.Log(string.Format("[inventory] item {0} has been created and handled", @event.Sku));
+            _logger.Debug(string.Format("[inventory] item {0} has been created and handled", @event.Sku));
         }
     }
 }

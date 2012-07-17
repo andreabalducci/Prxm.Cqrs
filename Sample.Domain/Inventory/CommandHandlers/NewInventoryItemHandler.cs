@@ -16,9 +16,9 @@ namespace Sample.Domain.Inventory.Handlers
     public class NewInventoryItemHandler : ICommandHandler
     {
         private IRepository _repository;
-        private IDebugLogger _logger;
+        private ILogger _logger;
 
-        public NewInventoryItemHandler(IRepository repository, IDebugLogger logger)
+        public NewInventoryItemHandler(IRepository repository, ILogger logger)
         {
             _repository = repository;
             _logger = logger;
@@ -26,21 +26,21 @@ namespace Sample.Domain.Inventory.Handlers
 
         public void CreateInventoryItem(CreateInventoryItemCommand command)
         {
-            _logger.Log("[inventory] Creating item " + command.Sku);
+            _logger.Debug("[inventory] Creating item " + command.Sku);
             _repository.Save(
                 new InventoryItem(command.ItemId, command.Sku, command.Description),
                 command.Id
             );
-            _logger.Log("[inventory] Item " + command.Sku + " saved");
+            _logger.Debug("[inventory] Item " + command.Sku + " saved");
         }
 
 		public void UpdateInventoryItemDescription(UpdateInventoryItemDescriptionCommand command)
 		{
 			var aggregate = _repository.GetById<InventoryItem>(command.ItemId);
-			_logger.Log(string.Format("[inventory] updating item " + aggregate.ItemId + " description from '" + aggregate.Description + "' to '" + command.Description + "'"));
+            _logger.Debug(string.Format("[inventory] updating item " + aggregate.ItemId + " description from '" + aggregate.Description + "' to '" + command.Description + "'"));
 			aggregate.UpdateDescription(command.Description);
 			_repository.Save(aggregate, command.Id);
-			_logger.Log("[inventory] Item " + aggregate.ItemId + " saved");
+            _logger.Debug("[inventory] Item " + aggregate.ItemId + " saved");
 		}
     }
 }

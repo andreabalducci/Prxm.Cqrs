@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MongoDB.Driver;
 
-namespace Sample.QueryModel.Storage.Readers
+namespace Sample.QueryModel.Builder
 {
     public class ModelWriter<T> : IModelWriter<T>
     {

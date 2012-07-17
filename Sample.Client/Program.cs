@@ -25,7 +25,7 @@ namespace Sample.Client
 			// setup
 			//
 			var container = new WindsorContainer();
-			
+
 			container.Install(
 				new OnewayRhinoServiceBusInstaller()
 				);
@@ -38,8 +38,8 @@ namespace Sample.Client
 
 			//Console.WriteLine("Client ready");
 
+            ////TODO: do not send directly a poisoningcommand in client until an handler is ready do handle it.
             //commandSender.Enqueue(new PoisoningCommand(Guid.NewGuid()));
-
 
 			//
 			// Create command

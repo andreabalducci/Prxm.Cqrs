@@ -13,10 +13,10 @@ namespace Sample.Domain.Inventory.CommandHandlers
 {
     public class StockIncomingItemCommandHandler : ICommandHandler
     {
-        private readonly IDebugLogger _logger;
+        private readonly ILogger _logger;
         private readonly IRepository _repository;
         private readonly ICommandQueue _commandQueue;
-        public StockIncomingItemCommandHandler(IDebugLogger logger, IRepository repository, ICommandQueue commandQueue)
+        public StockIncomingItemCommandHandler(ILogger logger, IRepository repository, ICommandQueue commandQueue)
         {
             _logger = logger;
             _repository = repository;
@@ -25,7 +25,7 @@ namespace Sample.Domain.Inventory.CommandHandlers
 
         public void StockIncoming(StockIncomingItemCommand command)
         {
-            Log(string.Format("Received item {0} qty {1}", command.Sku, command.Quantity ));
+            Log(string.Format("Received item {0} qty {1}", command.Sku, command.Quantity));
 
             //
             // Create the item if not found (it's just a sample, should not be applied to a real system)
@@ -39,22 +39,23 @@ namespace Sample.Domain.Inventory.CommandHandlers
                                             Description = command.Description,
                                             ItemId = command.ItemId,
                                             Sku = command.Sku
-                                        });                
-            
+                                        });
+
                 // push back the command (disclaimer: assuming a single thread processor)
                 // maybe we should change che command id? (check event store concurrency)
                 Log("Requeuing incoming stock request");
                 _commandQueue.Enqueue(command);
                 return;
             }
-            
+
             item.IncreaseStock(command.Quantity);
+            _repository.Save(item, command.Id); //In the previous version we forget to call save
             Log(string.Format("Item {0} +{1} ", command.Sku, command.Quantity));
         }
 
         private void Log(string message)
         {
-            _logger.Log("[inventory] " + message);
+            _logger.Debug("[inventory] " + message);
         }
     }
 }

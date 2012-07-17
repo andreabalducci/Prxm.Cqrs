@@ -9,7 +9,7 @@ using Sample.Domain.Inventory.Domain;
 using Sample.Domain.Inventory.Domain.Events;
 using Sample.Domain.Inventory.EventHandlers;
 using Sample.QueryModel.Inventory;
-using Sample.QueryModel.Storage.Readers;
+
 using InventoryItem = Sample.QueryModel.Inventory.InventoryItem;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
@@ -25,22 +25,22 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
     {
         private IModelWriter<Sample.QueryModel.Inventory.InventoryItem> _itemWriter;
         private IModelWriter<Sample.QueryModel.Inventory.LastReceivedGoods> _lastReceivedGoodsWriter;
-        private IDebugLogger _logger;
+        private ILogger _logger;
         private IRepository _repository;
-        public InventoryItemDenormalizer(IModelWriter<InventoryItem> itemWriter, IDebugLogger logger, IRepository repository)
+        public InventoryItemDenormalizer(IModelWriter<InventoryItem> itemWriter, ILogger logger, IRepository repository)
         {
             _itemWriter = itemWriter;
             _logger = logger;
             _repository = repository;
         }
 
-        public void Handle(InventoryItemCreated @event)
+        public void CreateItemOnDenormalizedView(InventoryItemCreated @event)
         {
             Log(string.Format("adding {0} to item list", @event.Sku));
-            _itemWriter.Save(new InventoryItem(@event.Id, @event.Sku,@event.ItemDescription + " modified"));
+            _itemWriter.Save(new InventoryItem(@event.Id, @event.Sku,@event.ItemDescription));
         }
 
-        public void Handle(InventoryItemReceived @event)
+        public void UpdateQuantityOnReceived(InventoryItemReceived @event)
         {
             Log(string.Format("updating inventory summary of item {0} ", @event.AggregateId));
 
@@ -48,7 +48,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 
         private void Log(string message)
         {
-            _logger.Log("[vm-builder] "+message);
+            _logger.Debug("[vm-builder] " + message);
         }
     }
 }

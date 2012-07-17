@@ -12,10 +12,10 @@ namespace Sample.Domain.Inventory.EventHandlers
 {
     public class SyncWithEcommerceEventHandler : IDomainEventHandler
     {
-        protected readonly IDebugLogger _logger;
+        protected readonly ILogger _logger;
         protected readonly ICommandQueue _commandQueue;
 
-        public SyncWithEcommerceEventHandler(IDebugLogger logger, ICommandQueue commandQueue)
+        public SyncWithEcommerceEventHandler(ILogger logger, ICommandQueue commandQueue)
         {
             _logger = logger;
             _commandQueue = commandQueue;
@@ -23,7 +23,7 @@ namespace Sample.Domain.Inventory.EventHandlers
 
         public void Handle(InventoryItemCreated @event)
         {
-            _logger.Log("[inventory] Telling ecommerce there's a new item in town");
+            _logger.Debug("[inventory] Telling ecommerce there's a new item in town");
 
             var id = Guid.NewGuid();
             _commandQueue.Enqueue(new CreateEcommerceItemCommand(id)

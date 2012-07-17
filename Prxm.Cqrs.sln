@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proximo.Cqrs.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.QueryModel.Rebuilder", "Sample.QueryModel.Rebuilder\Sample.QueryModel.Rebuilder.csproj", "{420906E8-A239-4EE4-803B-C285C06F645D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.QueryModel.NHibernate", "Sample.QueryModel.NHibernate\Sample.QueryModel.NHibernate.csproj", "{14207B62-8B62-4EBE-B211-DE9F3E6064D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -202,6 +204,16 @@ Global
 		{420906E8-A239-4EE4-803B-C285C06F645D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{420906E8-A239-4EE4-803B-C285C06F645D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{420906E8-A239-4EE4-803B-C285C06F645D}.Release|x86.ActiveCfg = Release|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

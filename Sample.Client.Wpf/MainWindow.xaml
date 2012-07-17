@@ -1,0 +1,43 @@
+﻿<Window x:Class="Sample.Client.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="26" />
+        </Grid.RowDefinitions>
+        <DockPanel >
+            <TextBlock DockPanel.Dock="Left" Height="23" HorizontalAlignment="Left" Text="Sku" VerticalAlignment="Center" />
+            <TextBox x:Name="txtNewItemSku" DockPanel.Dock="Left" Width="50"/>
+            <TextBlock DockPanel.Dock="Left" HorizontalAlignment="Left" Text="Description" VerticalAlignment="Center" />
+            <Button DockPanel.Dock="Right" Content="Create" Click="CreateNewItem" />
+            <TextBox  x:Name="txtNewItemDescription"  />
+        </DockPanel>
+        <DockPanel Grid.Row="1">
+            <Button Content="Reload" Click="Reload" />
+        </DockPanel>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding InventoryTotalItemView}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedInventoryTotalItemView}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Sku" Binding="{Binding Sku}" />
+                <DataGridTextColumn Header="Quantity" Binding="{Binding TotalAvailabilityInAllStorages}" />
+                <!--<DataGridTemplateColumn Header="UpdateQuantity">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+        <DockPanel Grid.Row="3" >
+            <TextBlock Text="{Binding SelectedInventoryTotalItemView.Sku, StringFormat=Selected {0}}" ></TextBlock>
+            <TextBlock Text="Quantity to Add" />
+            <Button DockPanel.Dock="Right" Content="Add Quantity" Click="AddQuantityToSelectedItem" />
+            <TextBox Text="{Binding QuantityToAddToSelectedItem}"  />
+            
+        </DockPanel>
+    </Grid>
+</Window>

@@ -15,13 +15,13 @@ namespace Proximo.Cqrs.Bus.Local.Commanding
 	/// </summary>
 	public class InProcessCommandQueue : ICommandQueue
 	{
-		private IDebugLogger _logger;
+		private ILogger _logger;
 		private readonly ICommandRouter _commandRouter;
 
 		private readonly ConcurrentQueue<ICommand> _commands = new ConcurrentQueue<ICommand>();
 
 		private bool _running;
-		public InProcessCommandQueue(ICommandRouter commadRouter, IDebugLogger logger)
+		public InProcessCommandQueue(ICommandRouter commadRouter, ILogger logger)
 		{
 			_commandRouter = commadRouter;
 			_logger = logger;
@@ -30,7 +30,7 @@ namespace Proximo.Cqrs.Bus.Local.Commanding
 
 		public void Enqueue<T>(T command) where T : class, Core.Commanding.ICommand
 		{
-			_logger.Log("Queuing command " + command.GetType());
+			_logger.Info("Queuing command " + command.GetType());
 			_commands.Enqueue(command);
 
 			if (_running)

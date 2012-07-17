@@ -118,10 +118,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\AskForReplayCommandHandler.cs" />
+    <Compile Include="CommandHandlers\AskForReplayHandlerReplayCommandHandler.cs" />
     <Compile Include="CommandHandlers\DomainEventRouterForQueryModelRebuild.cs" />
     <Compile Include="Support\AggregateFactory.cs" />
     <Compile Include="Support\CastleEventHandlerFactory.cs" />
-    <Compile Include="Support\ConsoleDebugLogger.cs" />
     <Compile Include="Messaging\PrepareQueues.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -169,6 +169,12 @@
       <Project>{420906E8-A239-4EE4-803B-C285C06F645D}</Project>
       <Name>Sample.QueryModel.Rebuilder</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NHibernateQueryModelConfiguration.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

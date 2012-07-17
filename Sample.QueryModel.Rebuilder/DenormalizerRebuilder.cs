@@ -21,11 +21,11 @@ namespace Sample.QueryModel.Rebuilder
 		private readonly IStoreEvents _eventStore;
 		private readonly IDenormalizersHashesStore _denormalizersHashesStore;
 		private readonly IHashcodeGenerator _hashcodeGenerator;
-		private readonly IDebugLogger _logger;
+		private readonly ILogger _logger;
 		private readonly IDomainEventHandlerCatalog _domainEventHandlerCatalog;
 
 		public DenormalizerRebuilder(IDenormalizerCatalog catalog, IDenormalizersHashesStore hashesStore,
-			IHashcodeGenerator hashcodeGenerator, IDomainEventHandlerCatalog domainEventCatalog, IStoreEvents eventStore, IDebugLogger logger)
+			IHashcodeGenerator hashcodeGenerator, IDomainEventHandlerCatalog domainEventCatalog, IStoreEvents eventStore, ILogger logger)
 		{
 			_catalog = catalog;
 			_eventStore = eventStore;
@@ -69,23 +69,23 @@ namespace Sample.QueryModel.Rebuilder
 			if (denormalizersToRebuild.Count > 0)
 			{
 				// ask the engine to perform a complete event replay
-				_logger.Log("Commits Replay Start");
+				_logger.Info("Commits Replay Start");
 
 				// get all the commits and related events
 				var commitList = _eventStore.Advanced.GetFrom(DateTime.MinValue);
-				_logger.Log(string.Format("Processing {0} commits", commitList.Count()));
+				_logger.Info(string.Format("Processing {0} commits", commitList.Count()));
 
 				foreach (var commit in commitList)
 				{
 					if (commit.Headers.Count > 0)
-						_logger.Log(string.Format("Commit Header {0}", DumpDictionaryToString(commit.Headers)));
+						_logger.Info(string.Format("Commit Header {0}", DumpDictionaryToString(commit.Headers)));
 
 					foreach (var committedEvent in commit.Events)
 					{
-						_logger.Log(string.Format("Replaying event: {0}", committedEvent.Body.ToString()));
+						_logger.Info(string.Format("Replaying event: {0}", committedEvent.Body.ToString()));
 
 						if (committedEvent.Headers.Count > 0)
-							_logger.Log(string.Format("Event Header {0}", DumpDictionaryToString(committedEvent.Headers)));
+							_logger.Info(string.Format("Event Header {0}", DumpDictionaryToString(committedEvent.Headers)));
 
 						// it has side effects, like generating new commits on the eventstore
 						//OriginalDomainEventRouter.Dispatch(committedEvent.Body);
@@ -99,7 +99,7 @@ namespace Sample.QueryModel.Rebuilder
 							}
 						}
 
-						_logger.Log("Event Replay Completed");
+						_logger.Info("Event Replay Completed");
 					}
 				}
 				// persist the new series of hashes

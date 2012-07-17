@@ -9,9 +9,9 @@ namespace Sample.Domain.Ecommerce.CommandHandlers
     public class NewEcommerceItemHandler : ICommandHandler
     {
         private readonly IRepository _repository;
-        private readonly IDebugLogger _logger;
+        private readonly ILogger _logger;
 
-        public NewEcommerceItemHandler(IRepository repository, IDebugLogger logger)
+        public NewEcommerceItemHandler(IRepository repository, ILogger logger)
         {
             _repository = repository;
             _logger = logger;
@@ -19,12 +19,12 @@ namespace Sample.Domain.Ecommerce.CommandHandlers
 
         public void CreateECommerce(CreateEcommerceItemCommand command)
         {
-            _logger.Log("[ecommerce] new item " + command.Sku);
+            _logger.Debug("[ecommerce] new item " + command.Sku);
             _repository.Save(
                 new EcommerceItem(command.ItemId, command.Sku, command.ItemDescription), 
                 command.Id
             );
-            _logger.Log("[ecommerce] Item " + command.Sku + " saved");
+            _logger.Debug("[ecommerce] Item " + command.Sku + " saved");
         }
 
     }

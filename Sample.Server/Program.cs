@@ -23,13 +23,13 @@ using Proximo.Cqrs.Server.Impl;
 using Rhino.ServiceBus;
 using Rhino.ServiceBus.Msmq;
 using Sample.Domain.Inventory.Domain.Events;
-using Sample.QueryModel.Storage.Readers;
 using Sample.Server.Messaging;
 using Sample.Server.Support;
 using log4net.Config;
 using Proximo.Cqrs.Bus.RhinoEsb.Castle;
 using Sample.Server.CommandHandlers;
 using Sample.QueryModel.Rebuilder;
+using Sample.QueryModel.Builder;
 
 namespace Sample.Server
 {
@@ -50,7 +50,9 @@ namespace Sample.Server
 			ConfigureQueryModelBuilder();
 			ConfigureQueryModelRebuilder();
 
-			IStoreEvents store = _container.Resolve<IStoreEvents>();
+			_container.Install(
+				new RhinoServiceBusInstaller()
+				);
 
 			// rebuild the views if needed (it must be done before the bus starts)
 			// todo: add some tracing
@@ -58,10 +60,9 @@ namespace Sample.Server
 			rebuilder.Rebuild();
 			_container.Release(rebuilder);
 
-			_container.Install(
-				new RhinoServiceBusInstaller()
-				);
 			_container.Resolve<IStartableBus>().Start();
+
+			IStoreEvents store = _container.Resolve<IStoreEvents>();
 
 			Console.WriteLine("Server is running");
 			Console.ReadLine();
@@ -99,6 +100,9 @@ namespace Sample.Server
 			//        .LifestyleTransient()
 			//);
 
+			//register the custom logging facility
+			container.AddFacility<LoggingFacility>();
+
 			// registers the Rhino.ServiceBus endpoints
 			container.Register(
 				Classes
@@ -110,7 +114,7 @@ namespace Sample.Server
 
 			// env wiring
 			container.Register(
-				Component.For<IDebugLogger>().ImplementedBy<ConsoleDebugLogger>(),
+				Component.For<ILogger>().ImplementedBy<Log4netLogger>(),
 
 				// commands
 				Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
@@ -184,12 +188,11 @@ namespace Sample.Server
 		private static void ConfigureQueryModelRebuilder()
 		{
 			_container.Register(
-				// Component.For<IDenormalizerCatalog>().ImplementedBy<
-			   Component.For<IHashcodeGenerator>().ImplementedBy<HashcodeGenerator>(),
-			   Component.For<IDenormalizerCatalog>().ImplementedBy<DenormalizersDemoCatalog>(),
-			   Component.For<IDenormalizersHashesStore>().ImplementedBy<MongoDbDenormalizersHashesStore>(),
-			   Component.For<DenormalizerRebuilder>()
-			 );
+				Component.For<IHashcodeGenerator>().ImplementedBy<HashcodeGenerator>(),
+				Component.For<IDenormalizerCatalog>().ImplementedBy<DenormalizersDemoCatalog>(),
+				Component.For<IDenormalizersHashesStore>().ImplementedBy<MongoDbDenormalizersHashesStore>(),
+				Component.For<DenormalizerRebuilder>()
+			);
 		}
 
 		private static void ConfigureCommandSender()

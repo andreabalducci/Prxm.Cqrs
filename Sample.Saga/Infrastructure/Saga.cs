@@ -15,10 +15,14 @@ namespace Sample.Saga.Infrastructure
 	/// It should NOT act on them directly changing their state, it acts as a business decision point and command dispatching
 	/// 
 	/// the idea is this:
-	/// - a saga is wake up by command or events
+	/// - a saga is wake up by an event (even commands in the future): the domain expresses the will to do something with an event that triggers the saga.
 	/// - in the handling function the saga need to retrieve its state from a repository (we need a common correlation id in all the messages handled in order to uniquely identify the saga that is executing)
 	/// - the saga takes its decisions and sends commands to tell the world what to do
 	/// - if it's completed the saga mark itself as completed (and possibly remove itself from the storage...no need to keep these data right ?!?!)
+	/// 
+	/// assumption: once the saga is completed it's useless (the process is done and all the info are traced by the domain events), so we remove it form the repository
+	/// 
+	/// todo: add timeout support
 	/// </summary>
 	/// <typeparam name="TState"></typeparam>
 	public abstract class Saga<TState> where TState : SagaState
@@ -27,9 +31,27 @@ namespace Sample.Saga.Infrastructure
 
 		protected ICommandQueue CommandQueue { get; set; }
 
-		public Saga(ICommandQueue commandQueue)
+		protected ISagaRepository Repository { get; set; }
+
+		public Saga(ISagaRepository repository, ICommandQueue commandQueue)
 		{
 			CommandQueue = commandQueue;
+			Repository = repository;
+		}
+
+		protected void PersistIfNotCompleted()
+		{
+			if (!State.Completed)
+			{
+				Repository.Save(State);
+			}
+		}
+
+		protected virtual void MarkAsCompleted()
+		{
+			State.Completed = true;
+			// and now what ? remove the state from the database
+			Repository.Remove(State);
 		}
 	}
 }

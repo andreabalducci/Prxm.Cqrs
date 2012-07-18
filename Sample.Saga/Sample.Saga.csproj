@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Demo.cs" />
     <Compile Include="Infrastructure\IamWakeUpBy.cs" />
+    <Compile Include="Infrastructure\ISagaRepository.cs" />
     <Compile Include="Infrastructure\Saga.cs" />
     <Compile Include="Infrastructure\SagaState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

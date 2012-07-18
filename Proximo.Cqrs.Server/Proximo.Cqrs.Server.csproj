@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregates\AggregateVersion.cs" />
+    <Compile Include="Commanding\CommandInvoker.cs" />
     <Compile Include="Commanding\DefaultCommandRouter.cs" />
     <Compile Include="Commanding\ICommandHandler.cs" />
     <Compile Include="Commanding\ICommandHandlerCatalog.cs" />

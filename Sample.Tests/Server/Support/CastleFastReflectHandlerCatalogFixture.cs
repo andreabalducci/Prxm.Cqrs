@@ -48,7 +48,7 @@ namespace Sample.Tests.Server.Support
         {
             //Verify that I'm able to execute Testcommand
             var cmd = new TestCommand();
-            sut.GetExecutorFor(typeof(TestCommand))(cmd);
+            sut.GetExecutorFor(typeof(TestCommand)).Invoke(cmd);
             cmd.CallCount.Should().Be.EqualTo(1);
         }
 
@@ -57,11 +57,11 @@ namespace Sample.Tests.Server.Support
         {
             //TestCommand1 is handled by an executor with two methods
             var cmd1 = new TestCommand1();
-            sut.GetExecutorFor(typeof(TestCommand1))(cmd1);
+            sut.GetExecutorFor(typeof(TestCommand1)).Invoke(cmd1);
             cmd1.CallCount.Should().Be.EqualTo(1);
 
             var cmd2 = new TestCommand2();
-            sut.GetExecutorFor(typeof(TestCommand2))(cmd2);
+            sut.GetExecutorFor(typeof(TestCommand2)).Invoke(cmd2);
             cmd2.CallCount.Should().Be.EqualTo(1);
         }
 

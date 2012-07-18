@@ -19,6 +19,6 @@ namespace Proximo.Cqrs.Server.Commanding
         /// </summary>
         /// <param name="commandType"></param>
         /// <returns></returns>
-        Action<ICommand> GetExecutorFor(Type commandType);
+        CommandInvoker GetExecutorFor(Type commandType);
     }
 }

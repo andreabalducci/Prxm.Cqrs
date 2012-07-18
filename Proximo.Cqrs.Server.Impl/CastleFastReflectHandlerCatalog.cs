@@ -209,13 +209,14 @@ namespace Proximo.Cqrs.Server.Impl
 
         private Dictionary<Type, CommandExecutorInfo> cachedExecutors = new Dictionary<Type, CommandExecutorInfo>();
 
-        public Action<ICommand> GetExecutorFor(Type commandType)
+        public CommandInvoker GetExecutorFor(Type commandType)
         {
             if (!cachedExecutors.ContainsKey(commandType))
             {
                 throw new NotSupportedException("No command handler for " + commandType);
             }
-            return cachedExecutors[commandType].Execute;
+            var info = cachedExecutors[commandType];
+            return new CommandInvoker(info.Execute, info.ExecutorType);
         }
 
 

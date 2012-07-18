@@ -27,8 +27,8 @@ namespace Proximo.Cqrs.Server.Commanding
             var commandType = command.GetType();
             
             //get the executor function from the catalog, and then simply execute the command.
-            var executorFunction = _commandHandlerCatalog.GetExecutorFor(commandType);
-            executorFunction(command);
+            var commandinvoker = _commandHandlerCatalog.GetExecutorFor(commandType);
+            commandinvoker.Invoke(command);
 
             //this is the old code, still working.
             //var commandHandlerType = typeof(ICommandHandler<>).MakeGenericType(commandType);

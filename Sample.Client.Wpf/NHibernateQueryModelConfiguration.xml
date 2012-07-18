@@ -8,7 +8,7 @@
       NHibernate.Driver.SqlClientDriver
     </property>
     <property name="connection.connection_string">
-      Data Source=localhost;Initial Catalog=PrxmCqrsQueryModel;Integrated Security=SSPI
+      Data Source=localhost\sql2008;Initial Catalog=PrxmCqrsQueryModel;Integrated Security=SSPI
     </property>
     <property name="dialect">NHibernate.Dialect.MsSql2008Dialect</property>
     <property name="generate_statistics">true</property>

@@ -126,7 +126,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\DenormalizersDemoCatalog.cs" />
+    <Compile Include="Support\EventDispatcherInterceptor.cs" />
+    <Compile Include="Support\IRawEventStore.cs" />
     <Compile Include="Support\MongoDbDenormalizersHashesStore.cs" />
+    <Compile Include="Support\MongoRawEventStore.cs" />
+    <Compile Include="Support\PersistedDomainEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

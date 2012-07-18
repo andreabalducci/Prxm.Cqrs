@@ -128,6 +128,11 @@ namespace Sample.Server
 				Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
 			);
 
+            //Custom interceptor of events
+            container.Register(
+                Component.For<IRawEventStore>().ImplementedBy<MongoRawEventStore>(),
+                Component.For<IPipelineHook>().ImplementedBy<EventDispatcherInterceptor>());
+
 			// CommonDomain & EventStore initialization 
 			container.Register(
 				Component.For<IConstructAggregates>().ImplementedBy<AggregateFactory>(),
@@ -137,9 +142,11 @@ namespace Sample.Server
 					.UsingFactoryMethod<IStoreEvents>(k => Wireup.Init()
 															   .UsingMongoPersistence("server", new DocumentObjectSerializer())
 															   .InitializeStorageEngine()
+                                                               .HookIntoPipelineUsing(container.ResolveAll<IPipelineHook>())
 															   .UsingAsynchronousDispatchScheduler()
 						//.UsingSynchronousDispatchScheduler() // enable synchronous dispatching of domainevents
 																	.DispatchTo(container.Resolve<IDispatchCommits>())
+                                                                    
 															   .Build())
 				);
 

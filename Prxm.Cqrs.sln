@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.QueryModel.Rebuilder
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.QueryModel.NHibernate", "Sample.QueryModel.NHibernate\Sample.QueryModel.NHibernate.csproj", "{14207B62-8B62-4EBE-B211-DE9F3E6064D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Saga", "Sample.Saga\Sample.Saga.csproj", "{AD124779-A328-4F40-AEE6-390656455CA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -214,6 +216,16 @@ Global
 		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{14207B62-8B62-4EBE-B211-DE9F3E6064D5}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AD124779-A328-4F40-AEE6-390656455CA8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

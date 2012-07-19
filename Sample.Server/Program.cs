@@ -32,6 +32,7 @@ using Sample.QueryModel.Rebuilder;
 using Sample.QueryModel.Builder;
 using Sample.Server.Core;
 using Sample.Server.Core.Initialization;
+using Castle.DynamicProxy;
 
 
 namespace Sample.Server
@@ -162,12 +163,16 @@ namespace Sample.Server
 				Component.For<ILogger>().ImplementedBy<Log4netLogger>(),
 
 				// commands
-				Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>(),
+                Component.For<CommandStoreInterceptor>(),
+                Component.For<ICommandRouter>().ImplementedBy<DefaultCommandRouter>()
+                .Interceptors<CommandStoreInterceptor>(),
 				//Component.For<ICommandHandlerFactory>().ImplementedBy<CastleCommandHandlerFactory>(),
 				Component.For<ICommandHandlerCatalog, IDomainEventHandlerCatalog>().ImplementedBy<CastleFastReflectHandlerCatalog>(),
 				// events
 				//Component.For<IDomainEventHandlerFactory>().ImplementedBy<CastleEventHandlerFactory>(),
+                //Interceptor that saves commands
 
+                //the domain event router have an interceptor that saves the command.
 				Component.For<IDomainEventRouter>().ImplementedBy<DefaultDomainEventRouter>(),
 				Component.For<IDomainEventRouterForQueryModelRebuild>().ImplementedBy<DomainEventRouterForQueryModelRebuild>(),
 				Component.For<IDispatchCommits>().ImplementedBy<CommitToEventsDispatcher>()
@@ -176,6 +181,7 @@ namespace Sample.Server
             //Custom interceptor of events
             container.Register(
                 Component.For<IRawEventStore>().ImplementedBy<MongoRawEventStore>(),
+                Component.For<IRawCommandStore>().ImplementedBy<MongoRawCommandStore>(),
                 Component.For<IPipelineHook>().ImplementedBy<EventDispatcherToRawStoragePipelineHook>());
 
 			// CommonDomain & EventStore initialization 

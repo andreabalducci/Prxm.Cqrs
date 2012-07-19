@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Proximo.Cqrs.Server.Eventing;
 
-namespace Sample.Server.Support
+namespace Sample.Server.Core
 {
     /// <summary>
     /// this interface permits to store events outside of EventStore library

@@ -5,7 +5,7 @@ using System.Text;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace Sample.Server.Support
+namespace Sample.Server.Core
 {
     public class MongoRawEventStore : IRawEventStore
     {

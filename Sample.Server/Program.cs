@@ -30,6 +30,9 @@ using Proximo.Cqrs.Bus.RhinoEsb.Castle;
 using Sample.Server.CommandHandlers;
 using Sample.QueryModel.Rebuilder;
 using Sample.QueryModel.Builder;
+using Sample.Server.Core;
+using Sample.Server.Core.Initialization;
+
 
 namespace Sample.Server
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Proximo.Cqrs.Server.Eventing;
 
-namespace Sample.Server.Support
+namespace Sample.Server.Core.Initialization
 {
     public class ReplayableDomainEventHandlerInitializer : IDomainEventHandlerInitializer
     {

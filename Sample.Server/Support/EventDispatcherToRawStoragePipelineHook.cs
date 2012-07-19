@@ -6,6 +6,7 @@ using System.Text;
 using EventStore;
 using EventStore.Dispatcher;
 using Proximo.Cqrs.Server.Eventing;
+using Sample.Server.Core;
 
 namespace Sample.Server.Support
 {

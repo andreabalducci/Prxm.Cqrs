@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sample.Server.Support
+namespace Sample.Server.Core.Initialization
 {
     /// <summary>
     /// An handler that implements this interface supports replay of the events.

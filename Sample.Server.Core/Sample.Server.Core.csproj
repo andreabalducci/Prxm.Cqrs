@@ -48,15 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExecutedCommand.cs" />
+    <Compile Include="MongoRawCommandStore.cs" />
     <Compile Include="Initialization\IDomainEventHandlerInitializer.cs" />
     <Compile Include="Initialization\IReplayable.cs" />
     <Compile Include="Initialization\ReplayableDomainEventHandlerInitializer.cs" />
+    <Compile Include="IRawCommandStore.cs" />
     <Compile Include="IRawEventStore.cs" />
     <Compile Include="MongoRawEventStore.cs" />
     <Compile Include="PersistedDomainEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Proximo.Cqrs.Bus.Local\Proximo.Cqrs.Bus.InProcess.csproj">
+      <Project>{CB278906-FD35-46BA-86EB-D035B27E0624}</Project>
+      <Name>Proximo.Cqrs.Bus.InProcess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Proximo.Cqrs.Core\Proximo.Cqrs.Core.csproj">
       <Project>{A0725B28-FC24-4004-AD2D-CF88ACC2001D}</Project>
       <Name>Proximo.Cqrs.Core</Name>

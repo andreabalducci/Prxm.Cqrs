@@ -8,6 +8,7 @@ using MongoDB.Driver;
 using Proximo.Cqrs.Server.Eventing;
 using Sample.Server.Support;
 using SharpTestsEx;
+using Sample.Server.Core;
 
 namespace Sample.Tests.Server.Support
 {

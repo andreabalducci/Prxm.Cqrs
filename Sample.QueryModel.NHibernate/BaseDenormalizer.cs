@@ -9,7 +9,7 @@ using NHibernate.Linq;
 using Sample.Commands.System;
 using Proximo.Cqrs.Core.Commanding;
 using Sample.Commands.Inventory;
-using Sample.Server.Support;
+using Sample.Server.Core.Initialization;
 
 namespace Sample.QueryModel.NHibernate
 {

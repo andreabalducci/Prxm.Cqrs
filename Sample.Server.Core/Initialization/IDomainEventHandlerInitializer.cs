@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sample.Server.Support
+namespace Sample.Server.Core.Initialization
 {
     /// <summary>
     /// supports the concepts of an initializer of a domain event handler. This should

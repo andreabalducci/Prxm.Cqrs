@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Proximo.Cqrs.Server.Eventing;
 
-namespace Sample.Server.Support
+namespace Sample.Server.Core
 {
     /// <summary>
     /// this is the class we want to store with <see cref="IRawEventStore"/> to 

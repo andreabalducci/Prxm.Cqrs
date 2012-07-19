@@ -23,6 +23,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sku" Binding="{Binding Sku}" />
                 <DataGridTextColumn Header="Quantity" Binding="{Binding TotalAvailabilityInAllStorages}" />
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Description}" />
                 <!--<DataGridTemplateColumn Header="UpdateQuantity">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

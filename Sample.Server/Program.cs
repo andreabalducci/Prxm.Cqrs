@@ -38,8 +38,11 @@ namespace Sample.Server
 		private static IWindsorContainer _container;
 
 		static void Main(string[] args)
-		{
+		{App_Start.NHibernateProfilerBootstrapper.PreStart();
+
 			XmlConfigurator.Configure();
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+
 
 			PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
 
@@ -254,3 +257,4 @@ namespace Sample.Server
 		}
 	}
 }
+

@@ -16,7 +16,7 @@ using Proximo.Cqrs.Core.Commanding;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
-    [DenormalizerVersion(4)]
+    [DenormalizerVersion(2)]
     [EventHandlerDescription(IsSingleton=true)]
     public class NhInventoryItemDenormalizer : BaseDenormalizer
     {
@@ -39,7 +39,8 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         {
             Log(string.Format("adding {0} to item list", @event.Sku));
             var qm = GetById<InventoryItemTotalQuantity>(@event.Id);
-            if (qm == null) {
+            if (qm == null) 
+            {
                 qm = new InventoryItemTotalQuantity(@event.Id);
             }
             qm.TotalAvailabilityInAllStorages = 0.0m;

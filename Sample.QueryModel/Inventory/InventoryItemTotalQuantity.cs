@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sample.QueryModel.Inventory
 {
-   public class InventoryItemTotalQuantity
+    public class InventoryItemTotalQuantity
     {
         public Guid Id { get; protected set; }
 
@@ -17,7 +17,8 @@ namespace Sample.QueryModel.Inventory
 
         private InventoryItemTotalQuantity() { }
 
-        public InventoryItemTotalQuantity(Guid id) {
+        public InventoryItemTotalQuantity(Guid id)
+        {
             Id = id;
         }
     }

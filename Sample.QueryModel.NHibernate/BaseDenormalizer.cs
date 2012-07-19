@@ -159,7 +159,7 @@ namespace Sample.QueryModel.NHibernate
 
         private Version GetDatabaseVersionForThisDenormalizer()
         {
-            Version version;
+            Version version = null;
             ExecuteInSession(session =>
             {
                 version = session.Query<Version>().SingleOrDefault(v => v.Id == this.GetType().FullName);
@@ -190,7 +190,7 @@ namespace Sample.QueryModel.NHibernate
             Version currentVersionInDb = GetDatabaseVersionForThisDenormalizer();
             DenormalizerVersionAttribute attribute = GetVersionAttribute();
             //if the attribute is not present, denormalizer is not interested in replay
-            return attribute != null && attribute.CurrentValue > currentVersionInDb.CurrentVersion;
+            return attribute != null && attribute.Version > currentVersionInDb.CurrentVersion;
         }
 
         public void StartReplay()
@@ -210,6 +210,7 @@ namespace Sample.QueryModel.NHibernate
             {
                 Version currentVersionInDb = GetDatabaseVersionForThisDenormalizer();
                 DenormalizerVersionAttribute attribute = GetVersionAttribute();
+                currentVersionInDb.CurrentVersion = attribute.Version;
                 session.Update(currentVersionInDb);
             });
         }

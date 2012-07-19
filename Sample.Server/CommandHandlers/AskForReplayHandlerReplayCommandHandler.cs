@@ -15,7 +15,8 @@ using MongoDB.Driver;
 namespace Sample.Server.CommandHandlers
 {
 	/// <summary>
-	/// 
+	/// OBSOLETE: THIS IS A REAL FIRST TRY, it is not so smart blocking command handling to request a complete 
+    /// replay of an handler, it can stale the command queue for too much time.
 	/// </summary>
 	public class AskForReplayHandlerReplayCommandHandler : ICommandHandler
 	{

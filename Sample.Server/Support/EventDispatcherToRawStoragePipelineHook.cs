@@ -9,11 +9,11 @@ using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Server.Support
 {
-     class EventDispatcherInterceptor : IPipelineHook
+     class EventDispatcherToRawStoragePipelineHook : IPipelineHook
     {
         private IRawEventStore _rawEventStore;
 
-        public EventDispatcherInterceptor(IRawEventStore rawEventStore)
+        public EventDispatcherToRawStoragePipelineHook(IRawEventStore rawEventStore)
         {
             _rawEventStore = rawEventStore;
         }
@@ -28,6 +28,8 @@ namespace Sample.Server.Support
                 evt.Timestamp = committed.CommitStamp;
                 evt.EventType = @event.Body.GetType().FullName;
                 evt.DomainEvent = (DomainEvent) @event.Body;
+                evt.StreamId = committed.StreamId;
+                evt.CommitId = committed.CommitId;
                 _rawEventStore.SaveEvent(evt);
             }
         }

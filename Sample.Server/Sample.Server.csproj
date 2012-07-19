@@ -127,7 +127,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\NHibernateProfilerBootstrapper.cs" />
     <Compile Include="CommandHandlers\AskForReplayCommandHandler.cs" />
     <Compile Include="CommandHandlers\AskForReplayHandlerReplayCommandHandler.cs" />
     <Compile Include="CommandHandlers\DomainEventRouterForQueryModelRebuild.cs" />
@@ -137,7 +136,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\DenormalizersDemoCatalog.cs" />
-    <Compile Include="Support\EventDispatcherInterceptor.cs" />
+    <Compile Include="Support\EventDispatcherToRawStoragePipelineHook.cs" />
     <Compile Include="Support\MongoDbDenormalizersHashesStore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -191,7 +190,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Start\NHibernateProfilerBootstrapper.vb" />
     <Content Include="NHibernateQueryModelConfiguration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

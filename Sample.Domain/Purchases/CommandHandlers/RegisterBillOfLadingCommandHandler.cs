@@ -34,7 +34,7 @@ namespace Sample.Domain.Purchases.CommandHandlers
 
             bol.Confirm();
             
-            _repository.Save(bol,command.Id);
+            _repository.Save(bol, command.Id);
             _debug.Debug("[purchases] Bill of lading confirmed");
         }
     }

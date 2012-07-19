@@ -18,9 +18,17 @@ namespace Sample.Server.Support
         }
         public Guid Id { get; set; }
 
+        public Guid StreamId { get; set; }
+
         public DateTime Timestamp { get; set; }
 
         public Int32 CommitSequence { get; set; }
+
+        /// <summary>
+        /// this is the command id (because we used same command id to create commit id to make simpler
+        /// correlating events to commands)
+        /// </summary>
+        public Guid CommitId { get; set; }
 
         public String EventType { get; set; }
 

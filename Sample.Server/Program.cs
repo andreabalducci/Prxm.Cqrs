@@ -38,7 +38,7 @@ namespace Sample.Server
 		private static IWindsorContainer _container;
 
 		static void Main(string[] args)
-		{App_Start.NHibernateProfilerBootstrapper.PreStart();
+		{
 
 			XmlConfigurator.Configure();
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
@@ -173,7 +173,7 @@ namespace Sample.Server
             //Custom interceptor of events
             container.Register(
                 Component.For<IRawEventStore>().ImplementedBy<MongoRawEventStore>(),
-                Component.For<IPipelineHook>().ImplementedBy<EventDispatcherInterceptor>());
+                Component.For<IPipelineHook>().ImplementedBy<EventDispatcherToRawStoragePipelineHook>());
 
 			// CommonDomain & EventStore initialization 
 			container.Register(

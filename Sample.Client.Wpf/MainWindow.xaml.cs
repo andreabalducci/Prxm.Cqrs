@@ -110,13 +110,22 @@ namespace Sample.Client.Wpf
         internal void Reload()
         {
             InventoryTotalItemView.Clear();
-            using (ISession session = NHibernateHelper.OpenSession())
+            try
             {
-                foreach (var item in session.Query<InventoryItemTotalQuantity>().ToList())
+                using (ISession session = NHibernateHelper.OpenSession())
                 {
-                    InventoryTotalItemView.Add(item);
+                    foreach (var item in session.Query<InventoryItemTotalQuantity>().ToList())
+                    {
+                        InventoryTotalItemView.Add(item);
+                    }
                 }
             }
+            catch (Exception)
+            {
+                
+               //todo: log the error
+            }
+            
         }
     }
 }

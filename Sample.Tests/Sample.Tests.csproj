@@ -101,6 +101,7 @@
     <Compile Include="InProcessBusTests\InProcessBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Support\CastleFastReflectHandlerCatalogFixture.cs" />
+    <Compile Include="Server\Support\MongoRawEventStorageFixture.cs" />
     <Compile Include="TestInfrastructure\BaseTestFixture.cs" />
     <Compile Include="TestInfrastructure\BaseTestFixtureWithHelpers.cs" />
     <Compile Include="TestInfrastructure\TestDoubles\AutoMock\AutoMockingContainer.cs" />
@@ -143,6 +144,14 @@
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj">
       <Project>{0BE628E8-9ED5-43E1-8A23-0B01F8808974}</Project>
       <Name>Sample.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.Server.Core\Sample.Server.Core.csproj">
+      <Project>{D73E42C6-FBA7-4E79-9B0D-B31B83331DA2}</Project>
+      <Name>Sample.Server.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.Server\Sample.Server.csproj">
+      <Project>{3188084F-A924-4B84-830C-53862CAB63B6}</Project>
+      <Name>Sample.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

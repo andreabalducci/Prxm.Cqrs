@@ -98,6 +98,10 @@
       <Project>{EC53B6F9-1954-4670-9833-C74DD7711197}</Project>
       <Name>Sample.QueryModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sample.Server.Core\Sample.Server.Core.csproj">
+      <Project>{D73E42C6-FBA7-4E79-9B0D-B31B83331DA2}</Project>
+      <Name>Sample.Server.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\EventStore.license.txt" />

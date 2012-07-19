@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Server.Support
 {
@@ -21,8 +22,8 @@ namespace Sample.Server.Support
 
         public Int32 CommitSequence { get; set; }
 
-        public String EventName { get; set; }
+        public String EventType { get; set; }
 
-        public Object DomainEvent { get; set; }
+        public DomainEvent DomainEvent { get; set; }
     }
 }

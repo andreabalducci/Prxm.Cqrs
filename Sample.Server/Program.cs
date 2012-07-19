@@ -49,6 +49,7 @@ namespace Sample.Server
 			AutomapEventsForMongoDB();
 			ConfigureQueryModelBuilder();
 			ConfigureQueryModelRebuilder();
+            ConfigureDomainEventHandlerInitializers();
 
 			_container.Install(
 				new RhinoServiceBusInstaller()
@@ -60,6 +61,12 @@ namespace Sample.Server
 			rebuilder.Rebuild();
 			_container.Release(rebuilder);
 
+            //GM: Now initialization of the handler and discovering of specific support
+            //This can be moved to the core if this concept of initialization is good.
+
+
+            InitializeDomainEventsHandlers();
+
 			_container.Resolve<IStartableBus>().Start();
 
 			IStoreEvents store = _container.Resolve<IStoreEvents>();
@@ -67,6 +74,38 @@ namespace Sample.Server
 			Console.WriteLine("Server is running");
 			Console.ReadLine();
 		}
+
+        /// <summary>
+        /// this is a little bit ugly, this code should me moved inside the catalog handler, for
+        /// each type discovered the catalog can call initializer.
+        /// Actually it simply gets the list of the event handler found on the system, creates each one
+        /// with castle and then resolve and call all the domain event handler initializer that were registered
+        /// on the system to initialize the handler.
+        /// </summary>
+        private static void InitializeDomainEventsHandlers()
+        {
+            IDomainEventHandlerCatalog catalog = _container.Resolve<IDomainEventHandlerCatalog>();
+            IRawEventStore rawEventStore = _container.Resolve<IRawEventStore>();
+            //takes all invoker
+            var allHandlers = catalog.GetAllHandlers();
+            var allInitializer = _container.ResolveAll<IDomainEventHandlerInitializer>();
+            //cycle on all defining types, we are interested in only
+            foreach (var handlerType in allHandlers)
+            {
+                Object realHandler = _container.Resolve(handlerType);
+                foreach (var initializer in allInitializer)
+                {
+                    initializer.Initialize(realHandler);
+                }
+                _container.Release(realHandler);
+            }
+            _container.Release(catalog);
+            _container.Release(rawEventStore);
+            foreach (var initializer in allInitializer)
+            {
+                _container.Release(initializer);
+            }
+        }
 
 		private static IWindsorContainer CreateContainer()
 		{
@@ -201,6 +240,13 @@ namespace Sample.Server
 				Component.For<DenormalizerRebuilder>()
 			);
 		}
+
+        private static void ConfigureDomainEventHandlerInitializers()
+        {
+            _container.Register(
+                Component.For<IDomainEventHandlerInitializer>().ImplementedBy<ReplayableDomainEventHandlerInitializer>()
+            );
+        }
 
 		private static void ConfigureCommandSender()
 		{

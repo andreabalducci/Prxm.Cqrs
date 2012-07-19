@@ -14,7 +14,12 @@ namespace Proximo.Cqrs.Server.Eventing
         /// <param name="domainEventType"></param>
         /// <returns></returns>
         IEnumerable<DomainEventInvoker> GetAllHandlerFor(Type domainEventType);
-        //IEnumerable<Action<IDomainEvent>> GetAllHandlerFor(Type domainEventType);
+
+        /// <summary>
+        /// Retrieve all enumerated handlers type on the system.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Type> GetAllHandlers();
 
         /// <summary>
         /// We need the ability to replay all handler for a specific handler, thus the catalog
@@ -24,6 +29,8 @@ namespace Proximo.Cqrs.Server.Eventing
         /// <param name="handlerType">The type of the Handler that defines handlers</param>
         /// <returns>A dictionary where the key contains the type of domain event handled and the value
         /// is the Action that actually handles the event</returns>
-        IDictionary<Type, Action<IDomainEvent>> GetAllHandlerForSpecificHandlertype(Type handlerType);
+        IDictionary<Type, DomainEventInvoker> GetAllHandlerForSpecificHandlertype(Type handlerType);
+
+
     }
 }

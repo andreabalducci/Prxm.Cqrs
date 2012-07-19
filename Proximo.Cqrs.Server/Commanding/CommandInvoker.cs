@@ -18,7 +18,9 @@ namespace Proximo.Cqrs.Server.Commanding
 		/// <summary>
 		/// the type in which the onvoker is defined
 		/// </summary>
-		public Type DefiningType;
+        public Type DefiningType { get; set; }
+
+
 
         public CommandInvoker(Action<ICommand> invoker, Type definingType)
 		{

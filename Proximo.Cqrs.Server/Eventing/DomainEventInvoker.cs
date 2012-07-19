@@ -11,17 +11,23 @@ namespace Proximo.Cqrs.Server.Eventing
 	public class DomainEventInvoker
 	{
 		// the actual function that have to be invoked in order to handle the event
-		public Action<IDomainEvent> Invoker;
+		public Action<IDomainEvent> Invoker { get; set; }
 
 		/// <summary>
 		/// the type in which the onvoker is defined
 		/// </summary>
-		public Type DefiningType;
+		public Type DefiningType { get; set; }
 
-		public DomainEventInvoker(Action<IDomainEvent> invoker, Type definingType)
+        /// <summary>
+        /// The type of event handled by this invoker.
+        /// </summary>
+        public Type HandledType { get; set; }
+
+		public DomainEventInvoker(Action<IDomainEvent> invoker, Type definingType, Type handledType)
 		{
 			Invoker = invoker;
 			DefiningType = definingType;
+            HandledType = handledType;
 		}
 
 		public void Invoke(IDomainEvent @event)

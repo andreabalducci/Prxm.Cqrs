@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using EventStore;
 using EventStore.Dispatcher;
+using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Server.Support
 {
@@ -25,8 +26,8 @@ namespace Sample.Server.Support
                 PersistedDomainEvent evt = new PersistedDomainEvent();
                 evt.CommitSequence = committed.CommitSequence;
                 evt.Timestamp = committed.CommitStamp;
-                evt.EventName = @event.Body.GetType().FullName;
-                evt.DomainEvent = @event.Body;
+                evt.EventType = @event.Body.GetType().FullName;
+                evt.DomainEvent = (DomainEvent) @event.Body;
                 _rawEventStore.SaveEvent(evt);
             }
         }

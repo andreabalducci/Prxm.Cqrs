@@ -16,10 +16,16 @@ using Proximo.Cqrs.Core.Commanding;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
-    [CurrentDenormalizerVersion(4)]
+    [DenormalizerVersion(4)]
     [EventHandlerDescription(IsSingleton=true)]
     public class NhInventoryItemDenormalizer : BaseDenormalizer
     {
+        private static Type[] _denormalizerTypeList = new Type[] {typeof (InventoryItemTotalQuantity)};
+        protected override Type[] DenormalizeTypeList
+        {
+            get { return _denormalizerTypeList; }
+        }
+
         private ILogger _logger;
         private IRepository _repository;
 

@@ -94,7 +94,7 @@ namespace Proximo.Cqrs.Server.Impl
                             {
                                 _kernel.Register(Component.For(type).ImplementedBy(type).LifeStyle.Transient);
                             }
-                            
+
                         }
                     }
                     catch (TypeLoadException ex)
@@ -250,8 +250,7 @@ namespace Proximo.Cqrs.Server.Impl
             }
 
             public void Execute(IDomainEvent @event)
-            
-{
+            {
                 Object executor = null;
                 try
                 {
@@ -274,16 +273,24 @@ namespace Proximo.Cqrs.Server.Impl
             //TODO: Cache this
             return cachedHandlers
                 .Where(h => h.CanHandleEvent(domainEventType))
-                .Select<DomainEventHandlerInfo, DomainEventInvoker>(h => new DomainEventInvoker(h.Execute, h.ExecutorType));
+                .Select<DomainEventHandlerInfo, DomainEventInvoker>(h => new DomainEventInvoker(h.Execute, h.ExecutorType, h.EventType));
         }
 
-        public IDictionary<Type, Action<IDomainEvent>> GetAllHandlerForSpecificHandlertype(Type handlerType)
+        public IEnumerable<Type> GetAllHandlers()
         {
-            Dictionary<Type, Action<IDomainEvent>> retValue = new Dictionary<Type, Action<IDomainEvent>>();
+            //TODO: Cache this
+            return cachedHandlers
+                .Select(h => h.ExecutorType)
+                .Distinct();
+        }
+
+        public IDictionary<Type, DomainEventInvoker> GetAllHandlerForSpecificHandlertype(Type handlerType)
+        {
+            Dictionary<Type, DomainEventInvoker> retValue = new Dictionary<Type, DomainEventInvoker>();
             foreach (var item in cachedHandlers
                 .Where(h => h.ExecutorType == handlerType))
             {
-                retValue.Add(item.EventType, item.Execute);
+                retValue.Add(item.EventType, new DomainEventInvoker(item.Execute, item.ExecutorType, item.EventType));
             }
             return retValue;
         }

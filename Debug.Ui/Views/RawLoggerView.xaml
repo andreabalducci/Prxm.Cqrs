@@ -1,0 +1,8 @@
+﻿<Window x:Class="Sample.DebugUi.Views.RawLoggerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RawLoggerView" Height="300" Width="300">
+    <Grid>
+        
+    </Grid>
+</Window>

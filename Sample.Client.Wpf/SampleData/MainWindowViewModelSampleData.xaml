@@ -1,0 +1,15 @@
+﻿<vm:MainWindowViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Sample.Client.Wpf.ViewModels"
+    xmlns:queryModelInventory="clr-namespace:Sample.QueryModel.Inventory;assembly=Sample.QueryModel"
+    NewInventoryItemSku="I009"
+    NewInventoryItemDescription="This is a brand new item">
+
+    <vm:MainWindowViewModel.InventoryTotalItemView>
+        <queryModelInventory:InventoryItemTotalQuantity Description="Bla bla bla 1" TotalAvailabilityInAllStorages="10" Sku="Isdr"/>
+        <queryModelInventory:InventoryItemTotalQuantity Description="Bla bla bla 2" TotalAvailabilityInAllStorages="20" Sku="Isdr" />
+    </vm:MainWindowViewModel.InventoryTotalItemView>
+
+
+</vm:MainWindowViewModel >

@@ -45,6 +45,9 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40-client\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="Fasterflect, Version=2.1.0.8328, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
+      <HintPath>..\packages\fasterflect.2.1.0\lib\net40\Fasterflect.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -70,7 +73,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="KissMvvm\PropertyLink.cs" />
+    <Compile Include="KissMvvm\WeakReference.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <DesignData Include="SampleData\MainWindowViewModelSampleData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </DesignData>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -80,9 +90,10 @@
     </Compile>
     <Compile Include="Infrastructure.cs" />
     <Compile Include="KissMvvm\BaseViewModel.cs" />
+    <Compile Include="KissMvvm\ConventionalCommand.cs" />
     <Compile Include="KissMvvm\ExpressionExtensions.cs" />
     <Compile Include="KissMvvm\Extensions.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

@@ -3,6 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="RawLoggerView" Height="300" Width="300">
     <Grid>
-        <DataGrid></DataGrid>
+        <DataGrid ItemsSource="{Binding Logs}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Log.Level}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Logger" Binding="{Binding Log.Logger}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Timestamp" Binding="{Binding Log.Timestamp}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Message}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

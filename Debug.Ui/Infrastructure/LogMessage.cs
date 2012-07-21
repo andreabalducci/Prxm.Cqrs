@@ -15,7 +15,7 @@ namespace Sample.DebugUi.Infrastructure
         public DateTime Timestamp { get; set; }
 
         [XmlAttribute("level")]
-        public log4net.Core.Level Level { get; set; }
+        public String Level { get; set; }
 
         [XmlAttribute("thread")]
         public Int32 ThreadId { get; set; }

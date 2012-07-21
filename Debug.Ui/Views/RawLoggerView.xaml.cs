@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Sample.DebugUi.ViewModels;
 
 namespace Sample.DebugUi.Views
 {
@@ -18,9 +19,10 @@ namespace Sample.DebugUi.Views
     /// </summary>
     public partial class RawLoggerView : Window
     {
-        public RawLoggerView()
+        public RawLoggerView(RawLoggerViewModel vm)
         {
             InitializeComponent();
+            DataContext = vm;
         }
     }
 }

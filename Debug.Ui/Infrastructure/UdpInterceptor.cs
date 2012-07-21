@@ -62,7 +62,7 @@ namespace Sample.DebugUi.Infrastructure
                     LogMessage message = new LogMessage();
                     message.Logger = element.Attribute("logger").Value;
                     message.Timestamp = DateTime.Parse(element.Attribute("timestamp").Value);
-                    message.Level = (log4net.Core.Level) Enum.Parse(typeof(log4net.Core.Level), element.Attribute("level").Value);
+                    message.Level = element.Attribute("level").Value;
                     message.ThreadId = Int32.Parse(element.Attribute("thread").Value);
                     message.Message = (String) element.Element("message");
                     OnLogIntercepted(message);

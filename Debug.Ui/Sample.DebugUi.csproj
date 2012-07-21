@@ -83,6 +83,7 @@
     <Compile Include="Views\RawLoggerView.xaml.cs">
       <DependentUpon>RawLoggerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RawLoggerViewMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KissMvvm\BaseViewModel.cs" />

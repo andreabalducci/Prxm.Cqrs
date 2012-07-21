@@ -48,6 +48,10 @@
     <Reference Include="Fasterflect">
       <HintPath>..\packages\fasterflect.2.1.0\lib\net40\Fasterflect.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -71,7 +75,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\ILogInterceptor.cs" />
+    <Compile Include="Infrastructure\LogMessage.cs" />
     <Compile Include="Infrastructure\UdpInterceptor.cs" />
+    <Compile Include="ViewModels\LogMessageViewModel.cs" />
     <Compile Include="ViewModels\RawLoggerViewModel.cs" />
     <Compile Include="Views\RawLoggerView.xaml.cs">
       <DependentUpon>RawLoggerView.xaml</DependentUpon>

@@ -6,10 +6,12 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Xml.Linq;
+using Castle.Core;
 
 namespace Sample.DebugUi.Infrastructure
 {
-    public class UdpInterceptor
+    public class UdpInterceptor : ILogInterceptor, IStartable
     {
         private UdpClient _udpClient;
         private Boolean _stop;
@@ -41,6 +43,11 @@ namespace Sample.DebugUi.Infrastructure
         {
             ThreadPool.QueueUserWorkItem(Start, null);
         }
+
+        public void Stop() {
+            _stop = true;
+        }
+
         private void Start(Object state)
         {
             while (true)
@@ -50,7 +57,15 @@ namespace Sample.DebugUi.Infrastructure
                 try
                 {
                     byte[] sent = _udpClient.Receive(ref _ipe);
-
+                    String stringValue = Encoding.UTF8.GetString(sent);
+                    XElement element = XElement.Parse(stringValue);
+                    LogMessage message = new LogMessage();
+                    message.Logger = element.Attribute("logger").Value;
+                    message.Timestamp = DateTime.Parse(element.Attribute("timestamp").Value);
+                    message.Level = (log4net.Core.Level) Enum.Parse(typeof(log4net.Core.Level), element.Attribute("level").Value);
+                    message.ThreadId = Int32.Parse(element.Attribute("thread").Value);
+                    message.Message = (String) element.Element("message");
+                    OnLogIntercepted(message);
                 }
                 catch (SocketException e)
                 {
@@ -60,6 +75,18 @@ namespace Sample.DebugUi.Infrastructure
                 {
 
                 }
+            }
+        }
+
+        public event EventHandler<LogInterceptedEventArgs> LogIntercepted;
+
+        protected void OnLogIntercepted(LogMessage message) 
+        {
+            var temp = LogIntercepted;
+            if (temp != null) {
+
+                LogInterceptedEventArgs args = new LogInterceptedEventArgs(message);
+                temp(this, args);
             }
         }
     }

@@ -11,6 +11,7 @@ using Castle.Windsor;
 using Sample.DebugUi.KissMvvm;
 using System.Reflection;
 using Sample.DebugUi.Views;
+using Castle.Facilities.Startable;
 namespace Sample.DebugUi
 {
     /// <summary>
@@ -20,12 +21,16 @@ namespace Sample.DebugUi
     {
         private static Dispatcher _uiDispatcher;
         internal WindsorContainer Container;
+        internal UdpInterceptor _interceptor;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             _uiDispatcher = this.Dispatcher;
             Container = new WindsorContainer();
+
+            Container.AddFacility<StartableFacility>();
+
             Container.Register(
                     Classes.FromAssembly(Assembly.GetExecutingAssembly())
                     .BasedOn<BaseViewModel>()
@@ -34,11 +39,11 @@ namespace Sample.DebugUi
                Classes.FromAssembly(Assembly.GetExecutingAssembly())
                .InNamespace("Sample.DebugUi.Views")
                .LifestyleTransient());
-
+            Container.Register(
+                Component.For<ILogInterceptor>().ImplementedBy<UdpInterceptor>().LifestyleSingleton());
             var viewStart = Container.Resolve<RawLoggerView>();
             viewStart.Show();
-            UdpInterceptor interceptor = new UdpInterceptor();
-            interceptor.Start();
+
         }
 
         public static void ExecuteInUiThread(Action action)

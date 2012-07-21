@@ -3,6 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="RawLoggerView" Height="300" Width="300">
     <Grid>
-        
+        <DataGrid></DataGrid>
     </Grid>
 </Window>

@@ -29,10 +29,12 @@ namespace Sample.QueryModel.NHibernate
                 mapper.AfterMapClass += (inspector, type, classCustomizer) =>
                 {
                     classCustomizer.Lazy(false);
+                    //classCustomizer.Id(m => m.Generator(new GuidGeneratorDef()));
                 };
                 var mapping = mapper.CompileMappingFor(
                     Assembly.Load("Sample.QueryModel").GetExportedTypes()
                     .Union(new Type[] {typeof(Version)}));
+                var allmapping = mapping.AsString();
 
                 cfg.AddDeserializedMapping(mapping, "AutoModel");
                 _sessionFactory = cfg.BuildSessionFactory();
@@ -43,11 +45,6 @@ namespace Sample.QueryModel.NHibernate
                 throw ex;
             }
          
-        }
-
-        static void mapper_AfterMapClass(IModelInspector modelInspector, Type type, IClassAttributesMapper classCustomizer)
-        {
-            throw new NotImplementedException();
         }
 
         public static void UpdateDatabase()

@@ -20,7 +20,7 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Log.Level}" Value="WARN">
                     <Setter Property="Background" Value="Orange" />
-                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Foreground" Value="Black" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Log.Level}" Value="DEBUG">
                     <Setter Property="Background" Value="White" />
@@ -33,7 +33,7 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding HigherLevelMessage}" Value="3">
                     <Setter Property="Background" Value="Orange" />
-                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Foreground" Value="Black" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding HigherLevelMessage}" Value="2">
                     <Setter Property="Background" Value="Green" />

@@ -13,6 +13,7 @@ using InventoryItem = Sample.QueryModel.Inventory.InventoryItem;
 using NHibernate;
 using Sample.QueryModel.NHibernate;
 using Proximo.Cqrs.Core.Commanding;
+using NHibernate.Linq;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
@@ -29,7 +30,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         private ILogger _logger;
         private IRepository _repository;
 
-        public NhInventoryItemDenormalizer(ILogger logger, IRepository repository, ICommandQueue commandQueue) : base (commandQueue)
+        public NhInventoryItemDenormalizer(ILogger logger, IRepository repository) 
         {
             _logger = logger;
             _repository = repository;
@@ -38,15 +39,22 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         public void CreateItemOnDenormalizedView(InventoryItemCreated @event)
         {
             Log(string.Format("Adding Inventory Item SKU={0} to item list", @event.Sku));
-            var qm = GetById<InventoryItemTotalQuantity>(@event.Id);
-            if (qm == null) 
-            {
-                qm = new InventoryItemTotalQuantity(@event.Id);
-            }
+            
+            var qm = new InventoryItemTotalQuantity(@event.Id);
             qm.TotalAvailabilityInAllStorages = 0.0m;
             qm.Sku = @event.Sku;
             qm.Description = @event.ItemDescription;
-            SaveOrUpdate(qm);
+           
+            //check if exists, it should not but I prefer to be sure
+            if (ExecuteInSession(s => s.Query<InventoryItemTotalQuantity>()
+                .Count(i => i.Id == qm.Id) > 0))
+            {
+                Update(qm);
+            }
+            else {
+                Save(qm);
+            }
+            
         }
 
         public void UpdateQuantityOnReceived(InventoryItemReceived @event)
@@ -55,7 +63,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
             //var aggregate = _repository.GetById<Sample.Domain.Inventory.Domain.InventoryItem>(@event.AggregateId);
             var qm = GetById<InventoryItemTotalQuantity>(@event.AggregateId);
             qm.TotalAvailabilityInAllStorages += @event.Quantity;
-            SaveOrUpdate(qm);
+            Update(qm);
         }
 
         private void Log(string message)

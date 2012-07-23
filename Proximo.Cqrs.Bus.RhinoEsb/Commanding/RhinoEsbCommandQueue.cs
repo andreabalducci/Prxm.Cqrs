@@ -21,5 +21,18 @@ namespace Proximo.Cqrs.Bus.RhinoEsb.Commanding
             var envelope = new CommandEnvelope { Command = command };
             _serviceBus.Send(envelope);
         }
+
+        public void Enqueue<T>(T command, TimeSpan delay) where T : class, ICommand
+        {
+            var envelope = new CommandEnvelope { Command = command };
+            DateTime deliveryTime = DateTime.Now.Add(delay);
+            _serviceBus.DelaySend(deliveryTime, envelope);
+        }
+
+        public void Enqueue<T>(T command, DateTime datetime) where T : class, ICommand
+        {
+            var envelope = new CommandEnvelope { Command = command };
+            _serviceBus.DelaySend(datetime, envelope);
+        }
     }
 }

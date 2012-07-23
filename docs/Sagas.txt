@@ -37,3 +37,32 @@ bank1 now waits for bank2 to deliver the money we have 2 possible results here.
 - bank2 confirms the operation (means the 10$ are correctly delivered to bankaccount2) and bank1 close the operation.
 - bank2 refuse or is unable to complete the transfer > bank1 has to deposit the 10$ back to banckaccount1.
 
+open problems:
+
+- how to handle timeouts? a saga can expire if it takes too long, but how to manage the concept of time?
+a saga is like an eventhandler in our current implementation and can be a transient or a singleton instance.
+moreover in a distributed environment it's not guaranteed that always the same instance will receive the event.
+
+thus it's important to load ans save the state whenever an event is processed.
+
+if the bus infrastucture support timed messages the timeout can be simulated using a custom message that the saga sends to itself
+ahed in time. that timeout message will be handled and the proper commands will be emitted (like cancelling orders and such).
+
++ Rhino servicebus: allows you to specify a datetime at which deliver the messages.
++ pretty sure that NserviceBus and masstransit have the same support.
+
+having delayed commands/events make two problems surface
+1- we cannot discard the the status of a saga, because if we complete it before the timeout message arrives it should know that the saga has been 
+completed (ok, if the status is not there we assume the saga is completed and we ignore the message)
+2- the saga should also respond to commands and not only to events or to a different kind of messages that can be sent over the bus and can wake up things.
+
+on our current implementation if the handlers are transient there's no problems, if they are singleton we mighrt end up having two instances in memory of the same object,
+then it's up to the ioc container to avoid those kind of problems.
+
+- at this point we are using broadcasting. in the future we maybe will specify not only the endpoint (for maybe spme subsystems), 
+but also which messages each endpoint will be able to handle. 
+the fact that the very same message can be processed by different instances of the same receiver connected to the bus network should never happen
+because it should be handled by the bus infrastructure itself.
+
+
+

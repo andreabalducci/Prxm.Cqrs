@@ -22,7 +22,7 @@ namespace Sample.Saga.Infrastructure
 	/// 
 	/// assumption: once the saga is completed it's useless (the process is done and all the info are traced by the domain events), so we remove it form the repository
 	/// 
-	/// todo: add timeout support
+	/// todo: add timeout support maybe using delayed messages/signals.
 	/// </summary>
 	/// <typeparam name="TState"></typeparam>
 	public abstract class Saga<TState> where TState : SagaState

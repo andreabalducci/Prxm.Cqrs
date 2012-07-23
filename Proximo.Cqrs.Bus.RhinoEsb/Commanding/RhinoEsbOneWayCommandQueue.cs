@@ -21,5 +21,15 @@ namespace Proximo.Cqrs.Bus.RhinoEsb.Commanding
             var envelope = new CommandEnvelope {Command = command};
             _bus.Send(envelope);
         }
+
+        public void Enqueue<T>(T command, TimeSpan delay) where T : class, ICommand
+        {
+            throw new NotSupportedException("delayed commands not supported for OneWay bus");
+        }
+
+        public void Enqueue<T>(T command, DateTime datetime) where T : class, ICommand
+        {
+            throw new NotSupportedException("delayed commands not supported for OneWay bus");
+        }
     }
 }

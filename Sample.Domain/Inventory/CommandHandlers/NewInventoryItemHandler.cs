@@ -31,6 +31,7 @@ namespace Sample.Domain.Inventory.Handlers
                 new InventoryItem(command.ItemId, command.Sku, command.Description),
                 command.Id
             );
+            //throw new NotImplementedException();
             _logger.Debug("[inventory] Item " + command.Sku + " saved");
         }
 

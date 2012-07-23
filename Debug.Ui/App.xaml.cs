@@ -12,6 +12,7 @@ using Sample.DebugUi.KissMvvm;
 using System.Reflection;
 using Sample.DebugUi.Views;
 using Castle.Facilities.Startable;
+using Sample.DebugUi.ViewModels;
 namespace Sample.DebugUi
 {
     /// <summary>
@@ -32,9 +33,8 @@ namespace Sample.DebugUi
             Container.AddFacility<StartableFacility>();
 
             Container.Register(
-                    Classes.FromAssembly(Assembly.GetExecutingAssembly())
-                    .BasedOn<BaseViewModel>()
-                    .LifestyleTransient());
+                    Component.For<RawLoggerViewModel>().ImplementedBy<RawLoggerViewModel>());
+
             Container.Register(
                Classes.FromAssembly(Assembly.GetExecutingAssembly())
                .InNamespace("Sample.DebugUi.Views")

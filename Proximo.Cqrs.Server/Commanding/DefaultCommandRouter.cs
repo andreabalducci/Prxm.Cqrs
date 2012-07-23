@@ -32,20 +32,22 @@ namespace Proximo.Cqrs.Server.Commanding
             
             //get the executor function from the catalog, and then simply execute the command.
             var commandinvoker = _commandHandlerCatalog.GetExecutorFor(commandType);
-            commandinvoker.Invoke(command);
-
-            //this is the old code, still working.
-            //var commandHandlerType = typeof(ICommandHandler<>).MakeGenericType(commandType);
-            //var consumer = _handlerFactory.CreateHandler(commandHandlerType);
-
-            //// we are assuming sync execution and we object tracking by the container
-            //// todo: change the lifestyle to a truly transient one ?
-            //MethodInfo mi = commandHandlerType.GetMethod("Handle", new[] { commandType });
-            //mi.Invoke(consumer, new object[] { command });
-
-            _logger.Info("[queue] command handled " + command.ToString());
-
-            _logger.RemoveFromThreadContext("op_type");
+            try
+            {
+                commandinvoker.Invoke(command);
+                _logger.Info("[queue] command handled " + command.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                //TODO log or do something better instead of retrhowing exception
+                _logger.Error("[queue] Command error " + ex.Message, ex);
+                throw;
+            }
+            finally 
+            {
+                _logger.RemoveFromThreadContext("op_type");
+            }
+            
         }
     }
 }

@@ -13,6 +13,8 @@ namespace Sample.DebugUi.Infrastructure
             Properties = new Dictionary<string, string>();
         }
 
+        public Int32 NumericLevel { get; set; }
+
         [XmlAttribute("logger")]
         public String Logger { get; set; }
 
@@ -23,7 +25,7 @@ namespace Sample.DebugUi.Infrastructure
         public String Level { get; set; }
 
         [XmlAttribute("thread")]
-        public Int32 ThreadId { get; set; }
+        public String ThreadId { get; set; }
 
         [XmlElement("message")]
         public String Message { get; set; }

@@ -15,10 +15,13 @@ namespace Sample.DebugUi.ViewModels
     {
         ILogInterceptor _interceptor;
 
-        public RawLoggerViewModel(ILogInterceptor logIntercetptor) {
+        public RawLoggerViewModel(ILogInterceptor logIntercetptor)
+        {
 
             _interceptor = logIntercetptor;
             _Logs = new ObservableCollection<LogMessageViewModel>();
+            Commands = new ObservableCollection<AggregateLogMessageViewModel>();
+            Handlers = new ObservableCollection<AggregateLogMessageViewModel>();
             CvsLogs = new CollectionViewSource();
             CvsLogs.Source = _Logs;
             CvsLogs.Filter += CvsLogsFilter;
@@ -30,7 +33,7 @@ namespace Sample.DebugUi.ViewModels
                 .HandleChangesOf(vm => vm.MainFilter, EvaluateFilter);
         }
 
-        public void EvaluateFilter(String pname) 
+        public void EvaluateFilter(String pname)
         {
             CvsLogs.View.Refresh();
         }
@@ -42,7 +45,36 @@ namespace Sample.DebugUi.ViewModels
         /// <param name="e"></param>
         void LogIntercepted(object sender, LogInterceptedEventArgs e)
         {
-            App.ExecuteInUiThread(() => _Logs.Add(new LogMessageViewModel(e.Message)));
+            App.ExecuteInUiThread(() =>
+            {
+                _Logs.Add(new LogMessageViewModel(e.Message));
+                if (!String.IsNullOrEmpty(e.Message.OpType))
+                {
+                    String[] optypeSplitted = e.Message.OpType.Split(' ');
+                    if ("command".Equals(optypeSplitted[0], StringComparison.OrdinalIgnoreCase))
+                    {
+                        //I already have a logger for this command?
+                        var alvm = Commands.SingleOrDefault(c => c.Identifier == optypeSplitted[1]);
+                        if (alvm == null)
+                        {
+                            alvm = new AggregateLogMessageViewModel() { Identifier = optypeSplitted[1] };
+                            Commands.Add(alvm);
+                        }
+                        alvm.Logs.Add(new LogMessageViewModel( e.Message));
+                    }
+                    else if ("event".Equals(optypeSplitted[0], StringComparison.OrdinalIgnoreCase))
+                    {
+                        //I already have a logger for this command?
+                        var alvm = Handlers.SingleOrDefault(c => c.Identifier == optypeSplitted[1]);
+                        if (alvm == null)
+                        {
+                            alvm = new AggregateLogMessageViewModel() { Identifier = optypeSplitted[1] };
+                            Handlers.Add(alvm);
+                        }
+                        alvm.Logs.Add(new LogMessageViewModel(e.Message));
+                    }
+                }
+            });
         }
 
         /// <summary>
@@ -92,22 +124,53 @@ namespace Sample.DebugUi.ViewModels
 
         void CvsLogsFilter(object sender, FilterEventArgs e)
         {
-             LogMessageViewModel vm = (LogMessageViewModel) e.Item;
+            LogMessageViewModel vm = (LogMessageViewModel)e.Item;
 
-             //first of all filter for exact level.
-             if (!String.IsNullOrEmpty(LevelFilter) && !vm.Log.Level.Equals(LevelFilter, StringComparison.OrdinalIgnoreCase)) {
-                 e.Accepted = false;
-                 return;
-             }
-             //now filter for main filter
-             if (!String.IsNullOrEmpty(MainFilter)) 
-             {
-                 e.Accepted = vm.Log.Message.Contains(MainFilter, StringComparison.OrdinalIgnoreCase) || 
-                     vm.Log.Logger.Contains(MainFilter, StringComparison.OrdinalIgnoreCase);
-             }
+            //first of all filter for exact level.
+            if (!String.IsNullOrEmpty(LevelFilter) && !vm.Log.Level.Equals(LevelFilter, StringComparison.OrdinalIgnoreCase))
+            {
+                e.Accepted = false;
+                return;
+            }
+            //now filter for main filter
+            if (!String.IsNullOrEmpty(MainFilter))
+            {
+                e.Accepted = vm.Log.Message.Contains(MainFilter, StringComparison.OrdinalIgnoreCase) ||
+                    vm.Log.Logger.Contains(MainFilter, StringComparison.OrdinalIgnoreCase);
+            }
         }
 
-	
+
+        #endregion
+
+        #region Grouping
+
+        public ObservableCollection<AggregateLogMessageViewModel> Commands {get; set;}
+
+        /// <summary>
+        /// this is the selected command
+        /// </summary>
+        public AggregateLogMessageViewModel SelectedCommand
+        {
+            get { return _SelectedCommand; }
+            set { this.Set(p => p.SelectedCommand, value, ref _SelectedCommand); }
+        }
+
+        private AggregateLogMessageViewModel _SelectedCommand;
+
+        public ObservableCollection<AggregateLogMessageViewModel> Handlers { get; set; }
+
+        /// <summary>
+        /// this is the selected command
+        /// </summary>
+        public AggregateLogMessageViewModel SelectedHandler
+        {
+            get { return _SelectedHandler; }
+            set { this.Set(p => p.SelectedHandler, value, ref _SelectedHandler); }
+        }
+
+        private AggregateLogMessageViewModel _SelectedHandler;
+
         #endregion
     }
 }

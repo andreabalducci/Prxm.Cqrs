@@ -7,7 +7,7 @@
         d:DataContext="{d:DesignData /DesignTimeData/RawLoggerViewModelSampleData.xaml}"
         Title="RawLoggerView" >
     <Window.Resources>
-   
+        
         <Style TargetType="{x:Type DataGridRow}" >
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Log.Level}" Value="ERROR">
@@ -26,45 +26,29 @@
                     <Setter Property="Background" Value="White" />
                     <Setter Property="Foreground" Value="Black" />
                 </DataTrigger>
+
+                <DataTrigger Binding="{Binding HigherLevelMessage}" Value="4">
+                    <Setter Property="Background" Value="Red" />
+                    <Setter Property="Foreground" Value="White" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding HigherLevelMessage}" Value="3">
+                    <Setter Property="Background" Value="Orange" />
+                    <Setter Property="Foreground" Value="White" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding HigherLevelMessage}" Value="2">
+                    <Setter Property="Background" Value="Green" />
+                    <Setter Property="Foreground" Value="Black" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding HigherLevelMessage}" Value="1">
+                    <Setter Property="Background" Value="Green" />
+                    <Setter Property="Foreground" Value="Black" />
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        
-        <GroupBox Header="Filter">
-            <DockPanel>
-                <Label Content="Level" />
-                <ComboBox SelectedValue="{Binding LevelFilter}" SelectedValuePath="Content" >
-                    <ComboBox.Items>
-                        <ComboBoxItem></ComboBoxItem>
-                        <ComboBoxItem>ERROR</ComboBoxItem>
-                        <ComboBoxItem>INFO</ComboBoxItem>
-                        <ComboBoxItem>WARN</ComboBoxItem>
-                        <ComboBoxItem>DEBUG</ComboBoxItem>
-                    </ComboBox.Items>
-                </ComboBox>
-                <Label Content="Logger or message" />
-                <TextBox Text="{Binding MainFilter, UpdateSourceTrigger=PropertyChanged}" />
-            </DockPanel>
-           
-        </GroupBox>
-        
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Logs}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLog}" CanUserAddRows="False" >
-            <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Log.Level}" />
-                <DataGridTextColumn IsReadOnly="True" Header="Logger" Binding="{Binding Log.Logger}" />
-                <DataGridTextColumn IsReadOnly="True" Header="Timestamp" Binding="{Binding Log.Timestamp}" />
-                <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Message}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        
-        <Grid Grid.Row="2">
+    <DockPanel>
+
+        <Grid DockPanel.Dock="Bottom">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -73,12 +57,145 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            
+
             <Label Content="Message" />
             <Label Grid.Row="1" Content="Exception" />
 
             <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedLog.Log.Message}" AcceptsReturn="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible" />
             <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedLog.Log.Exception}" AcceptsReturn="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible" />
         </Grid>
-    </Grid>
+
+        <TabControl>
+            
+            <TabItem Header="Raw Logging" >
+                <TabItem.Resources>
+                    <Style TargetType="{x:Type DataGridRow}" >
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Log.Level}" Value="ERROR">
+                                <Setter Property="Background" Value="Red" />
+                                <Setter Property="Foreground" Value="White" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Log.Level}" Value="INFO">
+                                <Setter Property="Background" Value="Blue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Log.Level}" Value="WARN">
+                                <Setter Property="Background" Value="Orange" />
+                                <Setter Property="Foreground" Value="White" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Log.Level}" Value="DEBUG">
+                                <Setter Property="Background" Value="White" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Resources>
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Filter">
+                        <DockPanel>
+                            <Label Content="Level" />
+                            <ComboBox Width="80" SelectedValue="{Binding LevelFilter}" SelectedValuePath="Content" >
+                                <ComboBox.Items>
+                                    <ComboBoxItem></ComboBoxItem>
+                                    <ComboBoxItem>ERROR</ComboBoxItem>
+                                    <ComboBoxItem>INFO</ComboBoxItem>
+                                    <ComboBoxItem>WARN</ComboBoxItem>
+                                    <ComboBoxItem>DEBUG</ComboBoxItem>
+                                </ComboBox.Items>
+                            </ComboBox>
+                            <Label Content="Logger or message" />
+                            <TextBox Text="{Binding MainFilter, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+
+                    </GroupBox>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Logs}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLog}" CanUserAddRows="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Log.Level}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Logger" Binding="{Binding Log.Logger}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Timestamp" Binding="{Binding Log.Timestamp}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Message}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Exception" Binding="{Binding Log.Exception}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                   
+                </Grid>
+            </TabItem>
+            <TabItem Header="Commands" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <DataGrid ItemsSource="{Binding Commands}" 
+                          AutoGenerateColumns="False" 
+                          SelectedItem="{Binding SelectedCommand}" 
+                          CanUserAddRows="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Header="Command" Binding="{Binding Identifier}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Higher Level Message" Binding="{Binding HigherLevelMessage}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedCommand.Logs}" 
+                          AutoGenerateColumns="False" 
+                          SelectedItem="{Binding SelectedLog}"
+                          CanUserAddRows="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Log.Level}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Logger" Binding="{Binding Log.Logger}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Timestamp" Binding="{Binding Log.Timestamp}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Message}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Exception}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Handlers" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <DataGrid ItemsSource="{Binding Handlers}" 
+                          AutoGenerateColumns="False" 
+                          SelectedItem="{Binding SelectedHandler}" 
+                          CanUserAddRows="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Header="Command" Binding="{Binding Identifier}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Higher Level Message" Binding="{Binding HigherLevelMessage}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedHandler.Logs}" 
+                          AutoGenerateColumns="False" 
+                          SelectedItem="{Binding SelectedLog}"
+                          CanUserAddRows="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Log.Level}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Logger" Binding="{Binding Log.Logger}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Timestamp" Binding="{Binding Log.Timestamp}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Message}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Exception}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+
+
 </Window>

@@ -64,7 +64,22 @@ namespace Sample.DebugUi.Infrastructure
                     message.Logger = element.Attribute("logger").Value;
                     message.Timestamp = DateTime.Parse(element.Attribute("timestamp").Value);
                     message.Level = element.Attribute("level").Value;
-                    message.ThreadId = Int32.Parse(element.Attribute("thread").Value);
+                    switch (message.Level) { 
+                        case "ERROR":
+                            message.NumericLevel = 4;
+                            break;
+                        case "WARN":
+                            message.NumericLevel = 3;
+                            break;
+                        case "INFO":
+                            message.NumericLevel = 2;
+                            break;
+                        case "DEBUG":
+                            message.NumericLevel = 1;
+                            break;
+
+                    }
+                    message.ThreadId = element.Attribute("thread").Value;
                     message.Message = (String)element.Element("message");
                     var exceptionNode = element.Element("exception");
                     if (exceptionNode != null) {

@@ -21,7 +21,7 @@ namespace Proximo.Cqrs.Server.Eventing
 
         public void Dispatch(Object @event)
         {
-            _logger.SetInThreadContext("op_type", "event " + @event.GetType().FullName);
+            _logger.SetInThreadContext("op_type", "event " + @event.GetType().FullName + " " + DateTime.Now.ToString());
 
             _logger.Info("[evt dispatcher] dispatching event " + @event.ToString());
             var eventType = @event.GetType();

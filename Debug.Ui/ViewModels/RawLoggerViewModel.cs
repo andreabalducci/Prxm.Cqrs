@@ -34,5 +34,16 @@ namespace Sample.DebugUi.ViewModels
         /// 
         /// </summary>
         public ObservableCollection<LogMessageViewModel> Logs { get; set; }
+
+        /// <summary>
+        /// Represents the selected log.
+        /// </summary>
+        public LogMessageViewModel SelectedLog
+        {
+            get { return _SelectedLog; }
+            set { this.Set(p => p.SelectedLog, value, ref _SelectedLog); }
+        }
+
+        private LogMessageViewModel _SelectedLog;
     }
 }

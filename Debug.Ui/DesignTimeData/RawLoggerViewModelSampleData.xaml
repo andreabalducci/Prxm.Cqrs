@@ -1,0 +1,43 @@
+﻿<vm:RawLoggerViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Sample.DebugUi.ViewModels"
+    xmlns:infrastructure="clr-namespace:Sample.DebugUi.Infrastructure">
+
+    <vm:RawLoggerViewModel.Logs>
+
+        <vm:LogMessageViewModel >
+            <vm:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name 1 " Level="INFO" />
+            </vm:LogMessageViewModel.Log>
+        </vm:LogMessageViewModel>
+        
+        <vm:LogMessageViewModel >
+            <vm:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name 2" Level="WARN" />
+            </vm:LogMessageViewModel.Log>
+        </vm:LogMessageViewModel>
+        
+        <vm:LogMessageViewModel >
+            <vm:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name 3" Level="ERROR" />
+            </vm:LogMessageViewModel.Log>
+        </vm:LogMessageViewModel>
+        
+        <vm:LogMessageViewModel >
+            <vm:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name 4" Level="DEBUG" />
+            </vm:LogMessageViewModel.Log>
+        </vm:LogMessageViewModel>
+
+    </vm:RawLoggerViewModel.Logs>
+
+    <vm:RawLoggerViewModel.SelectedLog>
+        <vm:LogMessageViewModel >
+            <vm:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+            </vm:LogMessageViewModel.Log>
+        </vm:LogMessageViewModel>
+       
+    </vm:RawLoggerViewModel.SelectedLog>
+</vm:RawLoggerViewModel >

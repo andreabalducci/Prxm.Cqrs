@@ -89,5 +89,16 @@ namespace Proximo.Cqrs.Core.Support
         {
 
         }
+
+
+        public void SetInThreadContext(string propertyName, string propertyValue)
+        {
+           
+        }
+
+        public void RemoveFromThreadContext(string propertyName)
+        {
+    
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace Sample.Server
 	class Program
 	{
 		private static IWindsorContainer _container;
+        private static ILogger _logger;
 
 		static void Main(string[] args)
 		{
@@ -51,7 +52,9 @@ namespace Sample.Server
 			PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
 
 			_container = CreateContainer();
-
+            _logger = _container.Resolve<ILogger>();
+            //_logger.SetInThreadContext("op_type", "blablabla");
+            //_logger.Error("TEST", new NotImplementedException());
 			ConfigureCommandSender();
 			AutomapEventsForMongoDB();
 			ConfigureQueryModelBuilder();

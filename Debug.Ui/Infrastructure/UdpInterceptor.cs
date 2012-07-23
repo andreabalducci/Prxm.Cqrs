@@ -44,7 +44,8 @@ namespace Sample.DebugUi.Infrastructure
             ThreadPool.QueueUserWorkItem(Start, null);
         }
 
-        public void Stop() {
+        public void Stop()
+        {
             _stop = true;
         }
 
@@ -64,7 +65,23 @@ namespace Sample.DebugUi.Infrastructure
                     message.Timestamp = DateTime.Parse(element.Attribute("timestamp").Value);
                     message.Level = element.Attribute("level").Value;
                     message.ThreadId = Int32.Parse(element.Attribute("thread").Value);
-                    message.Message = (String) element.Element("message");
+                    message.Message = (String)element.Element("message");
+                    var exceptionNode = element.Element("exception");
+                    if (exceptionNode != null) {
+                        message.Exception = (String) exceptionNode;
+                    }
+                    foreach (var dataNode in element.Descendants("data"))
+                    {
+                        String key = dataNode.Attribute("name").Value;
+                        String value = dataNode.Attribute("value").Value;
+                        message.Properties.Add(key, value);
+                        switch (key)
+                        {
+                            case "op_type":
+                                message.OpType = value;
+                            break;
+                        }
+                    }
                     OnLogIntercepted(message);
                 }
                 catch (SocketException e)
@@ -80,10 +97,11 @@ namespace Sample.DebugUi.Infrastructure
 
         public event EventHandler<LogInterceptedEventArgs> LogIntercepted;
 
-        protected void OnLogIntercepted(LogMessage message) 
+        protected void OnLogIntercepted(LogMessage message)
         {
             var temp = LogIntercepted;
-            if (temp != null) {
+            if (temp != null)
+            {
 
                 LogInterceptedEventArgs args = new LogInterceptedEventArgs(message);
                 temp(this, args);

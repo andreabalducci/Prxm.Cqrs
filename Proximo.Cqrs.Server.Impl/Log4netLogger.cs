@@ -105,6 +105,15 @@ namespace Proximo.Cqrs.Server.Impl
             this.Logger.Fatal(message, exception);
         }
 
-      
+
+        public void SetInThreadContext(string propertyName, string propertyValue)
+        {
+            log4net.ThreadContext.Properties[propertyName] = propertyValue;
+        }
+
+        public void RemoveFromThreadContext(string propertyName)
+        {
+            log4net.ThreadContext.Properties.Remove(propertyName);
+        }
     }
 }

@@ -8,6 +8,11 @@ namespace Sample.DebugUi.Infrastructure
 {
     public class LogMessage
     {
+        public LogMessage() 
+        {
+            Properties = new Dictionary<string, string>();
+        }
+
         [XmlAttribute("logger")]
         public String Logger { get; set; }
 
@@ -22,5 +27,21 @@ namespace Sample.DebugUi.Infrastructure
 
         [XmlElement("message")]
         public String Message { get; set; }
+
+        [XmlElement("exception")]
+        public String Exception { get; set; }
+
+        /// <summary>
+        /// this is a specific property, if in thread context the logger set the op_type property
+        /// it gets collected here.
+        /// </summary>
+        [XmlElement("optype")]
+        public String OpType { get; set; }
+
+        /// <summary>
+        /// This is the list of detailed properties of the log
+        /// </summary>
+        public Dictionary<String, String> Properties { get; set; }
+        
     }
 }

@@ -22,6 +22,10 @@ namespace Proximo.Cqrs.Server.Commanding
 
         public void RouteToHandler(ICommand command)
         {
+            //optype set in logger context information about the logical operation that the system is executing
+            //is used to group log messages togheter and to correlate child log to a logical operation.
+            _logger.SetInThreadContext("op_type", "command " + command.Id + " " + command.GetType().FullName);
+            
             _logger.Info("[queue] processing command " + command.ToString());
 
             var commandType = command.GetType();
@@ -40,6 +44,8 @@ namespace Proximo.Cqrs.Server.Commanding
             //mi.Invoke(consumer, new object[] { command });
 
             _logger.Info("[queue] command handled " + command.ToString());
+
+            _logger.RemoveFromThreadContext("op_type");
         }
     }
 }

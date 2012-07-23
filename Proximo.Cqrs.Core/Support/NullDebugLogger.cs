@@ -98,7 +98,7 @@ namespace Proximo.Cqrs.Core.Support
 
         public void RemoveFromThreadContext(string propertyName)
         {
-    
+
         }
     }
 }

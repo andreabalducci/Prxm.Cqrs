@@ -12,6 +12,7 @@
     </property>
     <property name="dialect">NHibernate.Dialect.MsSql2008Dialect</property>
     <property name="generate_statistics">true</property>
-    <property name="show_sql">false</property>
+    <property name="show_sql">False</property>
+    <property name="format_sql">True</property>
   </session-factory>
 </hibernate-configuration>

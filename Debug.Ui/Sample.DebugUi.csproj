@@ -111,6 +111,7 @@
     <Compile Include="Infrastructure\LogMessage.cs" />
     <Compile Include="Infrastructure\UdpInterceptor.cs" />
     <Compile Include="KissMvvm\PropertyChangedObserver.cs" />
+    <Compile Include="Utils\StringExtension.cs" />
     <Compile Include="ViewModels\LogMessageViewModel.cs" />
     <Compile Include="ViewModels\RawLoggerViewModel.cs" />
     <Compile Include="Views\RawLoggerView.xaml.cs">

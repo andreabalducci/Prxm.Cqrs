@@ -37,7 +37,7 @@ namespace Sample.DebugUi.KissMvvm
         public WeakReference(T target, bool trackResurrection)
             : base(target, trackResurrection)
         {
-
+            
         }
 
         /// <summary>

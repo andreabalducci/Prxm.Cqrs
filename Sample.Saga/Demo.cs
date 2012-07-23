@@ -35,7 +35,7 @@ namespace Sample.Saga
 	}
 
 	/// <summary>
-	/// send the SagaCommand out when both the commands are arrived
+	/// send the SagaCommand out when both the events are arrive
 	/// </summary>
 	public class DemoSaga : Saga<DemoSagaState>,
 		IamWokeUpBy<DemoEvent1>,

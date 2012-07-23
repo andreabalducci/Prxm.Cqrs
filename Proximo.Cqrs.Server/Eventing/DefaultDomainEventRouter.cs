@@ -21,7 +21,8 @@ namespace Proximo.Cqrs.Server.Eventing
 
         public void Dispatch(Object @event)
         {
-            _logger.SetInThreadContext("op_type", "event " + @event.GetType().FullName + " " + DateTime.Now.ToString());
+            //remember to use datetime.now to set an unique value for this event.
+            _logger.SetOpType("event", @event.GetType().FullName + " " + DateTime.Now.ToString());
 
             _logger.Info("[evt dispatcher] dispatching event " + @event.ToString());
             var eventType = @event.GetType();
@@ -32,7 +33,7 @@ namespace Proximo.Cqrs.Server.Eventing
                 invoker.Invoke(@event as IDomainEvent);
             }
             _logger.Debug("[evt dispatcher] dispatching event " + @event.ToString() + " done");
-            _logger.RemoveFromThreadContext("op_type");
+            _logger.RemoveOpType();
             //var eventHandlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);
             
             //var handlers = _domainEventHandlerFactory.CreateHandlers(eventHandlerType);

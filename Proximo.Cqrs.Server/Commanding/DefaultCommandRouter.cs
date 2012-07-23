@@ -24,7 +24,7 @@ namespace Proximo.Cqrs.Server.Commanding
         {
             //optype set in logger context information about the logical operation that the system is executing
             //is used to group log messages togheter and to correlate child log to a logical operation.
-            _logger.SetInThreadContext("op_type", "command " + command.Id + " " + command.GetType().FullName);
+            _logger.SetOpType("command", command.GetType().FullName + " Id:" + command.Id);
             
             _logger.Info("[queue] processing command " + command.ToString());
 
@@ -45,7 +45,7 @@ namespace Proximo.Cqrs.Server.Commanding
             }
             finally 
             {
-                _logger.RemoveFromThreadContext("op_type");
+                _logger.RemoveOpType();
             }
             
         }

@@ -100,5 +100,16 @@ namespace Proximo.Cqrs.Core.Support
         {
 
         }
+
+
+        public void SetOpType(string optype, string opTypeIdentification)
+        {
+           
+        }
+
+        public void RemoveOpType()
+        {
+           
+        }
     }
 }

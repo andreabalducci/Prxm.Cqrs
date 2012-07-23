@@ -43,6 +43,10 @@ namespace Proximo.Cqrs.Core.Support
 
         void RemoveFromThreadContext(String propertyName);
 
+        void SetOpType(String optype, String opTypeIdentification);
+
+        void RemoveOpType();
+
         #endregion
 
     }

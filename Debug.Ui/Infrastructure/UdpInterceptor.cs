@@ -95,6 +95,9 @@ namespace Sample.DebugUi.Infrastructure
                             case "op_type":
                                 message.OpType = value;
                             break;
+                            case "op_type_id":
+                                message.OpTypeId = value;
+                            break;
                         }
                     }
                     OnLogIntercepted(message);

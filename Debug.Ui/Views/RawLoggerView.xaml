@@ -46,28 +46,18 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <Grid DockPanel.Dock="Bottom">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
 
-            <Label Content="Message" />
-            <Label Grid.Row="1" Content="Exception" />
 
-            <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedLog.Log.Message}" AcceptsReturn="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible" />
-            <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedLog.Log.Exception}" AcceptsReturn="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible" />
-        </Grid>
-
-        <TabControl>
+        <TabControl >
             
-            <TabItem Header="Raw Logging" >
+            <TabItem Header="Raw Logging"  >
                 <TabItem.Resources>
                     <Style TargetType="{x:Type DataGridRow}" >
                         <Style.Triggers>
@@ -132,6 +122,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="4" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -142,10 +133,13 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn IsReadOnly="True" Header="Command" Binding="{Binding Identifier}" />
                             <DataGridTextColumn IsReadOnly="True" Header="Higher Level Message" Binding="{Binding HigherLevelMessage}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Message Count" Binding="{Binding Logs.Count}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedCommand.Logs}" 
+                    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                    <DataGrid Grid.Row="2" ItemsSource="{Binding SelectedCommand.Logs}" 
                           AutoGenerateColumns="False" 
                           SelectedItem="{Binding SelectedLog}"
                           CanUserAddRows="False" >
@@ -165,6 +159,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="4" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -175,10 +170,13 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn IsReadOnly="True" Header="Command" Binding="{Binding Identifier}" />
                             <DataGridTextColumn IsReadOnly="True" Header="Higher Level Message" Binding="{Binding HigherLevelMessage}" />
+                            <DataGridTextColumn IsReadOnly="True" Header="Message Count" Binding="{Binding Logs.Count}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedHandler.Logs}" 
+                    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    
+                    <DataGrid Grid.Row="2" ItemsSource="{Binding SelectedHandler.Logs}" 
                           AutoGenerateColumns="False" 
                           SelectedItem="{Binding SelectedLog}"
                           CanUserAddRows="False" >
@@ -194,8 +192,77 @@
 
                 </Grid>
             </TabItem>
+            <TabItem Header="All Other Operation Types" >
+                <TabControl ItemsSource="{Binding AggregatedLogs}" >
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding OperationType}" />
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="4" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <DataGrid ItemsSource="{Binding AggregatedLogs}" 
+                                      AutoGenerateColumns="False" 
+                                      SelectedItem="{Binding SelectedAggregateLog}" 
+                                      CanUserAddRows="False" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn IsReadOnly="True" Header="Command" Binding="{Binding Identifier}" />
+                                        <DataGridTextColumn IsReadOnly="True" Header="Higher Level Message" Binding="{Binding HigherLevelMessage}" />
+                                        <DataGridTextColumn IsReadOnly="True" Header="Message Count" Binding="{Binding Logs.Count}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                                <DataGrid Grid.Row="2" ItemsSource="{Binding SelectedAggregateLog.Logs}" 
+                                      AutoGenerateColumns="False" 
+                                      SelectedItem="{Binding DataContext.SelectedLog, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                      CanUserAddRows="False" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Log.Level}" />
+                                        <DataGridTextColumn IsReadOnly="True" Header="Logger" Binding="{Binding Log.Logger}" />
+                                        <DataGridTextColumn IsReadOnly="True" Header="Timestamp" Binding="{Binding Log.Timestamp}" />
+                                        <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Message}" />
+                                        <DataGridTextColumn IsReadOnly="True" Header="Message" Binding="{Binding Log.Exception}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+
+                            </Grid>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </TabItem>
         </TabControl>
-    </DockPanel>
+
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Message" />
+            <Label Grid.Row="1" Content="Exception" />
+
+            <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedLog.Log.Message}" AcceptsReturn="True" 
+                     TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Visible" />
+            <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly="True" Text="{Binding SelectedLog.Log.Exception}" AcceptsReturn="True" 
+                     TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Visible" />
+        </Grid>
+        </Grid>
 
 
 </Window>

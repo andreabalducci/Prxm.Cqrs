@@ -115,5 +115,18 @@ namespace Proximo.Cqrs.Server.Impl
         {
             log4net.ThreadContext.Properties.Remove(propertyName);
         }
+
+
+        public void SetOpType(string optype, string opTypeIdentification)
+        {
+            log4net.ThreadContext.Properties["op_type"] = optype;
+            log4net.ThreadContext.Properties["op_type_id"] = opTypeIdentification;
+        }
+
+        public void RemoveOpType()
+        {
+            log4net.ThreadContext.Properties.Remove("op_type");
+            log4net.ThreadContext.Properties.Remove("op_type_id");
+        }
     }
 }

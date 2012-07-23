@@ -40,6 +40,9 @@ namespace Sample.DebugUi.Infrastructure
         [XmlElement("optype")]
         public String OpType { get; set; }
 
+        [XmlElement("optypeid")]
+        public String OpTypeId { get; set; }
+
         /// <summary>
         /// This is the list of detailed properties of the log
         /// </summary>

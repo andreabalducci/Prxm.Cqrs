@@ -22,6 +22,7 @@ namespace Sample.DebugUi.ViewModels
             _Logs = new ObservableCollection<LogMessageViewModel>();
             Commands = new ObservableCollection<AggregateLogMessageViewModel>();
             Handlers = new ObservableCollection<AggregateLogMessageViewModel>();
+            AggregatedLogs = new ObservableCollection<OpTypeLoggerViewModel>();
             CvsLogs = new CollectionViewSource();
             CvsLogs.Source = _Logs;
             CvsLogs.Filter += CvsLogsFilter;
@@ -50,28 +51,44 @@ namespace Sample.DebugUi.ViewModels
                 _Logs.Add(new LogMessageViewModel(e.Message));
                 if (!String.IsNullOrEmpty(e.Message.OpType))
                 {
-                    String[] optypeSplitted = e.Message.OpType.Split(' ');
-                    if ("command".Equals(optypeSplitted[0], StringComparison.OrdinalIgnoreCase))
+                  
+                    if ("command".Equals(e.Message.OpType, StringComparison.OrdinalIgnoreCase))
                     {
                         //I already have a logger for this command?
-                        var alvm = Commands.SingleOrDefault(c => c.Identifier == optypeSplitted[1]);
+                        var alvm = Commands.SingleOrDefault(c => c.Identifier == e.Message.OpTypeId);
                         if (alvm == null)
                         {
-                            alvm = new AggregateLogMessageViewModel() { Identifier = optypeSplitted[1] };
+                            alvm = new AggregateLogMessageViewModel() { Identifier = e.Message.OpTypeId };
                             Commands.Add(alvm);
                         }
                         alvm.Logs.Add(new LogMessageViewModel( e.Message));
                     }
-                    else if ("event".Equals(optypeSplitted[0], StringComparison.OrdinalIgnoreCase))
+                    else if ("event".Equals(e.Message.OpType, StringComparison.OrdinalIgnoreCase))
                     {
                         //I already have a logger for this command?
-                        var alvm = Handlers.SingleOrDefault(c => c.Identifier == optypeSplitted[1]);
+                        var alvm = Handlers.SingleOrDefault(c => c.Identifier == e.Message.OpTypeId);
                         if (alvm == null)
                         {
-                            alvm = new AggregateLogMessageViewModel() { Identifier = optypeSplitted[1] };
+                            alvm = new AggregateLogMessageViewModel() { Identifier = e.Message.OpTypeId };
                             Handlers.Add(alvm);
                         }
                         alvm.Logs.Add(new LogMessageViewModel(e.Message));
+                    }
+                    else { 
+                        //Generic optype
+                        var alogs = AggregatedLogs.SingleOrDefault(al => al.OperationType.Equals(e.Message.OpType));
+                        if (alogs == null) {
+                            alogs = new OpTypeLoggerViewModel(e.Message.OpType);
+                            AggregatedLogs.Add(alogs);
+                        }
+                        //now I have the container for the aggregate
+                        var aggl = alogs.AggregatedLogs.SingleOrDefault(c => c.Identifier == e.Message.OpTypeId);
+                        if (aggl == null)
+                        {
+                            aggl = new AggregateLogMessageViewModel() { Identifier = e.Message.OpTypeId };
+                            alogs.AggregatedLogs.Add(aggl);
+                        }
+                        aggl.Logs.Add(new LogMessageViewModel(e.Message));
                     }
                 }
             });
@@ -170,6 +187,12 @@ namespace Sample.DebugUi.ViewModels
         }
 
         private AggregateLogMessageViewModel _SelectedHandler;
+
+        /// <summary>
+        /// This is for generic aggregate logs that does not fell into Commands or handlers, they
+        /// are partitioned by the op_type
+        /// </summary>
+        public ObservableCollection<OpTypeLoggerViewModel> AggregatedLogs { get; set; }
 
         #endregion
     }

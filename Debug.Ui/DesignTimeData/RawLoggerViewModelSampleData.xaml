@@ -154,4 +154,16 @@
             </vm:AggregateLogMessageViewModel.Logs>
         </vm:AggregateLogMessageViewModel>
     </vm:RawLoggerViewModel.SelectedHandler>
+
+    <vm:RawLoggerViewModel.AggregatedLogs>
+        <vm:OpTypeLoggerViewModel OperationType="1 BLABLABALB">
+
+        </vm:OpTypeLoggerViewModel>
+        <vm:OpTypeLoggerViewModel OperationType="2 BLABLABALB">
+
+        </vm:OpTypeLoggerViewModel>
+        <vm:OpTypeLoggerViewModel OperationType="3 BLABLABALB">
+
+        </vm:OpTypeLoggerViewModel>
+    </vm:RawLoggerViewModel.AggregatedLogs>
 </vm:RawLoggerViewModel >

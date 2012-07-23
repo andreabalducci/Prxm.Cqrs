@@ -37,7 +37,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 
         public void CreateItemOnDenormalizedView(InventoryItemCreated @event)
         {
-            Log(string.Format("adding {0} to item list", @event.Sku));
+            Log(string.Format("Adding Inventory Item SKU={0} to item list", @event.Sku));
             var qm = GetById<InventoryItemTotalQuantity>(@event.Id);
             if (qm == null) 
             {

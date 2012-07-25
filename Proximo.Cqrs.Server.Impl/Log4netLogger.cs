@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using Proximo.Cqrs.Core.Support;
 using log4net;
+using log4net.Core;
 
 namespace Proximo.Cqrs.Server.Impl
 {
-    public class Log4netLogger : ILogger
+    public class Log4netLogger : Proximo.Cqrs.Core.Support.ILogger
     {
-
-        ILog Logger { get; set; }
+		ILog Logger { get; set; }
 
         public bool IsDebugEnabled
         {
@@ -38,11 +38,11 @@ namespace Proximo.Cqrs.Server.Impl
         }
 
         /// <summary
-        /// Without any arguments the logger created has name "root"
+        /// Without any arguments the logger created has name "log"
         /// </summary>
         public Log4netLogger()
         {
-            this.Logger = LogManager.GetLogger("root");
+            this.Logger = LogManager.GetLogger("log");
         }
 
         public Log4netLogger(Type containingType)
@@ -65,10 +65,30 @@ namespace Proximo.Cqrs.Server.Impl
             this.Logger.Debug(message, exception);
         }
 
+		public void Debug(string message, Exception exception, ExtendedLogInfo info)
+		{
+			if (IsDebugEnabled)
+			{
+				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Debug, message, exception);
+				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
+				Logger.Debug(loggingEvent);
+			}
+		}
+
         public void Info(string message)
         {
             this.Logger.Info(message);
         }
+
+		public void Info(string message, Exception exception, ExtendedLogInfo info)
+		{
+			if (IsInfoEnabled)
+			{
+				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Info, message, exception);
+				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
+				Logger.Debug(loggingEvent);
+			}
+		}
 
         public void Info(string message, Exception exception)
         {
@@ -85,6 +105,16 @@ namespace Proximo.Cqrs.Server.Impl
             this.Logger.Warn(message, exception);
         }
 
+		public void Warn(string message, Exception exception, ExtendedLogInfo info)
+		{
+			if (IsWarnEnabled)
+			{
+				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Warn, message, exception);
+				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
+				Logger.Debug(loggingEvent);
+			}
+		}
+
         public void Error(string message)
         {
             this.Logger.Error(message);
@@ -94,6 +124,16 @@ namespace Proximo.Cqrs.Server.Impl
         {
             this.Logger.Error(message, exception);
         }
+
+		public void Error(string message, Exception exception, ExtendedLogInfo info)
+		{
+			if (IsErrorEnabled)
+			{
+				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Error, message, exception);
+				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
+				Logger.Debug(loggingEvent);
+			}
+		}
 
         public void Fatal(string message)
         {
@@ -105,6 +145,24 @@ namespace Proximo.Cqrs.Server.Impl
             this.Logger.Fatal(message, exception);
         }
 
+		public void Fatal(string message, Exception exception, ExtendedLogInfo info)
+		{
+			if (IsFatalEnabled)
+			{
+				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Fatal, message, exception);
+				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
+				Logger.Debug(loggingEvent);
+			}
+		}
+
+		private static void FillInLoggingEventWithExtendedProperties(ExtendedLogInfo info, LoggingEvent loggingEvent)
+		{
+			// todo: add caching or fast reflection to improve performances a bit
+			foreach (var pi in info.GetType().GetProperties())
+			{
+				loggingEvent.Properties[pi.Name] = pi.GetValue(info, null);
+			}
+		}
 
         public void SetInThreadContext(string propertyName, string propertyValue)
         {
@@ -115,8 +173,7 @@ namespace Proximo.Cqrs.Server.Impl
         {
             log4net.ThreadContext.Properties.Remove(propertyName);
         }
-
-
+		
         public void SetOpType(string optype, string opTypeIdentification)
         {
             log4net.ThreadContext.Properties["op_type"] = optype;

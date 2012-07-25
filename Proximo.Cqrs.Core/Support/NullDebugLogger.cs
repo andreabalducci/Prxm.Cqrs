@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Proximo.Cqrs.Core.Support
 {
+	/// <summary>
+	/// todo: move to a 'Logging' namespace
+	/// </summary>
     public sealed class NullLogger : ILogger
     {
-        private static NullLogger _instance;
-        public static NullLogger Instance { get { return _instance; } }
-
         public bool IsDebugEnabled
         {
             get { return false; }
@@ -111,5 +111,30 @@ namespace Proximo.Cqrs.Core.Support
         {
            
         }
-    }
+
+		public void Debug(string message, Exception exception, ExtendedLogInfo info)
+		{
+			
+		}
+
+		public void Error(string message, Exception exception, ExtendedLogInfo info)
+		{
+			
+		}
+
+		public void Fatal(string message, Exception exception, ExtendedLogInfo info)
+		{
+			
+		}
+
+		public void Info(string message, Exception exception, ExtendedLogInfo info)
+		{
+			
+		}
+
+		public void Warn(string message, Exception exception, ExtendedLogInfo info)
+		{
+			
+		}
+	}
 }

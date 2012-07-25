@@ -44,7 +44,8 @@
     <Compile Include="Commanding\ICommandRouter.cs" />
     <Compile Include="Commanding\ICommandQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Support\IDebugLogger.cs" />
+    <Compile Include="Support\ExtendedLogInfo.cs" />
+    <Compile Include="Support\ILogger.cs" />
     <Compile Include="Support\NullDebugLogger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

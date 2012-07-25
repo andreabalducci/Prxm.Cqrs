@@ -35,7 +35,16 @@ namespace Proximo.Cqrs.Server.Impl
         {
             _kernel = kernel;
             _logger = logger;
-            ScanAllAssembliesInDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            String baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            String binDirectory = Path.Combine(baseDirectory, "bin");
+            if (Directory.Exists(binDirectory))
+            {
+                ScanAllAssembliesInDirectory(binDirectory);
+            }
+            else {
+                ScanAllAssembliesInDirectory(baseDirectory);
+            }
+            
         }
 
         private void ScanAllAssembliesInDirectory(String enumerationDirectory)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Proximo.Cqrs.Core.Commanding;
+using Proximo.Cqrs.Core.Support;
 
 namespace Sample.Saga.Infrastructure
 {
@@ -23,20 +24,27 @@ namespace Sample.Saga.Infrastructure
 	/// assumption: once the saga is completed it's useless (the process is done and all the info are traced by the domain events), so we remove it form the repository
 	/// 
 	/// todo: add timeout support maybe using delayed messages/signals.
+	/// 
+	/// what if a timeout message arrives and the saga was completed? we risk to execute the saga again (if it's woke up by timeout messages)
+	/// or if a timeout message arrives and the Saga is not found in the repository we can just consider it as completed and
+	/// discard the message
 	/// </summary>
 	/// <typeparam name="TState"></typeparam>
-	public abstract class Saga<TState> where TState : SagaState
+	public abstract class Saga<TState, TId> where TState : SagaState<TId>, new()
 	{
 		protected TState State { get; set; }
 
 		protected ICommandQueue CommandQueue { get; set; }
 
-		protected ISagaRepository Repository { get; set; }
+		protected ISagaRepository<TState, TId> Repository { get; set; }
 
-		public Saga(ISagaRepository repository, ICommandQueue commandQueue)
+		protected ILogger Logger { get; set; }
+
+		public Saga(ISagaRepository<TState, TId> repository, ICommandQueue commandQueue, ILogger logger)
 		{
 			CommandQueue = commandQueue;
 			Repository = repository;
+			Logger = logger;
 		}
 
 		protected void PersistIfNotCompleted()
@@ -50,7 +58,10 @@ namespace Sample.Saga.Infrastructure
 		protected virtual void MarkAsCompleted()
 		{
 			State.Completed = true;
-			// and now what ? remove the state from the database
+			// and now what ? remove the state from the database ? is this true, isn't it better to mark it as completed
+			// otherwise we risk to execute the saga again (if it's woke up by timeout messages)
+			// or if a timeout message arrives and the Saga is not found in the repository we can just consider it as completed and
+			// discard the message
 			Repository.Remove(State);
 		}
 	}

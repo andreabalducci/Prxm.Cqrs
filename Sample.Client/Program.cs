@@ -45,17 +45,17 @@ namespace Sample.Client
 			// Create command
 			//
 			
-            var id = Guid.NewGuid();
-			ICommand command = new CreateInventoryItemCommand(id)
-							  {
-								  ItemId = id,
-								  Sku = "I001",
-								  Description = "New Item from client"
-							  };
+			//var id = Guid.NewGuid();
+			//ICommand command = new CreateInventoryItemCommand(id)
+			//                  {
+			//                      ItemId = id,
+			//                      Sku = "I001",
+			//                      Description = "New Item from client"
+			//                  };
 
 
-			commandSender.Enqueue(command);
-			Console.WriteLine("Issued new Item Command");
+			//commandSender.Enqueue(command);
+			//Console.WriteLine("Issued new Item Command");
              
 /*
 			// 
@@ -97,6 +97,31 @@ namespace Sample.Client
 			commandQueue.Enqueue(new AskForReplayCommand(Guid.NewGuid()));
 			Console.WriteLine("Issued Ask For Replay Command");
             */
+
+            // saga sample command sequence
+            Guid correlatinId = Guid.NewGuid();
+            Saga.DemoCommand1 c1 = new Saga.DemoCommand1()
+            {
+                Id = Guid.NewGuid(),
+                AggregateId = Guid.NewGuid(),
+                CorrelatonId = correlatinId
+            };
+            commandSender.Enqueue(c1);
+            Console.WriteLine("issued Democommand1");
+            Console.WriteLine("press a key to continue");
+            Console.ReadLine();
+
+            Saga.DemoCommand2 c2 = new Saga.DemoCommand2()
+            {
+                Id = Guid.NewGuid(),
+                AggregateId = Guid.NewGuid(),
+                CorrelatonId = correlatinId
+            };
+            commandSender.Enqueue(c2);
+            Console.WriteLine("issued Democommand2");
+            Console.WriteLine("press a key to continue");
+            Console.ReadLine();
+
 			//
 			// shutdown
 			//

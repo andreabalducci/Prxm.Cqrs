@@ -8,25 +8,27 @@ namespace Sample.Saga.Infrastructure
 	/// <summary>
 	/// a generic interface to load and write sagas
 	/// </summary>
-	public interface ISagaRepository
+	/// <typeparam name="T">Type of the SagaState class</typeparam>
+	/// <typeparam name="TId">The type of the id.</typeparam>
+	public interface ISagaRepository<T, TId> where T : SagaState<TId>, new()
 	{
 		/// <summary>
 		/// loads the curret execution state of a saga
 		/// </summary>
 		/// <param name="params">Key,Value pairs that are the parameters used to uniquely identify the saga</param>
 		/// <returns></returns>
-		SagaState Load(IDictionary<string, object> @params);
+		T Load(IDictionary<string, object> @params);
 
 		/// <summary>
 		/// save the saga state
 		/// </summary>
 		/// <param name="state"></param>
-		void Save(SagaState state);
+		void Save(T state);
 
 		/// <summary>
 		/// The saga ended and can be discarded form the database
 		/// </summary>
 		/// <param name="state"></param>
-		void Remove(SagaState state);
+		void Remove(T state);
 	}
 }

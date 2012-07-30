@@ -176,13 +176,13 @@
       <Project>{84EC82FA-564F-4BBD-BC3F-EEB69D1E6DBE}</Project>
       <Name>Sample.QueryModel.Builder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sample.QueryModel.NHibernate\Sample.QueryModel.NHibernate.csproj">
-      <Project>{14207B62-8B62-4EBE-B211-DE9F3E6064D5}</Project>
-      <Name>Sample.QueryModel.NHibernate</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sample.QueryModel.Rebuilder\Sample.QueryModel.Rebuilder.csproj">
       <Project>{420906E8-A239-4EE4-803B-C285C06F645D}</Project>
       <Name>Sample.QueryModel.Rebuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.Saga\Sample.Saga.csproj">
+      <Project>{ad124779-a328-4f40-aee6-390656455ca8}</Project>
+      <Name>Sample.Saga</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.Server.Core\Sample.Server.Core.csproj">
       <Project>{D73E42C6-FBA7-4E79-9B0D-B31B83331DA2}</Project>

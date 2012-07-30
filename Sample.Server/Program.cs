@@ -33,6 +33,9 @@ using Sample.QueryModel.Builder;
 using Sample.Server.Core;
 using Sample.Server.Core.Initialization;
 using Castle.DynamicProxy;
+using Sample.Saga.Infrastructure;
+using Sample.Saga.Impl;
+using Sample.Saga;
 
 
 namespace Sample.Server
@@ -46,7 +49,7 @@ namespace Sample.Server
 		{
 
 			XmlConfigurator.Configure();
-            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+            // HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
 
 
 			PrepareQueues.Prepare("msmq://localhost/cqrs.sample", QueueType.Standard);
@@ -57,6 +60,7 @@ namespace Sample.Server
             //_logger.Error("TEST", new NotImplementedException());
 			ConfigureCommandSender();
 			AutomapEventsForMongoDB();
+			AutoMapSagaSampleForMongoDB();
 			ConfigureQueryModelBuilder();
 			ConfigureQueryModelRebuilder();
             ConfigureDomainEventHandlerInitializers();
@@ -66,10 +70,10 @@ namespace Sample.Server
 				);
 
 			// rebuild the views if needed (it must be done before the bus starts)
-			// todo: add some tracing
-			DenormalizerRebuilder rebuilder = _container.Resolve<DenormalizerRebuilder>();
-			rebuilder.Rebuild();
-			_container.Release(rebuilder);
+			// todo: add some tracing and exclude sagas
+			//DenormalizerRebuilder rebuilder = _container.Resolve<DenormalizerRebuilder>();
+			//rebuilder.Rebuild();
+			//_container.Release(rebuilder);
 
             //GM: Now initialization of the handler and discovering of specific support
             //This can be moved to the core if this concept of initialization is good.
@@ -229,6 +233,21 @@ namespace Sample.Server
 			}
 		}
 
+		private static void AutoMapSagaSampleForMongoDB()
+		{
+			var assembly = typeof(DemoEvent1).Assembly;
+			var domainEvents = assembly.GetTypes().Where(x => typeof(IDomainEvent).IsAssignableFrom(x));
+
+			// automapping domain events
+			foreach (var domainEvent in domainEvents)
+			{
+				BsonClassMap.LookupClassMap(domainEvent);
+			}
+
+			// map the state
+			BsonClassMap.LookupClassMap(typeof(DemoSagaState));
+		}
+
 		private static void ConfigureQueryModelBuilder()
 		{
 			_container.Register(
@@ -242,7 +261,9 @@ namespace Sample.Server
 					var db = MongoServer.Create(builder).GetDatabase(builder.DatabaseName);
 					return db;
 				}),
-				Component.For(typeof(IModelWriter<>)).ImplementedBy(typeof(ModelWriter<>)).LifeStyle.Transient
+				Component.For(typeof(IModelWriter<>)).ImplementedBy(typeof(ModelWriter<>)).LifeStyle.Transient,
+				// add a saga persister too
+				Component.For(typeof(ISagaRepository<,>)).ImplementedBy(typeof(MongoDbSagaRepository<,>)).LifeStyle.Transient
 			);
 		}
 

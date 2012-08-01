@@ -23,7 +23,7 @@ namespace Sample.Tests.DomainTests
         /// 
         /// </summary>
         /// <param name="aggregateRoot"></param>
-        protected abstract void When(T aggregateRoot);
+        protected abstract void When(T aggregateRoot, out String explanation);
 
         /// <summary>
         /// list of expected events.
@@ -43,7 +43,7 @@ namespace Sample.Tests.DomainTests
         [Test]
         public void Exercise()
         {
-            gwtText.AppendLine("Specification: " + this.GetType().Name.Replace("_", " "));
+            gwtText.AppendLine("Specification: \n\t" + this.GetType().Name.Replace("_", " "));
             var exceptionVerifier = ExceptionVerifier();
             try
             {
@@ -51,7 +51,7 @@ namespace Sample.Tests.DomainTests
                 gwtText.AppendLine("Given:");
                 foreach (var @event in events)
                 {
-                    gwtText.AppendLine(@event.ToString());
+                    gwtText.AppendLine("\t" + @event.ToString());
                 }
                 T aggregateRoot = Activator.CreateInstance<T>();
                 foreach (var @event in events)
@@ -60,8 +60,9 @@ namespace Sample.Tests.DomainTests
                 }
 
                 var expectedEvents = ExpectedEvents();
-
-                When(aggregateRoot);
+                String whenDescription;
+                When(aggregateRoot, out whenDescription);
+                gwtText.AppendLine("When: \n\t" + whenDescription);
 
                 var raisedEvents = ((IAggregate)aggregateRoot)
                     .GetUncommittedEvents()
@@ -69,7 +70,7 @@ namespace Sample.Tests.DomainTests
                 gwtText.AppendLine("Expect:");
                 foreach (var @event in expectedEvents)
                 {
-                    gwtText.AppendLine(@event.ToString());
+                    gwtText.AppendLine("\t" + @event.ToString());
                 }
                 if (raisedEvents.Count() != expectedEvents.Count())
                 {

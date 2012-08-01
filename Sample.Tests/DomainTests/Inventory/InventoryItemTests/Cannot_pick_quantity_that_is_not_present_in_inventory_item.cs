@@ -24,8 +24,11 @@ namespace Sample.Tests.DomainTests.Inventory.InventoryItemTests
                 };
         }
 
-        protected override void When(InventoryItem aggregateRoot)
+        protected override void When(
+            InventoryItem aggregateRoot,
+            out String explanation)
         {
+            explanation = "Picking a quantity of 30";
             aggregateRoot.Pick(30);
         }
 

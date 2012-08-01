@@ -17,13 +17,13 @@ namespace Sample.Domain.Inventory.Domain
 
         public InventoryItem(Guid id, string itemId, string description)
         {
-            RaiseEvent(new InventoryItemCreated(){Id = id, Sku = itemId,ItemDescription = description});
+            RaiseEvent(new InventoryItemCreated() { Id = id, Sku = itemId, ItemDescription = description });
         }
 
-		public void UpdateDescription(string newDescription)
-		{
-			RaiseEvent(new InventoryItemDescriptionUpdated() { ItemId = this.ItemId, NewDescription = newDescription });
-		}
+        public void UpdateDescription(string newDescription)
+        {
+            RaiseEvent(new InventoryItemDescriptionUpdated() { ItemId = this.ItemId, NewDescription = newDescription });
+        }
 
         private void Apply(InventoryItemCreated @event)
         {
@@ -32,19 +32,54 @@ namespace Sample.Domain.Inventory.Domain
             this.Description = @event.ItemDescription;
         }
 
-		private void Apply(InventoryItemDescriptionUpdated @event)
-		{
-			Description = @event.NewDescription;
-		}
-
-        public void IncreaseStock(decimal i)
+        private void Apply(InventoryItemDescriptionUpdated @event)
         {
-            RaiseEvent(new InventoryItemReceived(this.Id, i));
+            Description = @event.NewDescription;
         }
 
-        public void Apply(InventoryItemReceived @event)
+        public void Stock(decimal quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new ArgumentException("cannot increase with negative or zero quantity", "quantity");
+            }
+            RaiseEvent(new InventoryItemStocked(this.Id, quantity));
+        }
+
+        public void Apply(InventoryItemStocked @event)
         {
             Quantity += @event.Quantity;
+        }
+
+        public void Pick(decimal quantityToPick)
+        {
+            if (quantityToPick <= 0)
+            {
+                throw new ArgumentException("cannot pick zero or negative quantity.", "quantity");
+            }
+            //Business validation
+            if (Quantity - quantityToPick < 0)
+            {
+                RaiseEvent(new InvalidPickingAttempted(
+                    Id,
+                    InvalidPickingReason.NegativePickingAttempted,
+                    Quantity,
+                    quantityToPick));
+            }
+            else
+            {
+                RaiseEvent(new InventoryItemPicked(this.Id, quantityToPick));
+            }
+        }
+
+        public void Apply(InventoryItemPicked @event)
+        {
+            Quantity -= @event.Quantity;
+        }
+
+        public void Apply(InvalidPickingAttempted @event)
+        {
+
         }
     }
 }

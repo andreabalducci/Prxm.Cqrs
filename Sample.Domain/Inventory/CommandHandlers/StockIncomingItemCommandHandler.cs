@@ -48,7 +48,7 @@ namespace Sample.Domain.Inventory.CommandHandlers
                 return;
             }
 
-            item.IncreaseStock(command.Quantity);
+            item.Stock(command.Quantity);
             _repository.Save(item, command.Id); //In the previous version we forget to call save
             Log(string.Format("Item {0} +{1} ", command.Sku, command.Quantity));
         }

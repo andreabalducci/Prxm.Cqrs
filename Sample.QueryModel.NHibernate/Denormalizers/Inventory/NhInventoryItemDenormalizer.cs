@@ -57,7 +57,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
             
         }
 
-        public void UpdateQuantityOnReceived(InventoryItemReceived @event)
+        public void UpdateQuantityOnReceived(InventoryItemStocked @event)
         {
             Log(string.Format("updating inventory summary of item {0} ", @event.AggregateId));
             //var aggregate = _repository.GetById<Sample.Domain.Inventory.Domain.InventoryItem>(@event.AggregateId);

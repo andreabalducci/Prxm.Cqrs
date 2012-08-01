@@ -3,19 +3,24 @@ using Proximo.Cqrs.Server.Eventing;
 
 namespace Sample.Domain.Inventory.Domain.Events
 {
-    public class InventoryItemReceived : DomainEvent
+    public class InventoryItemStocked : DomainEvent
     {
         public Guid AggregateId { get; protected set; }
         public decimal Quantity { get; protected set; }
 
-        public InventoryItemReceived(Guid aggregateId, decimal quantity)
+        public InventoryItemStocked(Guid aggregateId, decimal quantity)
         {
             AggregateId = aggregateId;
             Quantity = quantity;
         }
 
-        public InventoryItemReceived()
+        public InventoryItemStocked()
         {
+        }
+
+        public override string ToString()
+        {
+            return "Stocked quantity " + Quantity + " for item  " + AggregateId;
         }
     }
 }

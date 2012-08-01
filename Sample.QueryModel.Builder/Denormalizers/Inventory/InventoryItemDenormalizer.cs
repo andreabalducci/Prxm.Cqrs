@@ -40,7 +40,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
             _itemWriter.Save(new InventoryItem(@event.Id, @event.Sku,@event.ItemDescription));
         }
 
-        public void UpdateQuantityOnReceived(InventoryItemReceived @event)
+        public void UpdateQuantityOnReceived(InventoryItemStocked @event)
         {
             Log(string.Format("updating inventory summary of item {0} ", @event.AggregateId));
 

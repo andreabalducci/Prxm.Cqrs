@@ -11,5 +11,13 @@ namespace Sample.Domain.Inventory.Domain.Events
         public Guid Id { get; set; }
         public string Sku { get; set; }
         public string ItemDescription { get; set; }
+
+        public override string ToString()
+        {
+            return "Created an Inventory Item with SKU = " 
+                + Sku
+                + " Description " 
+                + ItemDescription;
+        }
     }
 }

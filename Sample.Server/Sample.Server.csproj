@@ -140,7 +140,9 @@
     <Compile Include="Support\MongoDbDenormalizersHashesStore.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +177,10 @@
     <ProjectReference Include="..\Sample.QueryModel.Builder\Sample.QueryModel.Builder.csproj">
       <Project>{84EC82FA-564F-4BBD-BC3F-EEB69D1E6DBE}</Project>
       <Name>Sample.QueryModel.Builder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.QueryModel.NHibernate\Sample.QueryModel.NHibernate.csproj">
+      <Project>{14207b62-8b62-4ebe-b211-de9f3e6064d5}</Project>
+      <Name>Sample.QueryModel.NHibernate</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.QueryModel.Rebuilder\Sample.QueryModel.Rebuilder.csproj">
       <Project>{420906E8-A239-4EE4-803B-C285C06F645D}</Project>

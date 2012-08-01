@@ -21,5 +21,7 @@ namespace Proximo.Cqrs.Server.Eventing
         {
             Originator = version;
         }
+
+      
     }
 }

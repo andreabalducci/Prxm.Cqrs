@@ -111,6 +111,10 @@ namespace Proximo.Cqrs.Server.Impl
                         //Create a log that tells what is wrong with that type
                         throw;
                     }
+                    catch (BadImageFormatException ex) { 
+                        //this is not a .net assembly
+                        _logger.Info("Dll " + fileName + " probably is not a .NET dll and cannot be scanned for command handler or domain handler", ex);
+                    }
                 }
             }
 

@@ -161,26 +161,26 @@ namespace Proximo.Cqrs.Server.Impl
             //now each of this class could contains a method that accepts a specific ICommandType, whatever
             //method accepts a single object that implements ICommand and returns void is a command executor.
             //I want also this object to be resolved by castle, because it can have dependencies.
-            var handlers = allAssemblyTypes
-                              .Where(t => t.IsClass && !t.IsAbstract && typeof(IDomainEventHandler).IsAssignableFrom(t))
-                              .ToList();
-            foreach (var eventHandlerType in handlers)
-            {
+var handlers = allAssemblyTypes
+                    .Where(t => t.IsClass && !t.IsAbstract && typeof(IDomainEventHandler).IsAssignableFrom(t))
+                    .ToList();
+foreach (var eventHandlerType in handlers)
+{
 
-                ParameterInfo[] parameters = null;
-                foreach (var minfo in eventHandlerType
-                    .GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(mi => mi.ReturnType == typeof(void) &&
-                                    (parameters = mi.GetParameters()).Length == 1 &&
-                                    typeof(IDomainEvent).IsAssignableFrom(parameters[0].ParameterType)))
-                {
-                    var eventType = parameters[0].ParameterType;
+    ParameterInfo[] parameters = null;
+    foreach (var minfo in eventHandlerType
+        .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+        .Where(mi => mi.ReturnType == typeof(void) &&
+                        (parameters = mi.GetParameters()).Length == 1 &&
+                        typeof(IDomainEvent).IsAssignableFrom(parameters[0].ParameterType)))
+    {
+        var eventType = parameters[0].ParameterType;
 
-                    //I've found a method returning void accepting a Domain Event it is an handler
-                    MethodInvoker fastReflectInvoker = minfo.DelegateForCallMethod();
-                    cachedHandlers.Add(new DomainEventHandlerInfo(fastReflectInvoker, eventHandlerType, eventType, _kernel, minfo.Name));
-                }
-            }
+        //I've found a method returning void accepting a Domain Event it is an handler
+        MethodInvoker fastReflectInvoker = minfo.DelegateForCallMethod();
+        cachedHandlers.Add(new DomainEventHandlerInfo(fastReflectInvoker, eventHandlerType, eventType, _kernel, minfo.Name));
+    }
+}
             return handlers;
         }
 

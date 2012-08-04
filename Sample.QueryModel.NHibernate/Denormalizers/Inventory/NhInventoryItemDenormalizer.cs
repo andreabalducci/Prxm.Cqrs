@@ -36,7 +36,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
             _repository = repository;
         }
 
-        public void CreateItemOnDenormalizedView(InventoryItemCreated @event)
+        public void CreateInventoryItem(InventoryItemCreated @event)
         {
             Log(string.Format("Adding Inventory Item SKU={0} to item list", @event.Sku));
             
@@ -63,6 +63,15 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
             //var aggregate = _repository.GetById<Sample.Domain.Inventory.Domain.InventoryItem>(@event.AggregateId);
             var qm = GetById<InventoryItemTotalQuantity>(@event.AggregateId);
             qm.TotalAvailabilityInAllStorages += @event.Quantity;
+            Update(qm);
+        }
+
+        public void UpdateQuantityOnPiking(InventoryItemPicked @event)
+        {
+            Log(string.Format("updating inventory summary of item {0} ", @event.AggregateId));
+            //var aggregate = _repository.GetById<Sample.Domain.Inventory.Domain.InventoryItem>(@event.AggregateId);
+            var qm = GetById<InventoryItemTotalQuantity>(@event.AggregateId);
+            qm.TotalAvailabilityInAllStorages -= @event.Quantity;
             Update(qm);
         }
 

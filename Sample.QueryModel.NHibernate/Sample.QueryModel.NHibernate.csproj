@@ -75,6 +75,7 @@
   <ItemGroup>
     <None Include="App_Readme\EventStore - Architectural Overview.docx" />
     <None Include="App_Readme\EventStore - Transactional Integrity.docx" />
+    <None Include="NHDenormalizers.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -100,6 +100,7 @@
     <Compile Include="DomainTests\BaseGwtTest.cs" />
     <Compile Include="DomainTests\InventoryItemsTests.cs" />
     <Compile Include="DomainTests\Inventory\InventoryItemTests\Cannot_pick_quantity_that_is_not_present_in_inventory_item.cs" />
+    <Compile Include="DomainTests\Inventory\InventoryItemTests\Copy of Cannot_pick_quantity_that_is_not_present_in_inventory_item.cs" />
     <Compile Include="InProcessBusTests\InProcessBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Support\CastleFastReflectHandlerCatalogFixture.cs" />

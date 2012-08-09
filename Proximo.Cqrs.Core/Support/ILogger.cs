@@ -47,7 +47,7 @@ namespace Proximo.Cqrs.Core.Support
 		void Warn(string message, Exception exception);
 
 		void Warn(string message, Exception exception, ExtendedLogInfo info);
-		
+
 		#region Contextual properties
 
 		void SetInThreadContext(String propertyName, String propertyValue);

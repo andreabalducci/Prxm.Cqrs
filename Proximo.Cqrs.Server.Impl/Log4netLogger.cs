@@ -71,7 +71,7 @@ namespace Proximo.Cqrs.Server.Impl
 			{
 				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Debug, message, exception);
 				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
-				Logger.Debug(loggingEvent);
+				Logger.Logger.Log(loggingEvent);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace Proximo.Cqrs.Server.Impl
 			{
 				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Info, message, exception);
 				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
-				Logger.Debug(loggingEvent);
+				Logger.Logger.Log(loggingEvent);
 			}
 		}
 
@@ -111,7 +111,7 @@ namespace Proximo.Cqrs.Server.Impl
 			{
 				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Warn, message, exception);
 				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
-				Logger.Debug(loggingEvent);
+				Logger.Logger.Log(loggingEvent);
 			}
 		}
 
@@ -131,7 +131,7 @@ namespace Proximo.Cqrs.Server.Impl
 			{
 				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Error, message, exception);
 				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
-				Logger.Debug(loggingEvent);
+				Logger.Logger.Log(loggingEvent);
 			}
 		}
 
@@ -151,7 +151,7 @@ namespace Proximo.Cqrs.Server.Impl
 			{
 				LoggingEvent loggingEvent = new LoggingEvent(Logger.Logger.GetType(), Logger.Logger.Repository, Logger.Logger.Name, Level.Fatal, message, exception);
 				FillInLoggingEventWithExtendedProperties(info, loggingEvent);
-				Logger.Debug(loggingEvent);
+				Logger.Logger.Log(loggingEvent);
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace Proximo.Cqrs.Server.Impl
 			}
 		}
 
-        public void SetInThreadContext(string propertyName, string propertyValue)
+		public void SetInThreadContext(string propertyName, string propertyValue)
         {
             log4net.ThreadContext.Properties[propertyName] = propertyValue;
         }
@@ -180,7 +180,7 @@ namespace Proximo.Cqrs.Server.Impl
             log4net.ThreadContext.Properties["op_type_id"] = opTypeIdentification;
         }
 
-        public void RemoveOpType()
+		public void RemoveOpType()
         {
             log4net.ThreadContext.Properties.Remove("op_type");
             log4net.ThreadContext.Properties.Remove("op_type_id");

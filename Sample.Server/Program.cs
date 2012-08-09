@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Linq;
 using Castle.MicroKernel.Registration;
@@ -46,7 +46,8 @@ namespace Sample.Server
         private static ILogger _logger;
 
 		static void Main(string[] args)
-		{
+		{App_Start.NHibernateProfilerBootstrapper.PreStart();
+
 
 			XmlConfigurator.Configure();
             // HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
@@ -290,4 +291,5 @@ namespace Sample.Server
 		}
 	}
 }
+
 

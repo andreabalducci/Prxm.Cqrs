@@ -36,8 +36,9 @@
     <Reference Include="CommonDomain">
       <HintPath>..\libs\CommonDomain\CommonDomain.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,9 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Proximo.Cqrs.Server.Impl\Proximo.Cqrs.Server.Impl.csproj">
       <Project>{9AE1D57F-505C-426F-84F0-86536934C51A}</Project>
       <Name>Proximo.Cqrs.Server.Impl</Name>
@@ -63,6 +61,9 @@
       <Project>{481C67D3-5901-43CC-84B0-7A10D9B77AA5}</Project>
       <Name>Proximo.Cqrs.Server</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

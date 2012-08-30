@@ -128,7 +128,7 @@
   <ItemGroup>
     <Compile Include="KissMvvm\BaseViewModel.cs" />
     <Compile Include="KissMvvm\ConventionalCommand.cs" />
-    <Compile Include="KissMvvm\ExpressionExtensions.cs" />
+    <Compile Include="Utils\ExpressionExtensions.cs" />
     <Compile Include="KissMvvm\Extensions.cs" />
     <Compile Include="KissMvvm\PropertyLink.cs" />
     <Compile Include="KissMvvm\WeakReference.cs" />

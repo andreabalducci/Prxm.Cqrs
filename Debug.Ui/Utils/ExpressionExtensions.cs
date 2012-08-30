@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 
-namespace Sample.DebugUi.KissMvvm
+namespace Sample.DebugUi.Utils
 {
     public static class ExpressionExtensions
     {

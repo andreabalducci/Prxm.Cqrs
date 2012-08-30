@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Fasterflect;
 using System.Windows.Input;
+using Sample.DebugUi.KissMvvm;
 
 namespace Sample.DebugUi.KissMvvm
 {

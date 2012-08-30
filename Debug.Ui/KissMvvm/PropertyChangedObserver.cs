@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using Sample.DebugUi.Utils;
 
 namespace Sample.DebugUi.KissMvvm
 {

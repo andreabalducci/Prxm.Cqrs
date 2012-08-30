@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:kissMvvm="clr-namespace:Sample.DebugUi.KissMvvm"
         mc:Ignorable="d"
         d:DataContext="{d:DesignData /DesignTimeData/RawLoggerViewModelSampleData.xaml}"
         Title="RawLoggerView" >
@@ -87,8 +88,13 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <GroupBox Header="Filter">
+                    <GroupBox Header="Filter and operations">
                         <DockPanel>
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                                <Button Content="Clear Logs" Command="{kissMvvm:MvvmCommand Path=ClearOnlyLogs}" Margin="2" />
+                                <Button Content="Clear Everything" Command="{kissMvvm:MvvmCommand Path=ClearAll}" Margin="2" />
+                            </DockPanel>
+                          <DockPanel>
                             <Label Content="Level" />
                             <ComboBox Width="80" SelectedValue="{Binding LevelFilter}" SelectedValuePath="Content" >
                                 <ComboBox.Items>
@@ -101,7 +107,9 @@
                             </ComboBox>
                             <Label Content="Logger or message" />
                             <TextBox Text="{Binding MainFilter, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>  
                         </DockPanel>
+                        
 
                     </GroupBox>
 
@@ -121,15 +129,18 @@
             <TabItem Header="Commands" >
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="26" />
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="4" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
+                    <Button Content="Clear Command Logs" Command="{kissMvvm:MvvmCommand Path=ClearCommandsLogs}" />
+                    
                     <DataGrid ItemsSource="{Binding Commands}" 
                           AutoGenerateColumns="False" 
                           SelectedItem="{Binding SelectedCommand}" 
-                          CanUserAddRows="False" >
+                          CanUserAddRows="False" Grid.RowSpan="1" Grid.Row="1" >
                         <DataGrid.Columns>
                             <DataGridTextColumn IsReadOnly="True" Header="Command" Binding="{Binding Identifier}" />
                             <DataGridTextColumn IsReadOnly="True" Header="Higher Level Message" Binding="{Binding HigherLevelMessage}" />
@@ -137,9 +148,9 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <GridSplitter Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
 
-                    <DataGrid Grid.Row="2" ItemsSource="{Binding SelectedCommand.Logs}" 
+                    <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedCommand.Logs}" 
                           AutoGenerateColumns="False" 
                           SelectedItem="{Binding SelectedLog}"
                           CanUserAddRows="False" >
@@ -158,15 +169,18 @@
             <TabItem Header="Handlers" >
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="26" />
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="4" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
+                    <Button Content="Clear Handlers Logs" Command="{kissMvvm:MvvmCommand Path=ClearHandlersLogs}" />
+                    
                     <DataGrid ItemsSource="{Binding Handlers}" 
                           AutoGenerateColumns="False" 
                           SelectedItem="{Binding SelectedHandler}" 
-                          CanUserAddRows="False" >
+                          CanUserAddRows="False" Grid.RowSpan="1" Grid.Row="1">
                         <DataGrid.Columns>
                             <DataGridTextColumn IsReadOnly="True" Header="Command" Binding="{Binding Identifier}" />
                             <DataGridTextColumn IsReadOnly="True" Header="Higher Level Message" Binding="{Binding HigherLevelMessage}" />
@@ -174,9 +188,9 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <GridSplitter Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                     
-                    <DataGrid Grid.Row="2" ItemsSource="{Binding SelectedHandler.Logs}" 
+                    <DataGrid Grid.Row="3" ItemsSource="{Binding SelectedHandler.Logs}" 
                           AutoGenerateColumns="False" 
                           SelectedItem="{Binding SelectedLog}"
                           CanUserAddRows="False" >

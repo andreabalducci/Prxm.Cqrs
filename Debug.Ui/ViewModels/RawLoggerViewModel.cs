@@ -195,43 +195,5 @@ namespace Sample.DebugUi.ViewModels
         public ObservableCollection<OpTypeLoggerViewModel> AggregatedLogs { get; set; }
 
         #endregion
-
-        #region Commands
-
-        public void ExecuteClearAll(Object param) 
-        {
-            _Logs.Clear();
-            SelectedLog = null;
-            SelectedCommand = null;
-            SelectedHandler = null;
-            Commands.Clear();
-            Handlers.Clear();
-            AggregatedLogs.Clear();
-        }
-
-        public void ExecuteClearOnlyLogs(Object param)
-        {
-            _Logs.Clear();
-            SelectedLog = null;
-        }
-
-        public void ExecuteClearCommandsLogs(Object param)
-        {
-            SelectedCommand = null;
-            Commands.Clear();
-        }
-
-        public void ExecuteClearHandlersLogs(Object param)
-        {
-            SelectedHandler = null;
-            Handlers.Clear();
-        }
-
-        public void ExecuteClearAggregatedLogs(Object param)
-        {
-            AggregatedLogs.Clear();
-        }
-
-        #endregion
     }
 }

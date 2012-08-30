@@ -6,8 +6,38 @@
     xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
     xmlns:infrastructure="clr-namespace:Sample.DebugUi.Infrastructure">
 
+    <vm:RawLoggerViewModel.Logs>
+        <coll:ObservableCollection x:TypeArguments="vm:LogMessageViewModel">
+
+            <vm:LogMessageViewModel >
+                <vm:LogMessageViewModel.Log>
+                    <infrastructure:LogMessage Logger="Logger name 1" Level="ERROR" />
+                </vm:LogMessageViewModel.Log>
+            </vm:LogMessageViewModel>
+
+            <vm:LogMessageViewModel >
+                <vm:LogMessageViewModel.Log>
+                    <infrastructure:LogMessage Logger="Logger name 2" Level="WARN" />
+                </vm:LogMessageViewModel.Log>
+            </vm:LogMessageViewModel>
+
+            <vm:LogMessageViewModel >
+                <vm:LogMessageViewModel.Log>
+                    <infrastructure:LogMessage Logger="Logger name 3" Level="INFO" />
+                </vm:LogMessageViewModel.Log>
+            </vm:LogMessageViewModel>
+
+            <vm:LogMessageViewModel >
+                <vm:LogMessageViewModel.Log>
+                    <infrastructure:LogMessage Logger="Logger name 4" Level="DEBUG" />
+                </vm:LogMessageViewModel.Log>
+            </vm:LogMessageViewModel>
+        </coll:ObservableCollection>
+    </vm:RawLoggerViewModel.Logs>
 
     <vm:RawLoggerViewModel._Logs>
+        <coll:ObservableCollection x:TypeArguments="vm:LogMessageViewModel">
+
             <vm:LogMessageViewModel >
                 <vm:LogMessageViewModel.Log>
                     <infrastructure:LogMessage Logger="Logger name 1 " Level="INFO" />
@@ -31,6 +61,7 @@
                     <infrastructure:LogMessage Logger="Logger name 4" Level="DEBUG" />
                 </vm:LogMessageViewModel.Log>
             </vm:LogMessageViewModel>
+        </coll:ObservableCollection>
     </vm:RawLoggerViewModel._Logs>
 
     <vm:RawLoggerViewModel.SelectedLog>
@@ -45,31 +76,15 @@
     <vm:RawLoggerViewModel.Commands>
         <vm:AggregateLogMessageViewModel Identifier="Command 1 - GUID" HigherLevelMessage="3">
             <vm:AggregateLogMessageViewModel.Logs>
-                <vm:LogMessageViewModel >
-                    <vm:LogMessageViewModel.Log>
-                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
-                    </vm:LogMessageViewModel.Log>
-                </vm:LogMessageViewModel>
-                <vm:LogMessageViewModel >
-                    <vm:LogMessageViewModel.Log>
-                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
-                    </vm:LogMessageViewModel.Log>
-                </vm:LogMessageViewModel>
+                <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
             </vm:AggregateLogMessageViewModel.Logs>
         </vm:AggregateLogMessageViewModel>
 
         <vm:AggregateLogMessageViewModel Identifier="Command 2 - GUID" HigherLevelMessage="4">
             <vm:AggregateLogMessageViewModel.Logs>
-                <vm:LogMessageViewModel >
-                    <vm:LogMessageViewModel.Log>
-                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
-                    </vm:LogMessageViewModel.Log>
-                </vm:LogMessageViewModel>
-                <vm:LogMessageViewModel >
-                    <vm:LogMessageViewModel.Log>
-                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
-                    </vm:LogMessageViewModel.Log>
-                </vm:LogMessageViewModel>
+                <infrastructure:LogMessage Logger="Logger name a " Message="This is a message" Exception="This is the exception"/>
+                <infrastructure:LogMessage Logger="Logger name b" Message="This is a message" Exception="This is the exception"/>
             </vm:AggregateLogMessageViewModel.Logs>
         </vm:AggregateLogMessageViewModel>
     </vm:RawLoggerViewModel.Commands>

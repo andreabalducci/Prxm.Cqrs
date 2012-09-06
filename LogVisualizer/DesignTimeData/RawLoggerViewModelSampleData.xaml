@@ -1,0 +1,172 @@
+﻿<ViewModels:RawLoggerViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
+    xmlns:ViewModels="clr-namespace:LogVisualizer.ViewModels"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:infrastructure="clr-namespace:LogVisualizer.Infrastructure"
+    x:Class="LogVisualizer.DesignTimeData.c__dev_rep_src_common_infrastructure_logvisualizer_designtimedata_rawloggerviewmodelsampledata_xaml">
+
+    
+    
+    <ViewModels:RawLoggerViewModel._Logs>
+            <ViewModels:LogMessageViewModel >
+                <ViewModels:LogMessageViewModel.Log>
+                    <infrastructure:LogMessage Logger="Logger name 1 " Level="INFO" ThreadId="1" />
+                </ViewModels:LogMessageViewModel.Log>
+            </ViewModels:LogMessageViewModel>
+
+            <ViewModels:LogMessageViewModel >
+                <ViewModels:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name 2" Level="WARN"  ThreadId="1" />
+                </ViewModels:LogMessageViewModel.Log>
+            </ViewModels:LogMessageViewModel>
+
+            <ViewModels:LogMessageViewModel >
+                <ViewModels:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name 3" Level="ERROR" ThreadId="3"  />
+                </ViewModels:LogMessageViewModel.Log>
+            </ViewModels:LogMessageViewModel>
+
+            <ViewModels:LogMessageViewModel >
+                <ViewModels:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name 4" Level="DEBUG" ThreadId="2"  />
+                </ViewModels:LogMessageViewModel.Log>
+            </ViewModels:LogMessageViewModel>
+
+    </ViewModels:RawLoggerViewModel._Logs>
+
+    <ViewModels:RawLoggerViewModel.SelectedLog>
+        <ViewModels:LogMessageViewModel >
+            <ViewModels:LogMessageViewModel.Log>
+                <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+            </ViewModels:LogMessageViewModel.Log>
+        </ViewModels:LogMessageViewModel>
+
+    </ViewModels:RawLoggerViewModel.SelectedLog>
+
+    <ViewModels:RawLoggerViewModel.Commands>
+        <ViewModels:AggregateLogMessageViewModel Identifier="Command 1 - GUID" HigherLevelMessage="3">
+            <ViewModels:AggregateLogMessageViewModel.Logs>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+            </ViewModels:AggregateLogMessageViewModel.Logs>
+        </ViewModels:AggregateLogMessageViewModel>
+
+        <ViewModels:AggregateLogMessageViewModel Identifier="Command 2 - GUID" HigherLevelMessage="4">
+            <ViewModels:AggregateLogMessageViewModel.Logs>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+            </ViewModels:AggregateLogMessageViewModel.Logs>
+        </ViewModels:AggregateLogMessageViewModel>
+    </ViewModels:RawLoggerViewModel.Commands>
+    
+    <ViewModels:RawLoggerViewModel.SelectedCommand>
+        <ViewModels:AggregateLogMessageViewModel Identifier="Command 1 - GUID" HigherLevelMessage="3">
+            <ViewModels:AggregateLogMessageViewModel.Logs>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+            </ViewModels:AggregateLogMessageViewModel.Logs>
+        </ViewModels:AggregateLogMessageViewModel>
+    </ViewModels:RawLoggerViewModel.SelectedCommand>
+
+    <ViewModels:RawLoggerViewModel.Handlers>
+        <ViewModels:AggregateLogMessageViewModel Identifier="Command 1 - GUID" HigherLevelMessage="3">
+            <ViewModels:AggregateLogMessageViewModel.Logs>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+            </ViewModels:AggregateLogMessageViewModel.Logs>
+        </ViewModels:AggregateLogMessageViewModel>
+
+        <ViewModels:AggregateLogMessageViewModel Identifier="Command 2 - GUID" HigherLevelMessage="4">
+            <ViewModels:AggregateLogMessageViewModel.Logs>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+            </ViewModels:AggregateLogMessageViewModel.Logs>
+        </ViewModels:AggregateLogMessageViewModel>
+    </ViewModels:RawLoggerViewModel.Handlers>
+
+    <ViewModels:RawLoggerViewModel.SelectedHandler>
+        <ViewModels:AggregateLogMessageViewModel Identifier="Command 1 - GUID" HigherLevelMessage="3">
+            <ViewModels:AggregateLogMessageViewModel.Logs>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+                <ViewModels:LogMessageViewModel >
+                    <ViewModels:LogMessageViewModel.Log>
+                        <infrastructure:LogMessage Logger="Logger name" Message="This is a message" Exception="This is the exception"/>
+                    </ViewModels:LogMessageViewModel.Log>
+                </ViewModels:LogMessageViewModel>
+            </ViewModels:AggregateLogMessageViewModel.Logs>
+        </ViewModels:AggregateLogMessageViewModel>
+    </ViewModels:RawLoggerViewModel.SelectedHandler>
+
+    <ViewModels:RawLoggerViewModel.AggregatedLogs>
+        <ViewModels:OpTypeLoggerViewModel OperationType="1 BLABLABALB">
+
+        </ViewModels:OpTypeLoggerViewModel>
+        <ViewModels:OpTypeLoggerViewModel OperationType="2 BLABLABALB">
+
+        </ViewModels:OpTypeLoggerViewModel>
+        <ViewModels:OpTypeLoggerViewModel OperationType="3 BLABLABALB">
+
+        </ViewModels:OpTypeLoggerViewModel>
+    </ViewModels:RawLoggerViewModel.AggregatedLogs>
+
+    <!--<coll:ObservableCollection x:TypeArguments="vm:LogMessageViewModel">
+
+            <vm:LogMessageViewModel >
+                <vm:LogMessageViewModel.Log>
+                    <infrastructure:LogMessage Logger="Logger name 1 " Level="INFO" />
+                </vm:LogMessageViewModel.Log>
+            </vm:LogMessageViewModel>-->
+    
+    <ViewModels:RawLoggerViewModel.SpecificLoggers>
+        <ViewModels:SpecificLoggerViewModel LoggerName="NHibernate.SQL">
+            
+        </ViewModels:SpecificLoggerViewModel>
+          
+    </ViewModels:RawLoggerViewModel.SpecificLoggers>
+</ViewModels:RawLoggerViewModel >

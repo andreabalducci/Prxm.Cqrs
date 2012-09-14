@@ -17,11 +17,11 @@ using NHibernate.Linq;
 
 namespace Sample.QueryModel.Builder.Denormalizers.Inventory
 {
-    [DenormalizerVersion(2)]
-    [EventHandlerDescription(IsSingleton=true)]
+    [DenormalizerVersion(3)]
+    [EventHandlerDescription(IsSingleton = true)]
     public class NhInventoryItemDenormalizer : BaseDenormalizer
     {
-        private static Type[] _denormalizerTypeList = new Type[] {typeof (InventoryItemTotalQuantity)};
+        private static Type[] _denormalizerTypeList = new Type[] { typeof(InventoryItemTotalQuantity) };
         protected override Type[] DenormalizeTypeList
         {
             get { return _denormalizerTypeList; }
@@ -30,7 +30,7 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         private ILogger _logger;
         private IRepository _repository;
 
-        public NhInventoryItemDenormalizer(ILogger logger, IRepository repository) 
+        public NhInventoryItemDenormalizer(ILogger logger, IRepository repository)
         {
             _logger = logger;
             _repository = repository;
@@ -39,22 +39,23 @@ namespace Sample.QueryModel.Builder.Denormalizers.Inventory
         public void CreateInventoryItem(InventoryItemCreated @event)
         {
             Log(string.Format("Adding Inventory Item SKU={0} to item list", @event.Sku));
-            
+
             var qm = new InventoryItemTotalQuantity(@event.Id);
             qm.TotalAvailabilityInAllStorages = 0.0m;
             qm.Sku = @event.Sku;
             qm.Description = @event.ItemDescription;
-           
+
             //check if exists, it should not but I prefer to be sure
             if (ExecuteInSession(s => s.Query<InventoryItemTotalQuantity>()
                 .Count(i => i.Id == qm.Id) > 0))
             {
                 Update(qm);
             }
-            else {
+            else
+            {
                 Save(qm);
             }
-            
+
         }
 
         public void UpdateQuantityOnReceived(InventoryItemStocked @event)

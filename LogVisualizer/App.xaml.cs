@@ -34,7 +34,7 @@ namespace LogVisualizer
             Container.Register(
                AllTypes.FromAssembly(Assembly.GetExecutingAssembly())
                .Where(t => t.Namespace == "LogVisualizer.Views" || t.Namespace == "LogVisualizer.ViewModels")
-               .Configure(c => c.LifeStyle.Transient));
+               .Configure(c => c.LifestyleTransient()));
             Container.Register(
                 Component.For<ILogInterceptor>().ImplementedBy<UdpInterceptor>());
             var viewStart = Container.Resolve<RawLoggerView>();

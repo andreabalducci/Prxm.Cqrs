@@ -138,13 +138,13 @@ namespace LogVisualizer.ViewModels
 
         #region Filtering
 
-        public Int32 LevelFilter
+        public String LevelFilter
         {
             get { return _LevelFilter; }
             set { this.Set(p => p.LevelFilter, value, ref _LevelFilter); }
         }
 
-        private Int32 _LevelFilter;
+        private String _LevelFilter;
 
         public String MainFilter
         {
@@ -159,7 +159,7 @@ namespace LogVisualizer.ViewModels
             LogMessageViewModel vm = (LogMessageViewModel)e.Item;
 
             //first of all filter for exact level.
-            if (LevelFilter > 0 && vm.Log.NumericLevel < LevelFilter)
+            if (!String.IsNullOrEmpty(LevelFilter) && !vm.Log.Level.Equals(LevelFilter, StringComparison.OrdinalIgnoreCase))
             {
                 e.Accepted = false;
                 return;
